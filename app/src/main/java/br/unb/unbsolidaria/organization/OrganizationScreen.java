@@ -21,7 +21,7 @@ import br.unb.unbsolidaria.SignInActivity;
 import br.unb.unbsolidaria.R;
 import br.unb.unbsolidaria.entities.Organization;
 import br.unb.unbsolidaria.entities.User;
-import br.unb.unbsolidaria.persistency.Database;
+import br.unb.unbsolidaria.persistence.Database;
 
 public class OrganizationScreen extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -37,7 +37,7 @@ public class OrganizationScreen extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_organization_screen);
+        setContentView(R.layout.activity_home_ass);
         mActivityToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mActivityToolbar);
 
@@ -69,7 +69,7 @@ public class OrganizationScreen extends AppCompatActivity
             return;
 
         try{
-            mUserProfile = Database.getInstance(getApplicationContext()).getOrganizations().get(mLoggedUser.getId()-1);
+            mUserProfile = Database.getInstance().getOrganizations().get(mLoggedUser.getId()-1);
         } catch (IndexOutOfBoundsException e){
             setUpUserProfileDialogError();
             return;
@@ -140,7 +140,7 @@ public class OrganizationScreen extends AppCompatActivity
         }
 
         ft = fragmentManager.beginTransaction();
-        userFragment = fragmentManager.findFragmentById(R.id.co_frameLayout);
+        userFragment = fragmentManager.findFragmentById(R.id.ch_frameLayout);
         if (userFragment != null){
             ft.remove(userFragment);
         }
@@ -151,17 +151,17 @@ public class OrganizationScreen extends AppCompatActivity
             ft.commit();
         } else if (id == R.id.orgv_sbCreateOpportunityItem) {
             userFragment = new CreateOpportunity();
-            ft.add(R.id.co_frameLayout, userFragment).commit();
+            ft.add(R.id.ch_frameLayout, userFragment).commit();
             mActivityToolbar.setTitle("Criar Oportunidade");
 
         } else if (id == R.id.orgv_sbViewOpportunityItem) {
             userFragment = new ViewOpportunities();
-            ft.add(R.id.co_frameLayout, userFragment).commit();
+            ft.add(R.id.ch_frameLayout, userFragment).commit();
             mActivityToolbar.setTitle("Ver Oportunidades");
 
         } else if (id == R.id.orgv_sbEditProfileItem) {
             userFragment = new EditProfile();
-            ft.add(R.id.co_frameLayout, userFragment).commit();
+            ft.add(R.id.ch_frameLayout, userFragment).commit();
             mActivityToolbar.setTitle("Editar Perfil");
         } else if (id == R.id.orgv_sbExitItem) {
             exitHandler();
@@ -172,7 +172,7 @@ public class OrganizationScreen extends AppCompatActivity
     }
 
     private void exitHandler() {
-        Database.getInstance(getApplicationContext()).saveLocalState(getApplicationContext());
+        Database.getInstance();
         finish();
     }
 

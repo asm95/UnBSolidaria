@@ -6,36 +6,40 @@ import java.io.Serializable;
 /**
  * Created by chris on 02/11/16.
  */
-
 public class Organization {
-
-    //ID Organization
+    /**
+     * The Global User ID (GID) is used to identify uniquely any user (org. or vol.) on the server
+     * Currently the GID is being used by Database class on it's in-memory persistence
+     */
     private int id;
-    //CPF
+    /**
+     * CNPJ is an obligatory field at registration. Cannot be changed to avoid confusion in reports
+     * or further account situation inspection by admins/moderators.
+     */
     private String cnpj;
-    //Nome juridico
     private String legalName;
-    //Nome comercial
     private String commercialName;
-    //email
+    /**
+     * Email is an obligatory field at registration. Can be changed in order to allow the user
+     * receive newsletters and important updates from admins (i.e. server maintenance)
+     */
     private String email;
-    //telefone
+    /**
+     * PhoneNumber is an obligatory field at registration. Can be changed @ EditProfile screen.
+     */
     private String phoneNumber;
-    //Site
     private String website;
-    //descricao
+    /**
+     * Description should be short and objective.
+     */
     private String description;
-    //endereco
     private String address;
-    //CEP
     private String cep;
 
 
-    //Construtores
 
     public Organization() {
     }
-
     public Organization(int id, String cnpj, String legalName,
                         String commercialName, String email, String phoneNumber,
                         String website, String description, String address,
@@ -52,7 +56,6 @@ public class Organization {
         this.cep = cep;
     }
 
-    //Getters e Setters
 
     public int getId() {
         return id;
@@ -126,9 +129,7 @@ public class Organization {
         this.address = address;
     }
 
-    public String getCep() {
-        return cep;
-    }
+    public String getCep() { return cep; }
 
     public void setCep(String cep) {
         this.cep = cep;

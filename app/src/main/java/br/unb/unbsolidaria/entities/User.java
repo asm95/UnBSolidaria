@@ -1,14 +1,13 @@
 package br.unb.unbsolidaria.entities;
 
 import java.io.Serializable;
-import java.util.List;
-
-import br.unb.unbsolidaria.persistency.Database;
 
 /**
  * asm95 day 2016-12-04
  * Ideally this should be a super class of Voluntary and Organization because both of them are Users.
  * However, doing that so will just mess up with .persistency.DataBase
+ * And forces all org/vol elements to be tied to an user account, which makes no sense (their
+ * user/password would be stored there)
  */
 public class User implements Serializable {
     private int         id;
@@ -19,9 +18,6 @@ public class User implements Serializable {
     public enum UserType{
         organization, voluntary
     }
-
-    private static int PASS_MAX_LEN = 45;
-    //private static List<User> mUserList = Database.getInstance().getUsers();
 
     //source: http://stackoverflow.com/a/16058059
     private static boolean isValidEmailAddress(String email) {
@@ -36,30 +32,13 @@ public class User implements Serializable {
             throw new IllegalArgumentException("User ID must be positive");
         if (!isValidEmailAddress(login))
             throw new IllegalArgumentException("E-mail adress is not valid");
-        if (password.length() > PASS_MAX_LEN)
-            throw new IllegalArgumentException("Password is not valid. Length > " + PASS_MAX_LEN);
+        if (!FormValidation.isValidPassword(password))
+            throw new IllegalArgumentException("Password is not valid");
 
         this.login = login;
         this.password = password;
         this.type = type;
         this.id = id;
-    }
-
-    public static User getUserFromCredentials(String login, String password){
-        if (!User.isValidEmailAddress(login))
-            throw  new IllegalArgumentException("E-mail adress is not valid");
-        if (password.length() > PASS_MAX_LEN)
-            throw new IllegalArgumentException("Password is not valid. Length > " + PASS_MAX_LEN);
-
-        /*
-        //note: As the database is local we just use the very basic linear search O(n).
-        for(User user : mUserList){
-            if (user.login.equals(login))
-                if (user.password.equals(password))
-                    return user;
-        }*/
-
-        return null;
     }
 
     public int getId(){
@@ -81,7 +60,6 @@ public class User implements Serializable {
             case organization:
                 return 1;
         }
-
         return -1;
     }
 

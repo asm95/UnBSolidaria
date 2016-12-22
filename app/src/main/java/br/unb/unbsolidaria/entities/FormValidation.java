@@ -4,9 +4,16 @@ package br.unb.unbsolidaria.entities;
  * Created by lucasrez on 02/11/16.
  */
 
-public class RegisterValidation {
+public class FormValidation {
     private static final int[] cpfWeight = {11, 10, 9, 8, 7, 6, 5, 4, 3, 2};
     private static final int[] cnpjWeight = {6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2};
+
+    /**
+     * In database, the user password length is defined by 45 characters. That's pretty unusual in
+     * plenty of services that adopt 25 as their maximum.
+     */
+    public static int PASS_MAX_LEN = 45;
+    public static int PASS_MIN_LEN = 5;
 
     private static int calculateDigit(String str, int[] weight) {
         int sum = 0;
@@ -40,23 +47,26 @@ public class RegisterValidation {
     }
 
     public static boolean isValidMatricula(String matricula) {
-        String matriculaRegEx = "^[0-9]{9}$";
+        String matriculaRegEx = "\\d{9}";
         return matricula.matches(matriculaRegEx);
-    }
-
-    public static void main(String[] args) {
-        System.out.printf("CPF Valido:%s \n", RegisterValidation.isValidCPF("01115375502"));
-        System.out.printf("CNPJ Valido:%s \n", RegisterValidation.isValidCNPJ("13642634756318"));
-        System.out.printf("CEP Valido:%s \n", RegisterValidation.isValidCEP("12910-180"));
-        System.out.printf("Matricula Valida:%s \n", RegisterValidation.isValidMatricula("150019284"));
     }
 
     //TODO: improve name checking's regex pattern
     public static boolean isValidName(String name, boolean permitDigits) {
-        if (name == null || name.length() < 3 || name.length() > 20) return false;
+        if (name == null || name.length() < 5 || name.length() > 20) return false;
         //if (name.matches("^.*[0-9].*$")) return false;
 
         String nameRegEx = "^[A-za-z ãáàâçéèêíìõóôúü.ÃÁÀÂÇÉÈÊÍÌÔÓÔÚÜ" + (permitDigits ? "0-9" : "") + "]+$";
         return name.matches(nameRegEx);
+    }
+
+    public static boolean isValidPassword(String password){
+        if (password.isEmpty())
+            return false;
+
+        if (password.length() < PASS_MIN_LEN || password.length() > PASS_MAX_LEN)
+            return false;
+
+        return true;
     }
 }

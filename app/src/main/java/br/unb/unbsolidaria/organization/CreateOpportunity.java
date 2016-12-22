@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.res.Resources;
-import android.graphics.Path;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,8 +21,7 @@ import java.util.regex.Pattern;
 
 import br.unb.unbsolidaria.R;
 import br.unb.unbsolidaria.entities.Opportunity;
-import br.unb.unbsolidaria.persistency.DBHandler;
-import br.unb.unbsolidaria.persistency.Database;
+import br.unb.unbsolidaria.persistence.Database;
 
 public class CreateOpportunity extends Fragment implements View.OnClickListener {
 
@@ -83,8 +81,8 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener 
         //load appConfiguration
         Resources res_interface = getResources();
 
-        minDescLength = res_interface.getInteger( R.integer.co_minDescriptionLength);
-        maxDescLength = res_interface.getInteger( R.integer.co_maxDescriptionLength);
+        minDescLength = res_interface.getInteger(R.integer.co_minDescriptionLength);
+        maxDescLength = res_interface.getInteger(R.integer.co_maxDescriptionLength);
         minTitleLength = res_interface.getInteger(R.integer.co_minTitleLength);
     }
 
@@ -105,7 +103,7 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener 
         btSend = (Button)parentView.findViewById(R.id.co_btSend);
         btSend.setOnClickListener(this);
 
-        dbInterface = Database.getInstance(getContext());
+        dbInterface = Database.getInstance();
         if(dbInterface == null) {
             setUpFormDialog("Banco de dados se encontra offline. Tente novamente mais tarde.");
             parentInterface.restart();

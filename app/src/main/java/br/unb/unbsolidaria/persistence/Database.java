@@ -1,20 +1,16 @@
-package br.unb.unbsolidaria.persistency;
+package br.unb.unbsolidaria.persistence;
 
 import android.content.Context;
-import android.widget.Toast;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -52,6 +48,7 @@ public class Database {
     private LinkedList<User> extendedUserList;
     private LinkedHashMap<Integer, LinkedList<Integer>> org_opportunityList;
 
+    private static Context mContext;
     private DBHandler sql_interface;
 
     private boolean customUser;
@@ -180,8 +177,8 @@ public class Database {
         );
 
         users = Arrays.asList(
-                new User(organizacoes.get(0).getEmail(), "12345", User.UserType.organization, 0),
-                new User(voluntaries.get(0).getEmail(), "69880", User.UserType.voluntary, 0)
+                new User("org@mail.br", "12345", User.UserType.organization, 0),
+                new User("vol@mail.br", "12345", User.UserType.voluntary, 0)
         );
 
         // Demonstration Program #1
@@ -191,11 +188,17 @@ public class Database {
         addOrganizationOpportunity(organizacoes.get(demo_orgID), opportunities.get(demo_orgID));
     }
 
-    public static Database getInstance(Context ctx) {
-        if (instance == null) {
+    public static Database getInstance() {
+        return instance;
+    }
+
+    public static Database setUp(Context ctx){
+        if (instance == null && ctx != null){
             instance = new Database();
-            instance.sql_interface = DBHandler.getInstance(ctx);
+            instance.sql_interface = DBHandler.getInstance(mContext);
+            instance.loadLocalState(mContext);
         }
+
         return instance;
     }
 
@@ -301,6 +304,11 @@ public class Database {
         return mExtraUserCount;
     }
 
+    /**
+     * Adds an organization to SQL database and also to in-memory database
+     * @param deploy
+     * @return
+     */
     public boolean addOrganizationHelper(Organization deploy){
 
         extendedOrganizationList.add(deploy); mExtraOrganizationCount += 1;
@@ -339,6 +347,7 @@ public class Database {
         return extendedVoluntaryList.get(id-1);
     }
 
+    /*
     public void saveLocalState(Context ctx) {
         // static users are not saved
 
@@ -347,7 +356,7 @@ public class Database {
          * int extraOpportunities
          * List<Opportunity> extendedOpportunityList
          * LinkedHashMap<Integer, LinkedList<Integer>> org_opportunityList
-         */
+         * /
         FileOutputStream fos = null;
         try {
             fos = ctx.openFileOutput(db_file_location, Context.MODE_PRIVATE);
@@ -373,7 +382,7 @@ public class Database {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     /*
     public void loadLocalState(Context ctx){
@@ -417,7 +426,6 @@ public class Database {
     } */
 
     public void loadLocalState(Context ctx){
-
         // DB uses all static opportunities
         extendedOpportunityList = sql_interface.getAllOpportunities();
         mExtraOpportunityCount = sql_interface.getOpportunityCount();

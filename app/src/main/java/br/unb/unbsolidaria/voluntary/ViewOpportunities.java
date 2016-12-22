@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import java.util.List;
 
@@ -15,8 +14,7 @@ import br.unb.unbsolidaria.R;
 import br.unb.unbsolidaria.adapter.OpportunitiesAdapter;
 import br.unb.unbsolidaria.entities.Opportunity;
 import br.unb.unbsolidaria.entities.User;
-import br.unb.unbsolidaria.entities.Voluntary;
-import br.unb.unbsolidaria.persistency.Database;
+import br.unb.unbsolidaria.persistence.Database;
 
 public class ViewOpportunities extends Fragment {
 
@@ -41,10 +39,10 @@ public class ViewOpportunities extends Fragment {
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        Database bd = Database.getInstance(getContext());
+        Database bd = Database.getInstance();
         mList = bd.getOpportunitiesList();
 
-        db_interface = Database.getInstance(getContext());
+        db_interface = Database.getInstance();
 
         Bundle box = this.getArguments();
 

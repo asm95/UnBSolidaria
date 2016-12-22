@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import java.util.List;
 
-import br.unb.unbsolidaria.persistency.Database;
+import br.unb.unbsolidaria.persistence.Database;
 import br.unb.unbsolidaria.entities.Opportunity;
 
 public class FakeDB {

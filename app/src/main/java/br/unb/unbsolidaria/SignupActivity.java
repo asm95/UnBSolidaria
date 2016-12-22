@@ -20,18 +20,18 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
+import br.unb.unbsolidaria.entities.FormValidation;
 import br.unb.unbsolidaria.entities.Organization;
-import br.unb.unbsolidaria.entities.RegisterValidation;
 import br.unb.unbsolidaria.entities.User;
 import br.unb.unbsolidaria.entities.Voluntary;
-import br.unb.unbsolidaria.persistency.Database;
+import br.unb.unbsolidaria.persistence.Database;
 
 public class SignUpActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
     public static final String SILENT_LOGIN = "br.unb.unbsolidaria.SILENTLOGIN";
     /**
      * The base_layout contains simply the spinner and the rest of formulary is added dynamically by
-     * addVuew
+     * addView
      */
     private LinearLayout base_layout;
     private View orgForm;
@@ -79,8 +79,8 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
 
         base_layout.addView(volForm, 1);
         EditText cpfText = (EditText) volForm.findViewById(R.id.input_cpf);
-        cpfText.addTextChangedListener(new LoginTextWatcher(cpfText));
         EditText cpf_cnpjText = (EditText) orgForm.findViewById(R.id.input_cpf_cnpj);
+        cpfText.addTextChangedListener(new LoginTextWatcher(cpfText));
         cpf_cnpjText.addTextChangedListener(new LoginTextWatcher(cpf_cnpjText));
 
         _AccountTypeChooser = (Spinner) findViewById(R.id.su_sAccountType);
@@ -101,7 +101,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
 
         _cepText.addTextChangedListener(new LoginTextWatcher(_cepText));
 
-        db_interface = Database.getInstance(getApplicationContext());
+        db_interface = Database.getInstance();
     }
 
     public void SignUp() {
@@ -112,13 +112,11 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
 
         _signupButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = ProgressDialog.show(this, null, "Requisição em andamento...", true, false);
-
-        // TODO: Implement your own SignUp logic here.
+        final ProgressDialog progressDialog = ProgressDialog.show(this, null, getString(R.string.su_request_progress), true, false);
+        // TODO: implement server communication
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
-                        boolean result = true;
                         User usr_response = null;
 
                         switch (lastSelectedItem){
@@ -136,6 +134,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
                             onSignupFailed();
 
                         progressDialog.dismiss();
+                        _signupButton.setEnabled(true);
                     }
                 }, 3000);
     }
@@ -168,13 +167,13 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     }
 
     public void onSignupSuccess(User usr) {
-        String sucessText = "";
+        String successText = "";
 
         if (lastSelectedItem == 0)
-            sucessText = "Conta criada com Sucesso!";
+            successText = getString(R.string.su_vol_success);
         else if (lastSelectedItem == 1)
-            sucessText = "Pedido de Criação feito com suscesso. Em breve entraremos em contato";
-        Toast.makeText(getApplicationContext(),  sucessText, Toast.LENGTH_LONG).show();
+            successText = getString(R.string.su_org_success);
+        Toast.makeText(getApplicationContext(),  successText, Toast.LENGTH_LONG).show();
 
         Intent signup_hook = new Intent(this, SignUpActivity.class);
         signup_hook.putExtra(this.SILENT_LOGIN, true);
@@ -184,21 +183,19 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         finish();
     }
 
-    public void onSignupFailed() {
-        _signupButton.setEnabled(true);
-    }
+    public void onSignupFailed() {}
 
     public boolean validate() {
         boolean valid = true;
 
-        String errorText = "Erro no cadastro, verifique se todos os campos estão corretos";
+        String errorText = getString(R.string.su_error);
         name = _nameText.getText().toString();
         email = _emailText.getText().toString();
         password = _passwordText.getText().toString();
         rPassword = _rPasswordText.getText().toString();
         cep = _cepText.getText().toString();
 
-        if (!RegisterValidation.isValidName(name, lastSelectedItem==1 )) { //quick-fix: if is organization, so permit digits also
+        if (!FormValidation.isValidName(name, lastSelectedItem==1 )) { //quick-fix: if is organization, so permit digits also
             _nameText.setError("deve ter entre 3 e 20 caracteres");
             valid = false;
         } else {
@@ -212,7 +209,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
             _emailText.setError(null);
         }
 
-        if (!RegisterValidation.isValidCEP(cep)) {
+        if (!FormValidation.isValidCEP(cep)) {
             _cepText.setError("insira um CEP válido");
             valid = false;
         } else {
@@ -235,8 +232,8 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
             valid = valid && validate_ass();
 
         if (!valid) {
-            Toast erro = new Toast(getApplicationContext()).makeText(getApplicationContext(), errorText, Toast.LENGTH_SHORT);
-            erro.show();
+            Toast errorMessage = new Toast(getApplicationContext()).makeText(getApplicationContext(), errorText, Toast.LENGTH_SHORT);
+            errorMessage.show();
         }
 
         return valid;
@@ -252,7 +249,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         site = _websiteText.getText().toString();
         address = ((EditText)findViewById(R.id.input_address)).toString();
 
-        if (!RegisterValidation.isValidCNPJ(cnpj)) {
+        if (!FormValidation.isValidCNPJ(cnpj)) {
             _cpfcnpjText.setError("insira um CNPJ válido");
             valid = false;
         } else {
@@ -280,14 +277,14 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         matricula = matriculaText.getText().toString();
         gender = genderText.getText().toString();
 
-        if (!RegisterValidation.isValidCPF(cpf)) {
+        if (!FormValidation.isValidCPF(cpf)) {
             cpfcpnjText.setError("insira um CPF válido");
             valid = false;
         } else {
             cpfcpnjText.setError(null);
         }
 
-        if (!RegisterValidation.isValidMatricula(matricula)) {
+        if (!FormValidation.isValidMatricula(matricula)) {
             matriculaText.setError("matricula da UnB inválida");
             valid = false;
         } else {
@@ -338,10 +335,6 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
 
     }
 
-    public void finish(View v){
-        finish();
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -360,9 +353,6 @@ class LoginTextWatcher implements TextWatcher {
         this.view = view;
     }
 
-    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-
     public void afterTextChanged(Editable editable) {
         String text = editable.toString();
         EditText model = (EditText) view;
@@ -370,13 +360,13 @@ class LoginTextWatcher implements TextWatcher {
 
         switch(view.getId()){
             case R.id.input_cpf:
-                valid = RegisterValidation.isValidCPF(text);
+                valid = FormValidation.isValidCPF(text);
                 break;
             case R.id.input_cpf_cnpj:
-                valid = RegisterValidation.isValidCPF(text) || RegisterValidation.isValidCNPJ(text);
+                valid = FormValidation.isValidCPF(text) || FormValidation.isValidCNPJ(text);
                 break;
             case R.id.input_cep:
-                valid = RegisterValidation.isValidCEP(text);
+                valid = FormValidation.isValidCEP(text);
                 break;
         }
 
@@ -385,4 +375,7 @@ class LoginTextWatcher implements TextWatcher {
         else
             model.setTextColor(Color.RED);
     }
+
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 }

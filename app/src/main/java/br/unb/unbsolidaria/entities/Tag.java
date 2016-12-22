@@ -3,7 +3,6 @@ package br.unb.unbsolidaria.entities;
 /**
  * Created by lucasrez on 02/11/16.
  */
-
 public class Tag {
     // ID Banco de Dados
     private int id;

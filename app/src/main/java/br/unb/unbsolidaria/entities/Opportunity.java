@@ -1,45 +1,57 @@
 package br.unb.unbsolidaria.entities;
 
-//import android.icu.util.Calendar;
-
-import java.io.Serializable;
 import java.util.Calendar;
 import java.util.LinkedList;
 
 /**
- * Created by lucasrez on 02/11/16.
+ * A opportunity is an event that can be created only by organizations. It invites volunteers to
+ * join them for a social cause.
  */
-
 public class Opportunity {
-    //TODO: discutir feature de aprovação por parte da Organização
-    //não há entidade no banco de dados
-    private boolean requerAprovacao;
+    /**
+     * The Global User ID (GID) is used to identify uniquely any user (org. or vol.) on the server
+     * Currently the GID is being used by Database class on it's in-memory persistence
+     */
     private int id;
+    //TODO: discutir feature de aprovação por parte da organização
+    /**
+     * Some opportunities can be restricted by the owner's approval. This is a feature still to be
+     * discuessed by the core team members.
+     */
+    private boolean requerAprovacao;
+    /**
+     * Required field. Title should be at maximum 20 caracters
+     */
     private String title;
     //TODO: definir limite da descrição (precisa estar acordado com o appWeb)
     private String description;
     //TODO: classe Local para conter informações tais como CEP
+    /**
+     * Adress could be picked up from google maps (not so easy to implement)
+     */
     private String address;
-    private Organization organization;
-    private int nPositions; //qtd. de vagas
-    //TODO: dias pontuais e repetições
+    /**
+     * Max amount of volunteers that can join the event. If it is unlimited, the value is -1.
+     */
+    private int nPositions;
+    //TODO: propor um modelo para suportar marcação de dias pontuais e repetição
     private Calendar startDate;
     private Calendar endDate;
 
+    private Organization organization;
     private LinkedList<Voluntary> approvedVoluntaries = null;
 
     public enum oDate {
         start, end;
     }
-
-    //// TODO: 24/11/2016 modificar quando for pegar a foto do server
+    //TODO: 2016/11/24 modificar quando for pegar a foto do server
     //para teste pelo res
     private int photo;
 
+
+
     public Opportunity() {
     }
-
-
     public Opportunity(int id, String address, int nPositions, String title,
                        String description, Calendar startDate, Calendar endDate,
                        Organization organization, int photo) {

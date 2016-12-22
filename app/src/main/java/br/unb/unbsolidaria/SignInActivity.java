@@ -13,10 +13,12 @@ import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
+import java.text.Normalizer;
+
+import br.unb.unbsolidaria.entities.FormValidation;
 import br.unb.unbsolidaria.entities.User;
-import br.unb.unbsolidaria.entities.Voluntary;
 import br.unb.unbsolidaria.organization.OrganizationScreen;
-import br.unb.unbsolidaria.persistency.DBHandler;
+import br.unb.unbsolidaria.persistence.DBHandler;
 import br.unb.unbsolidaria.voluntary.VoluntaryScreen;
 
 
@@ -57,7 +59,6 @@ public class SignInActivity extends AppCompatActivity {
         });
 
         _signupLink.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 // Start the Signup activity
@@ -150,15 +151,17 @@ public class SignInActivity extends AppCompatActivity {
             _passwordText.setError(getString(R.string.error_field_required));
             valid = false;
         }
-        if (password.length() < 4 || password.length() > 10) {
-            _passwordText.setError(getString(R.string.error_incorrect_password));
+        else if (password.length() < FormValidation.PASS_MIN_LEN){
+            _passwordText.setError(getString(R.string.error_short_password));
+        }
+        else if (password.length() > FormValidation.PASS_MAX_LEN){
+            _passwordText.setError(getString(R.string.error_long_password));
         } else {
             _passwordText.setError(null);
         }
 
         return valid;
     }
-
 
 }
 

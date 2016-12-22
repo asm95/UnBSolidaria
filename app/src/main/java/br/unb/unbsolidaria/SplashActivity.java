@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import br.unb.unbsolidaria.persistency.Database;
+import br.unb.unbsolidaria.persistence.Database;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -22,7 +22,7 @@ public class SplashActivity extends AppCompatActivity {
         startActivity(intent);
 
         //Load local database contents
-        Database.getInstance(getApplicationContext()).loadLocalState(getApplicationContext());
+        Database.setUp(getApplicationContext());
     }
 
 }

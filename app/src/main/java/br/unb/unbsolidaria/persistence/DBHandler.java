@@ -1,4 +1,4 @@
-package br.unb.unbsolidaria.persistency;
+package br.unb.unbsolidaria.persistence;
 
 import android.content.ContentValues;
 import android.content.Context;

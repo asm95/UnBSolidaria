@@ -16,14 +16,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import br.unb.unbsolidaria.SignInActivity;
 import br.unb.unbsolidaria.R;
 import br.unb.unbsolidaria.entities.User;
 import br.unb.unbsolidaria.entities.Voluntary;
 import br.unb.unbsolidaria.organization.EditProfile;
-import br.unb.unbsolidaria.persistency.Database;
+import br.unb.unbsolidaria.persistence.Database;
 
 public class VoluntaryScreen extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -41,7 +40,7 @@ public class VoluntaryScreen extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_voluntary_screen);
+        setContentView(R.layout.activity_home_vol);
         mActivityToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mActivityToolbar);
 
@@ -73,7 +72,7 @@ public class VoluntaryScreen extends AppCompatActivity
             return;
 
         try{
-            mUserProfile = Database.getInstance(getApplicationContext()).getVoluntaries().get(mLoggedUser.getId()-1);
+            mUserProfile = Database.getInstance().getVoluntaries().get(mLoggedUser.getId()-1);
         } catch (IndexOutOfBoundsException e){
             setUpUserProfileDialogError();
             return;
@@ -143,7 +142,7 @@ public class VoluntaryScreen extends AppCompatActivity
         }
 
         ft = fragmentManager.beginTransaction();
-        userFragment = fragmentManager.findFragmentById(R.id.co_frameLayout);
+        userFragment = fragmentManager.findFragmentById(R.id.ch_frameLayout);
         if (userFragment != null){
             ft.remove(userFragment);
         }
@@ -154,7 +153,7 @@ public class VoluntaryScreen extends AppCompatActivity
             ft.commit();
         } else if (id == R.id.volv_sbViewOpportunityItem) {
             userFragment = new ViewOpportunities();
-            ft.add(R.id.co_frameLayout, userFragment).commit();
+            ft.add(R.id.ch_frameLayout, userFragment).commit();
             Bundle bundle = new Bundle();
             userFragment.setArguments(bundle);
             bundle.putSerializable(ENABLE_JOIN, mLoggedUser);
@@ -162,7 +161,7 @@ public class VoluntaryScreen extends AppCompatActivity
 
         } else if (id == R.id.orgv_sbEditProfileItem) {
             userFragment = new EditProfile();
-            ft.add(R.id.co_frameLayout, userFragment).commit();
+            ft.add(R.id.ch_frameLayout, userFragment).commit();
             mActivityToolbar.setTitle("Editar Perfil");
         } else if (id == R.id.volv_sbExitItem) {
             exitHandler();
@@ -173,7 +172,7 @@ public class VoluntaryScreen extends AppCompatActivity
     }
 
     private void exitHandler() {
-        Database.getInstance(getApplicationContext()).saveLocalState(getApplicationContext());
+        //Database.getInstance().saveLocalState(getApplicationContext());
         finish();
     }
 

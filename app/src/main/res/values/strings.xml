@@ -24,15 +24,24 @@
     <string name="action_register">Não possui conta? Registre-se</string>
     <string name="action_login">Já tem conta? Faça o Login</string>
     <string name="error_invalid_email">Esse email não é válido</string>
-    <string name="error_invalid_password">Essa senha é muito pequena</string>
+    <string name="error_invalid_password">Esta senha não é válida</string>
+    <string name="error_short_password">Esta senha é muito curta</string>
+    <string name="error_long_password">Esta senha é muito longa</string>
     <string name="error_incorrect_password">Senha incorreta</string>
     <string name="error_field_required">Campo obrigatório</string>
     <string name="error_login_auth">O Login Falhou.</string>
     <string name="permission_rationale">Permissão de acesso aos contatos necessária para auto-completar email.</string>
+
+
+    <!-- Signup -->
     <string-array name="su_AcountTypeOptions">
         <item>Voluntário</item>
         <item>Associação</item>
     </string-array>
+    <string name="su_request_progress">Requisição em andamento...</string>
+    <string name="su_org_success">Conta criada com Sucesso!</string>
+    <string name="su_vol_success">Pedido de Criação feito com suscesso. Em breve entraremos em contato</string>
+    <string name="su_error">Erro no cadastro, verifique se todos os campos estão corretos</string>
 
     <!-- Organization-->
     <string name="co_tDateFormat">"%1$d/%2$d/%3$d"</string>

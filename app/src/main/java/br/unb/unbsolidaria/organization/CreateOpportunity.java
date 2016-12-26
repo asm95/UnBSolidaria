@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
 
 import br.unb.unbsolidaria.R;
 import br.unb.unbsolidaria.entities.Opportunity;
-import br.unb.unbsolidaria.persistence.Database;
+import br.unb.unbsolidaria.persistence.DBHandler;
 
 public class CreateOpportunity extends Fragment implements View.OnClickListener {
 
@@ -46,7 +46,7 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener 
     // form checking related
     Pattern isTitleMinWords = Pattern.compile("^\\s*\\S+(?:\\s+\\S+){1,}\\s*$");
 
-    private Database dbInterface;
+    private DBHandler dbInterface;
     private OrganizationScreen parentInterface;
     private int mFormDialogAction = -1;
 
@@ -103,7 +103,7 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener 
         btSend = (Button)parentView.findViewById(R.id.co_btSend);
         btSend.setOnClickListener(this);
 
-        dbInterface = Database.getInstance();
+        dbInterface = DBHandler.getInstance();
         if(dbInterface == null) {
             setUpFormDialog("Banco de dados se encontra offline. Tente novamente mais tarde.");
             parentInterface.restart();
@@ -163,7 +163,7 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener 
         String endDate = etEndDate.getText().toString();
 
         Opportunity deploy = new Opportunity(dbInterface.getOpportunityCount()+1, local, spots,
-                title, description, Database.getCalendar(startDate), Database.getCalendar(endDate),
+                title, description, DBHandler.getCalendar(startDate), DBHandler.getCalendar(endDate),
                 parentInterface.getUserProfile());
 
         boolean db_sucess = dbInterface.addOpportunityHelper(deploy);

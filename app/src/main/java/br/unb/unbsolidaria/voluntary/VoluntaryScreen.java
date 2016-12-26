@@ -22,7 +22,7 @@ import br.unb.unbsolidaria.R;
 import br.unb.unbsolidaria.entities.User;
 import br.unb.unbsolidaria.entities.Voluntary;
 import br.unb.unbsolidaria.organization.EditProfile;
-import br.unb.unbsolidaria.persistence.Database;
+import br.unb.unbsolidaria.persistence.DBHandler;
 
 public class VoluntaryScreen extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -72,7 +72,7 @@ public class VoluntaryScreen extends AppCompatActivity
             return;
 
         try{
-            mUserProfile = Database.getInstance().getVoluntaries().get(mLoggedUser.getId()-1);
+            mUserProfile = DBHandler.getInstance().getVoluntaries().get(mLoggedUser.getId()-1);
         } catch (IndexOutOfBoundsException e){
             setUpUserProfileDialogError();
             return;
@@ -172,7 +172,7 @@ public class VoluntaryScreen extends AppCompatActivity
     }
 
     private void exitHandler() {
-        //Database.getInstance().saveLocalState(getApplicationContext());
+        //DBHandler.getInstance().saveLocalState(getApplicationContext());
         finish();
     }
 

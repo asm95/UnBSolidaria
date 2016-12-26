@@ -24,7 +24,7 @@ import br.unb.unbsolidaria.entities.FormValidation;
 import br.unb.unbsolidaria.entities.Organization;
 import br.unb.unbsolidaria.entities.User;
 import br.unb.unbsolidaria.entities.Voluntary;
-import br.unb.unbsolidaria.persistence.Database;
+import br.unb.unbsolidaria.persistence.DBHandler;
 
 public class SignUpActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
@@ -65,7 +65,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
 
     private int lastSelectedItem = -1;
 
-    private Database db_interface;
+    private DBHandler db_interface;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -101,7 +101,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
 
         _cepText.addTextChangedListener(new LoginTextWatcher(_cepText));
 
-        db_interface = Database.getInstance();
+        db_interface = DBHandler.getInstance();
     }
 
     public void SignUp() {

@@ -13,12 +13,10 @@ import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
-import java.text.Normalizer;
-
 import br.unb.unbsolidaria.entities.FormValidation;
 import br.unb.unbsolidaria.entities.User;
 import br.unb.unbsolidaria.organization.OrganizationScreen;
-import br.unb.unbsolidaria.persistence.DBHandler;
+import br.unb.unbsolidaria.persistence.DBSQL;
 import br.unb.unbsolidaria.voluntary.VoluntaryScreen;
 
 
@@ -88,8 +86,8 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void run() {
                 // TODO: Implement REST OATH here
-                // local user account DB (see .persistency.Database)
-                User user = DBHandler.getInstance(getApplicationContext()).getUserFromCredentials(email, password);
+                // local user account DB (see .persistency.DBHandler)
+                User user = DBSQL.getInstance(getApplicationContext()).getUserFromCredentials(email, password);
                 if ( user != null ){
                     onLoginSuccess(user);
                 } else {

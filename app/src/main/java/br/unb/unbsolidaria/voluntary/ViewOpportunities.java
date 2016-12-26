@@ -14,7 +14,7 @@ import br.unb.unbsolidaria.R;
 import br.unb.unbsolidaria.adapter.OpportunitiesAdapter;
 import br.unb.unbsolidaria.entities.Opportunity;
 import br.unb.unbsolidaria.entities.User;
-import br.unb.unbsolidaria.persistence.Database;
+import br.unb.unbsolidaria.persistence.DBHandler;
 
 public class ViewOpportunities extends Fragment {
 
@@ -26,7 +26,7 @@ public class ViewOpportunities extends Fragment {
     List<Opportunity> mList;
 
     User mUserProfile;
-    Database db_interface;
+    DBHandler db_interface;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,10 +39,10 @@ public class ViewOpportunities extends Fragment {
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        Database bd = Database.getInstance();
+        DBHandler bd = DBHandler.getInstance();
         mList = bd.getOpportunitiesList();
 
-        db_interface = Database.getInstance();
+        db_interface = DBHandler.getInstance();
 
         Bundle box = this.getArguments();
 

@@ -21,7 +21,7 @@ import br.unb.unbsolidaria.SignInActivity;
 import br.unb.unbsolidaria.R;
 import br.unb.unbsolidaria.entities.Organization;
 import br.unb.unbsolidaria.entities.User;
-import br.unb.unbsolidaria.persistence.Database;
+import br.unb.unbsolidaria.persistence.DBHandler;
 
 public class OrganizationScreen extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -69,7 +69,7 @@ public class OrganizationScreen extends AppCompatActivity
             return;
 
         try{
-            mUserProfile = Database.getInstance().getOrganizations().get(mLoggedUser.getId()-1);
+            mUserProfile = DBHandler.getInstance().getOrganizations().get(mLoggedUser.getId()-1);
         } catch (IndexOutOfBoundsException e){
             setUpUserProfileDialogError();
             return;
@@ -172,7 +172,7 @@ public class OrganizationScreen extends AppCompatActivity
     }
 
     private void exitHandler() {
-        Database.getInstance();
+        DBHandler.getInstance();
         finish();
     }
 

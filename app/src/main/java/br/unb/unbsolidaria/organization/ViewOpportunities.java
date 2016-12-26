@@ -13,7 +13,7 @@ import java.util.List;
 import br.unb.unbsolidaria.R;
 import br.unb.unbsolidaria.adapter.OpportunitiesAdapter;
 import br.unb.unbsolidaria.entities.Opportunity;
-import br.unb.unbsolidaria.persistence.Database;
+import br.unb.unbsolidaria.persistence.DBHandler;
 
 /**
  * Created by criss on 04/12/2016.
@@ -44,7 +44,7 @@ public class ViewOpportunities extends Fragment {
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        Database bd = Database.getInstance();
+        DBHandler bd = DBHandler.getInstance();
         mList = bd.getOpportunitiesList();
 
         mAdapter = new OpportunitiesAdapter(getActivity(), mList, null);

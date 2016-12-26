@@ -9,11 +9,11 @@ import org.junit.Test;
 
 import java.util.List;
 
-import br.unb.unbsolidaria.persistence.Database;
+import br.unb.unbsolidaria.persistence.DBHandler;
 import br.unb.unbsolidaria.entities.Opportunity;
 
 public class FakeDB {
-    Database BDinterface;
+    DBHandler BDinterface;
 
     @Test
     public void TesteUsoBancoDados (){
@@ -37,6 +37,6 @@ public class FakeDB {
 
     @Before
     public void Setup(){
-        BDinterface = Database.getInstance();
+        BDinterface = DBHandler.getInstance();
     }
 }

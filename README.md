@@ -4,7 +4,7 @@ Aplicativo Android - Projeto UnB Solidária - Linguagens de Programação - 2/20
 
 ##To-Do
 
-Ver [issues](https://github.com/hugohonda/UnBSolidaria/issues)
+Ver [issues](https://github.com/asm95/UnBSolidaria/issues)
 
 ##Code Style a ser seguido:
 
@@ -16,7 +16,7 @@ Ver [issues](https://github.com/hugohonda/UnBSolidaria/issues)
 * Instale o Git no seu computador
 * Clone o repositório para o seu computador:
 ```
-git clone https://github.com/hugohonda/android_app_UnBSolidaria.git
+git clone https://github.com/asm95/UnBSolidaria.git
 ```
 
 Trabalhando com Branches:

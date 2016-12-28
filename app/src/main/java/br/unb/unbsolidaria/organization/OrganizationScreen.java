@@ -39,6 +39,7 @@ public class OrganizationScreen extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_ass);
         mActivityToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mActivityToolbar.setTitle(""); // if toolbar's title is null then the Actionbar will use the window title at initialization. See: http://stackoverflow.com/a/35430590
         setSupportActionBar(mActivityToolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -53,11 +54,12 @@ public class OrganizationScreen extends AppCompatActivity
         fragmentManager = getSupportFragmentManager();
 
         lastSelectedItem = -1;
+
+        setUpUserProfile();
+
         MenuItem newsItem = mNavigationView.getMenu().getItem(0);
         newsItem.setChecked(true);
         onNavigationItemSelected(newsItem);
-
-        setUpUserProfile();
     }
 
     private void setUpUserProfile() {
@@ -69,7 +71,7 @@ public class OrganizationScreen extends AppCompatActivity
             return;
 
         try{
-            mUserProfile = DBHandler.getInstance().getOrganizations().get(mLoggedUser.getId()-1);
+            mUserProfile = DBHandler.getInstance().getOrganization(mLoggedUser.getId());
         } catch (IndexOutOfBoundsException e){
             setUpUserProfileDialogError();
             return;

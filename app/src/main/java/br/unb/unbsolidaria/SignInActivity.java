@@ -16,6 +16,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import br.unb.unbsolidaria.entities.FormValidation;
 import br.unb.unbsolidaria.entities.User;
 import br.unb.unbsolidaria.organization.OrganizationScreen;
+import br.unb.unbsolidaria.persistence.DBHandler;
 import br.unb.unbsolidaria.persistence.DBSQL;
 import br.unb.unbsolidaria.voluntary.VoluntaryScreen;
 
@@ -69,13 +70,13 @@ public class SignInActivity extends AppCompatActivity {
     public void login() {
 
         if (!validate()) {
-            onLoginFailed();
+            onLoginFailed(getString(R.string.error_wrong_fields));
             return;
         }
 
         _loginButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = ProgressDialog.show(this, null, "Autenticando...", true, false);
+        final ProgressDialog progressDialog = ProgressDialog.show(this, null, getString(R.string.process_autentication), true, false);
 
         final String email = _emailText.getText().toString();
         final String password = _passwordText.getText().toString();
@@ -87,12 +88,22 @@ public class SignInActivity extends AppCompatActivity {
             public void run() {
                 // TODO: Implement REST OATH here
                 // local user account DB (see .persistency.DBHandler)
-                User user = DBSQL.getInstance(getApplicationContext()).getUserFromCredentials(email, password);
-                if ( user != null ){
-                    onLoginSuccess(user);
-                } else {
-                    onLoginFailed();
+                DBHandler instance;
+
+                instance = DBHandler.getInstance();
+                if (instance == null) {
+                    onLoginFailed(getString(R.string.error_db_connection));
+                    progressDialog.dismiss();
+                    return;
                 }
+
+                User user = instance.getUserByCredentials(email, password);
+                if (user == null){
+                    onLoginFailed(getString(R.string.error_wrong_credentials));
+                } else {
+                    onLoginSuccess(user);
+                }
+
                 progressDialog.dismiss();
             }
         }, 1000);
@@ -123,8 +134,8 @@ public class SignInActivity extends AppCompatActivity {
         finish();
     }
 
-    public void onLoginFailed() {
-        Toast.makeText(getApplicationContext(), getString(R.string.error_login_auth), Toast.LENGTH_LONG).show();
+    public void onLoginFailed(String Message) {
+        Toast.makeText(getApplicationContext(), getString(R.string.error_login_auth) + " " + Message, Toast.LENGTH_LONG).show();
         _loginButton.setEnabled(true);
     }
 

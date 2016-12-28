@@ -40,7 +40,7 @@ public class ViewOpportunities extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         DBHandler bd = DBHandler.getInstance();
-        mList = bd.getOpportunitiesList();
+        mList = bd.getOpportunities();
 
         db_interface = DBHandler.getInstance();
 

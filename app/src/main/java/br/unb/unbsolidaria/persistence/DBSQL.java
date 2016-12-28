@@ -5,7 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Path;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.LinkedList;
@@ -24,12 +26,12 @@ import br.unb.unbsolidaria.entities.Voluntary;
 public class DBSQL extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "userInfo";
-    private static final int DATABASE_VERSION = 7;
+    private static final int DATABASE_VERSION = 3;
 
     private static final String KEY_ID ="id";
 
     private static final String TABLE_OPPORTUNITY ="opportunity";
-    private static final String KEY_ADRESS="adress";
+    private static final String KEY_ADRESS="address";
     private static final String KEY_SPOTS="spots";
     private static final String KEY_TITLE="title";
     private static final String KEY_DESCRIPTION="desc";
@@ -42,7 +44,7 @@ public class DBSQL extends SQLiteOpenHelper {
     private static final String KEY_LEGALNAME="legalname";
     private static final String KEY_COMMERCIALNAME ="comname";
     private static final String KEY_EMAIL="email";
-    private static final String KEY_PHONENUMBER="phoenumber";
+    private static final String KEY_PHONENUMBER="phonenumber";
     private static final String KEY_WEBSITE="website";
 
     private static final String TABLE_VOLUNTARY ="voluntary";
@@ -58,6 +60,8 @@ public class DBSQL extends SQLiteOpenHelper {
     private static final String KEY_PROFILE="profile";
 
     private static DBSQL instance;
+    public static boolean mockDataBase = true;
+    private boolean isNew = false;
 
     private DBSQL(Context ctx){
         super(ctx, DATABASE_NAME, null, DATABASE_VERSION);
@@ -65,7 +69,8 @@ public class DBSQL extends SQLiteOpenHelper {
 
     public static synchronized DBSQL getInstance (Context ctx){
         if (instance == null && ctx != null){
-            instance = new DBSQL(ctx.getApplicationContext());
+            instance = new DBSQL(ctx);
+            instance.getWritableDatabase();
         }
 
         return instance;
@@ -100,7 +105,11 @@ public class DBSQL extends SQLiteOpenHelper {
         db.execSQL(CREATE_VOLUNTARY_TABLE);
         db.execSQL(CREATE_ORGANIZATION_TABLE);
         db.execSQL(CREATE_USER_TABLE);
+
+        isNew = true;
     }
+
+    public boolean isNew(){ return isNew; }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -145,7 +154,7 @@ public class DBSQL extends SQLiteOpenHelper {
 
         cursor.moveToFirst();
         Opportunity item = new Opportunity(id, cursor.getString(1), cursor.getInt(2), cursor.getString(3),
-                cursor.getString(4), DBHandler.getCalendar(cursor.getString(5)), DBHandler.getCalendar(cursor.getString(6)),
+                cursor.getString(4), getCalendar(cursor.getString(5)), getCalendar(cursor.getString(6)),
                 getOrganization(cursor.getInt(7)));
 
         return item;
@@ -181,8 +190,8 @@ public class DBSQL extends SQLiteOpenHelper {
             do {
                 Opportunity item = new Opportunity(Integer.parseInt(cursor.getString(0)), cursor.getString(1),
                         cursor.getInt(2), cursor.getString(3),
-                        cursor.getString(4), DBHandler.getCalendar(cursor.getString(5)),
-                        DBHandler.getCalendar(cursor.getString(6)), getOrganization(cursor.getInt(7)));
+                        cursor.getString(4), getCalendar(cursor.getString(5)),
+                        getCalendar(cursor.getString(6)), getOrganization(cursor.getInt(7)));
                 oppList.add(item);
             } while (cursor.moveToNext());
         }
@@ -208,7 +217,7 @@ public class DBSQL extends SQLiteOpenHelper {
     }
 
     public Voluntary getVoluntary(int id){
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.query(TABLE_ORGANIZATION, new String[] { KEY_ID,
                         KEY_CPF, KEY_NAME, KEY_EMAIL,
                         KEY_UNBNNUMBER, KEY_ADRESS, KEY_GENDER}, KEY_ID + "=?",
@@ -417,5 +426,40 @@ public class DBSQL extends SQLiteOpenHelper {
                 User.getIntType(cursor.getInt(3)), cursor.getInt(4));
 
         return item;
+    }
+
+
+    public void dbMockWorker() {
+        DBMocker instance;
+
+        instance = new DBMocker();
+
+        for(Opportunity opt : instance.opportunities){
+            addOpportunity(opt);
+        }
+        for(Voluntary vol : instance.voluntaries){
+            addVoluntary(vol);
+        }
+        for(Organization org : instance.organizations){
+            addOrganization(org);
+        }
+        for(User usr : instance.users){
+            addUser(usr);
+        }
+    }
+
+
+    // Util Functions
+    public static Calendar getCalendar(String data) {
+        SimpleDateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy");
+        Calendar c = Calendar.getInstance();
+
+        try {
+            c.setTime(formatoData.parse(data));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return c;
     }
 }

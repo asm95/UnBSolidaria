@@ -34,8 +34,6 @@
             android:name=".SignUpActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:exported="true"/>
-        <activity android:name=".voluntary.ViewOpportunities">
-        </activity>
         <activity
             android:name=".organization.OrganizationScreen"
             android:label="@string/title_activity_organization_screen"

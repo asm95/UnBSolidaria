@@ -166,7 +166,7 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener 
                 title, description, DBHandler.getCalendar(startDate), DBHandler.getCalendar(endDate),
                 parentInterface.getUserProfile());
 
-        boolean db_sucess = dbInterface.addOpportunityHelper(deploy);
+        boolean db_sucess = dbInterface.addOpportunity(deploy);
         if (!db_sucess){
             setUpFormDialog("Ocorreu um erro na comunicação com o Banco de Dados. Tente novamente mais tarde.");
             parentInterface.restart();

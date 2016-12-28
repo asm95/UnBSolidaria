@@ -12,12 +12,18 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Start SignInActivity
+
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        //This triggers on app load and after user logout (sign-in screen is destroyed after login)
+
         Intent intent = new Intent(this, SignInActivity.class);
         startActivity(intent);
 
         //Load local database contents
         DBHandler.setUp(getApplicationContext());
     }
-
 }

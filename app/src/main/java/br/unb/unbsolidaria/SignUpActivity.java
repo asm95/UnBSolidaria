@@ -144,11 +144,11 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         Organization org_request;
 
         usr_request = new User(email, password, User.UserType.organization, db_interface.getUserCount()+1);
-        org_request = new Organization(db_interface.getOpportunityCount()+1,
+        org_request = new Organization(db_interface.getOrganizationCount()+1,
                 cnpj, "", name, email, "", site, "", address, cep);
 
-        db_interface.addUserHelper(usr_request);
-        db_interface.addOrganizationHelper(org_request);
+        db_interface.addUser(usr_request);
+        db_interface.addOrganization(org_request);
 
         return usr_request;
     }
@@ -160,8 +160,8 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         vol_request = new Voluntary(db_interface.getVoluntaryCount()+1,
                 cpf, name, "", Calendar.getInstance(), email, "", "", matricula, address, gender, true);
 
-        db_interface.addUserHelper(usr_request);
-        db_interface.addVoluntaryHelper(vol_request);
+        db_interface.addUser(usr_request);
+        db_interface.addVoluntary(vol_request);
 
         return usr_request;
     }

@@ -42,6 +42,7 @@ public class VoluntaryScreen extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_vol);
         mActivityToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mActivityToolbar.setTitle("");
         setSupportActionBar(mActivityToolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.vo_drawer_layout);
@@ -72,7 +73,7 @@ public class VoluntaryScreen extends AppCompatActivity
             return;
 
         try{
-            mUserProfile = DBHandler.getInstance().getVoluntaries().get(mLoggedUser.getId()-1);
+            mUserProfile = DBHandler.getInstance().getVoluntary(mLoggedUser.getId());
         } catch (IndexOutOfBoundsException e){
             setUpUserProfileDialogError();
             return;

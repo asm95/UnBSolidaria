@@ -30,8 +30,11 @@
     <string name="error_incorrect_password">Senha incorreta</string>
     <string name="error_field_required">Campo obrigatório</string>
     <string name="error_login_auth">O Login Falhou.</string>
+    <string name="error_wrong_fields">Verifique se os campos estão preenchidos corretamente.</string>
+    <string name="error_db_connection">Não foi possível se conectar ao banco de dados.</string>
+    <string name="error_wrong_credentials">Verifique se as credenciais estão corretas.</string>
     <string name="permission_rationale">Permissão de acesso aos contatos necessária para auto-completar email.</string>
-
+    <string name="process_autentication">Autenticando...</string>
 
     <!-- Signup -->
     <string-array name="su_AcountTypeOptions">

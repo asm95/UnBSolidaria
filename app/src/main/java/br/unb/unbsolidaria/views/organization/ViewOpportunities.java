@@ -1,4 +1,4 @@
-package br.unb.unbsolidaria.organization;
+package br.unb.unbsolidaria.views.organization;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import br.unb.unbsolidaria.R;
-import br.unb.unbsolidaria.adapter.OpportunitiesAdapter;
+import br.unb.unbsolidaria.utils.OpportunitiesAdapter;
 import br.unb.unbsolidaria.entities.Opportunity;
 import br.unb.unbsolidaria.persistence.DBHandler;
 

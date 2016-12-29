@@ -1,4 +1,4 @@
-package br.unb.unbsolidaria.organization;
+package br.unb.unbsolidaria.views.organization;
 
 import android.annotation.TargetApi;
 import android.app.DatePickerDialog;

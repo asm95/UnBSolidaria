@@ -1,4 +1,4 @@
-package br.unb.unbsolidaria;
+package br.unb.unbsolidaria.views;
 
 import android.content.Intent;
 import android.os.Bundle;

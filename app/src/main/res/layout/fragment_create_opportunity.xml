@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <!--tools:context="br.unb.unbsolidaria.organization.CreateOpportunity" -->
+    <!--tools:context="br.unb.unbsolidaria.views.organization.CreateOpportunity" -->
 
     <RelativeLayout
         android:id="@+id/content_create_opportunity"
@@ -12,7 +12,7 @@
         android:paddingTop="24dp"
         android:paddingLeft="24dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context="br.unb.unbsolidaria.organization.CreateOpportunity"
+        tools:context="br.unb.unbsolidaria.views.organization.CreateOpportunity"
         tools:showIn="@layout/fragment_create_opportunity"
         android:paddingRight="24dp">
 

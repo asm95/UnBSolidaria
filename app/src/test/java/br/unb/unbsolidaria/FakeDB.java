@@ -20,7 +20,7 @@ public class FakeDB {
         List<Opportunity> op_list;
         Opportunity op1;
 
-        op_list = BDinterface.getInstance().getOpportunitiesList();
+        op_list = BDinterface.getInstance().getOpportunities();
 
         op1 = op_list.get(0);
 

@@ -1,4 +1,4 @@
-package br.unb.unbsolidaria.extras;
+package br.unb.unbsolidaria.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;

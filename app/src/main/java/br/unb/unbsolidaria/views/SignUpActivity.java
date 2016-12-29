@@ -1,4 +1,4 @@
-package br.unb.unbsolidaria;
+package br.unb.unbsolidaria.views;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
+import br.unb.unbsolidaria.R;
 import br.unb.unbsolidaria.entities.FormValidation;
 import br.unb.unbsolidaria.entities.Organization;
 import br.unb.unbsolidaria.entities.User;

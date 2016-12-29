@@ -1,4 +1,4 @@
-package br.unb.unbsolidaria;
+package br.unb.unbsolidaria.views;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -13,12 +13,12 @@ import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
+import br.unb.unbsolidaria.R;
 import br.unb.unbsolidaria.entities.FormValidation;
 import br.unb.unbsolidaria.entities.User;
-import br.unb.unbsolidaria.organization.OrganizationScreen;
+import br.unb.unbsolidaria.views.organization.OrganizationScreen;
 import br.unb.unbsolidaria.persistence.DBHandler;
-import br.unb.unbsolidaria.persistence.DBSQL;
-import br.unb.unbsolidaria.voluntary.VoluntaryScreen;
+import br.unb.unbsolidaria.views.voluntary.VoluntaryScreen;
 
 
 public class SignInActivity extends AppCompatActivity {

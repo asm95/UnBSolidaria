@@ -1,4 +1,4 @@
-package br.unb.unbsolidaria.organization;
+package br.unb.unbsolidaria.views.organization;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

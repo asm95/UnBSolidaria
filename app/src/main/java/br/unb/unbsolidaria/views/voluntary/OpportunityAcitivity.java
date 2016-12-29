@@ -1,4 +1,4 @@
-package br.unb.unbsolidaria.voluntary;
+package br.unb.unbsolidaria.views.voluntary;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,7 +17,7 @@ import android.widget.TextView;
 import br.unb.unbsolidaria.R;
 import br.unb.unbsolidaria.entities.Opportunity;
 import br.unb.unbsolidaria.entities.Voluntary;
-import br.unb.unbsolidaria.extras.ImageHelper;
+import br.unb.unbsolidaria.utils.ImageHelper;
 import br.unb.unbsolidaria.persistence.DBHandler;
 
 

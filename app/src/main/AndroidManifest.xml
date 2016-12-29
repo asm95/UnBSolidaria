@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".SplashActivity"
+            android:name=".views.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -24,24 +24,24 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SignInActivity"
+            android:name=".views.SignInActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".voluntary.OpportunityAcitivity"
+            android:name=".views.voluntary.OpportunityAcitivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".SignUpActivity"
+            android:name=".views.SignUpActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:exported="true"/>
         <activity
-            android:name=".organization.OrganizationScreen"
+            android:name=".views.organization.OrganizationScreen"
             android:label="@string/title_activity_organization_screen"
             android:theme="@style/AppTheme.NoActionBar"
             android:exported="true">
         </activity>
         <activity
-            android:name=".voluntary.VoluntaryScreen"
+            android:name=".views.voluntary.VoluntaryScreen"
             android:label="@string/title_activity_organization_screen"
             android:theme="@style/AppTheme.NoActionBar"
             android:exported="true">

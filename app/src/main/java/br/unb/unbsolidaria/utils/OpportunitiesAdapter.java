@@ -1,4 +1,4 @@
-package br.unb.unbsolidaria.adapter;
+package br.unb.unbsolidaria.utils;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,12 +15,11 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import br.unb.unbsolidaria.voluntary.ViewOpportunities;
-import br.unb.unbsolidaria.voluntary.OpportunityAcitivity;
+import br.unb.unbsolidaria.views.voluntary.ViewOpportunities;
+import br.unb.unbsolidaria.views.voluntary.OpportunityAcitivity;
 import br.unb.unbsolidaria.R;
 import br.unb.unbsolidaria.entities.Opportunity;
 import br.unb.unbsolidaria.entities.Voluntary;
-import br.unb.unbsolidaria.extras.ImageHelper;
 
 /**
  * Created by Scartezini on 24/11/2016.

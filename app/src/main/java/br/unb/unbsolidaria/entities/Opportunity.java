@@ -22,9 +22,9 @@ public class Opportunity {
     /**
      * Required field. Title should be at maximum 20 caracters
      */
-    private String title;
+    private String titulo;
     //TODO: definir limite da descrição (precisa estar acordado com o appWeb)
-    private String description;
+    private String descricao;
     //TODO: classe Local para conter informações tais como CEP
     /**
      * Adress could be picked up from google maps (not so easy to implement)
@@ -33,10 +33,12 @@ public class Opportunity {
     /**
      * Max amount of volunteers that can join the event. If it is unlimited, the value is -1.
      */
-    private int nPositions;
+    private int vagas;
     //TODO: propor um modelo para suportar marcação de dias pontuais e repetição
     private Calendar startDate;
     private Calendar endDate;
+
+    private String organizacao;
 
     private Organization organization;
     private LinkedList<Voluntary> approvedVoluntaries = null;
@@ -57,9 +59,9 @@ public class Opportunity {
                        Organization organization, int photo) {
         this.id = id;
         this.address = address;
-        this.nPositions = nPositions;
-        this.title = title;
-        this.description = description;
+        this.vagas = nPositions;
+        this.titulo = title;
+        this.descricao = description;
         this.startDate = startDate;
         this.endDate = endDate;
         this.organization = organization;
@@ -71,9 +73,9 @@ public class Opportunity {
                        Organization organization) {
         this.id = id;
         this.address = address;
-        this.nPositions = nPositions;
-        this.title = title;
-        this.description = description;
+        this.vagas = nPositions;
+        this.titulo = title;
+        this.descricao = description;
         this.startDate = startDate;
         this.endDate = endDate;
         this.organization = organization;
@@ -106,27 +108,27 @@ public class Opportunity {
     }
 
     public int getVagas() {
-        return nPositions;
+        return vagas;
     }
 
     public void setNPositions(int nPositions) {
-        this.nPositions = nPositions;
+        this.vagas = nPositions;
     }
 
     public String getTitle() {
-        return title;
+        return titulo;
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.titulo = title;
     }
 
     public String getDescription() {
-        return description;
+        return descricao;
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        this.descricao = description;
     }
 
     public Calendar getStartDate() {
@@ -161,5 +163,13 @@ public class Opportunity {
         this.photo = photo;
     }
 
-    public int getSpots() { return nPositions;}
+    public int getSpots() { return vagas;}
+
+    public String getOrganizacao() {
+        return organizacao;
+    }
+
+    public void setOrganizacao(String organizacao) {
+        this.organizacao = organizacao;
+    }
 }

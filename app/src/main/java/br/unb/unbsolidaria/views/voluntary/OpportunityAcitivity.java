@@ -14,7 +14,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.List;
+
 import br.unb.unbsolidaria.R;
+import br.unb.unbsolidaria.Singleton;
 import br.unb.unbsolidaria.entities.Opportunity;
 import br.unb.unbsolidaria.entities.Voluntary;
 import br.unb.unbsolidaria.utils.ImageHelper;
@@ -29,6 +32,8 @@ public class OpportunityAcitivity extends AppCompatActivity {
 
     private Voluntary loggedVoluntary;
 
+    private Singleton singleton = Singleton.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,9 +43,10 @@ public class OpportunityAcitivity extends AppCompatActivity {
 
         loggedVoluntary = (Voluntary)getIntent().getSerializableExtra(ViewOpportunities.VIEW_MESSAGE);
         int id = getIntent().getIntExtra("id", 0);
+        List<Opportunity> mList = singleton.getmList();
 
         DBHandler bd = DBHandler.getInstance();
-        Opportunity opportunity = bd.getOpportunity(id);
+        //Opportunity opportunity = bd.getOpportunity(id);
 
         ImageView logo = (ImageView) findViewById(R.id.iv_logo);
         TextView description = (TextView) findViewById(R.id.tv_description);
@@ -51,22 +57,22 @@ public class OpportunityAcitivity extends AppCompatActivity {
         TextView end = (TextView) findViewById(R.id.tv_end);
 
 
-        description.setText( getString(R.string.ov_description, opportunity.getDescription()) );
-        org.setText( getString(R.string.ov_org, opportunity.getOrganization().getCommercialName()) );
-        local.setText( getString(R.string.ov_local, opportunity.getLocal()) );
-        vagas.setText( getString(R.string.ov_vagas, opportunity.getVagas()) );
+        description.setText( getString(R.string.ov_description, mList.get(id).getDescription()) );
+        org.setText( getString(R.string.ov_org, mList.get(id).getOrganizacao()) );
+        local.setText( getString(R.string.ov_local, mList.get(id).getLocal()) );
+        vagas.setText( getString(R.string.ov_vagas, String.valueOf(mList.get(id).getVagas())) );
 
-        start.setText( getString(R.string.ov_dateStart, opportunity.getFormattedDate(Opportunity.oDate.start)) );
-        end.setText( getString(R.string.ov_dateEnd, opportunity.getFormattedDate(Opportunity.oDate.end)) );
+        start.setText( getString(R.string.ov_dateStart, mList.get(id).getStartDate()) );
+        end.setText( getString(R.string.ov_dateEnd, mList.get(id).getEndDate()) );
 
         scale = this.getResources().getDisplayMetrics().density;
         width = this.getResources().getDisplayMetrics().widthPixels - (int) (14 * scale + 0.5f);
         height = (width / 16) * 9;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            logo.setImageResource(opportunity.getPhoto());
+            logo.setImageResource(mList.get(id).getPhoto());
         } else {
-            Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), opportunity.getPhoto());
+            Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), mList.get(id).getPhoto());
             bitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
 
             bitmap = ImageHelper.getRoundedCornerBitmap(this, bitmap, 4, width, height, false, false, true, true);
@@ -74,12 +80,12 @@ public class OpportunityAcitivity extends AppCompatActivity {
         }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(opportunity.getTitle());
+        getSupportActionBar().setTitle(mList.get(id).getTitle());
 
 
 
         final Button button = (Button) findViewById(R.id.oportunidadeActivity_actionConfirm);
-        if ( opportunity.getVagas() <= 0 )
+        if ( mList.get(id).getVagas() <= 0 )
             button.setEnabled(false);
 
         // no user is logged

@@ -233,6 +233,19 @@ public class DBSQL extends SQLiteOpenHelper {
         return item;
     }
 
+    //TODO: not all attributes of an voluntary are updated
+    public int updateVoluntary(Voluntary item) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues post = new ContentValues();
+
+        post.put(KEY_NAME, item.getName());
+        post.put(KEY_EMAIL, item.getEmail());
+        post.put(KEY_UNBNNUMBER, item.getUnbRegistrationNumber());
+        post.put(KEY_ADRESS, item.getAddress());
+
+        return db.update(TABLE_VOLUNTARY, post, KEY_ID+"="+item.getId(), null);
+    }
+
     public void delVoluntary(Voluntary item){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_VOLUNTARY, KEY_ID + " = ?",

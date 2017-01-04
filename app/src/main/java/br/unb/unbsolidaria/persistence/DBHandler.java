@@ -143,6 +143,15 @@ public class DBHandler {
         return (numRowsUpdated>=1);
     }
 
+    public boolean updateVoluntary (Voluntary deploy){
+        int numRowsUpdated = sql_interface.updateVoluntary(deploy);
+
+        if (numRowsUpdated > 1)
+            Log.w("DBHandler", "updateVoluntary: " + numRowsUpdated + " entities have the same ID in the database");
+
+        return (numRowsUpdated>=1);
+    }
+
     public Voluntary getVoluntary (int id){
         return voluntaries.get(id-1);
     }

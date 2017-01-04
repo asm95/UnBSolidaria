@@ -25,7 +25,7 @@ import br.unb.unbsolidaria.views.organization.EditProfile;
 import br.unb.unbsolidaria.persistence.DBHandler;
 
 public class VoluntaryScreen extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, br.unb.unbsolidaria.views.voluntary.EditProfile.UserProfileListener {
 
     private FragmentManager fragmentManager;
     private int lastSelectedItem;
@@ -61,12 +61,11 @@ public class VoluntaryScreen extends AppCompatActivity
         newsItem.setChecked(true);
         onNavigationItemSelected(newsItem);
 
-        setUpUserProfile();
+        loadUserProfile();
     }
 
-    private void setUpUserProfile() {
+    private void loadUserProfile() {
         Intent thisIntent = getIntent();
-        TextView nav_UserName;
 
         mLoggedUser = (User)thisIntent.getSerializableExtra(SignInActivity.LOGIN_MESSAGE);
         if (mLoggedUser == null)
@@ -78,6 +77,12 @@ public class VoluntaryScreen extends AppCompatActivity
             setUpUserProfileDialogError();
             return;
         }
+
+        refreshUI();
+    }
+
+    private void refreshUI(){
+        TextView nav_UserName;
 
         nav_UserName = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.vo_navTitle);
         nav_UserName.setText(mUserProfile.getName());
@@ -160,8 +165,11 @@ public class VoluntaryScreen extends AppCompatActivity
             bundle.putSerializable(ENABLE_JOIN, mLoggedUser);
             mActivityToolbar.setTitle("Ver Oportunidades");
 
-        } else if (id == R.id.orgv_sbEditProfileItem) {
-            userFragment = new EditProfile();
+        } else if (id == R.id.volv_sbEditProfileItem) {
+            Bundle box = new Bundle();
+            userFragment = new br.unb.unbsolidaria.views.voluntary.EditProfile();
+            box.putSerializable("br.unb.unbsolidaria.LOGGEDUSER", mLoggedUser);
+            userFragment.setArguments(box);
             ft.add(R.id.ch_frameLayout, userFragment).commit();
             mActivityToolbar.setTitle("Editar Perfil");
         } else if (id == R.id.volv_sbExitItem) {
@@ -191,4 +199,6 @@ public class VoluntaryScreen extends AppCompatActivity
         newsItem.setChecked(true);
         onNavigationItemSelected(newsItem);
     }
+
+    public void onVoluntaryUpdate(){ refreshUI(); }
 }

@@ -2,6 +2,7 @@ package br.unb.unbsolidaria.views;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,7 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import br.unb.unbsolidaria.R;
@@ -74,6 +78,11 @@ public class ViewNews extends Fragment {
                 mRecyclerView.setLayoutManager(mLayoutManager);
                 mList = response.body();
                 singleton.setNewsList(mList);
+
+                if (mList == null){
+                    Snackbar.make(getActivity().findViewById(android.R.id.content), "Não foi possível se comunicar com o servidor", Snackbar.LENGTH_LONG).show();
+                    mList = new LinkedList<>();
+                }
 
                 Bundle box = ViewNews.this.getArguments();
 

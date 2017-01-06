@@ -57,12 +57,12 @@ public class VoluntaryScreen extends AppCompatActivity
 
         fragmentManager = getSupportFragmentManager();
 
+        setUpUserProfile();
+
         lastSelectedItem = -1;
-        MenuItem newsItem = mNavigationView.getMenu().getItem(0);
+        MenuItem newsItem = mNavigationView.getMenu().getItem(1);
         newsItem.setChecked(true);
         onNavigationItemSelected(newsItem);
-
-        setUpUserProfile();
     }
 
     private void setUpUserProfile() {
@@ -151,12 +151,12 @@ public class VoluntaryScreen extends AppCompatActivity
         lastSelectedItem = id;
 
         if (id == R.id.volv_sbNewsItem) {
-            mActivityToolbar.setTitle("Novidades");
             userFragment = new ViewNews();
             ft.add(R.id.ch_frameLayout,userFragment).commit();
             Bundle bundle = new Bundle();
             userFragment.setArguments(bundle);
             bundle.putSerializable(ENABLE_JOIN,mLoggedUser);
+            mActivityToolbar.setTitle("Novidades");
         } else if (id == R.id.volv_sbViewOpportunityItem) {
             userFragment = new ViewOpportunities();
             ft.add(R.id.ch_frameLayout, userFragment).commit();

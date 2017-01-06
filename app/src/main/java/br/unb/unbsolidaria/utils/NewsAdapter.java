@@ -18,8 +18,9 @@ import java.util.List;
 import br.unb.unbsolidaria.R;
 import br.unb.unbsolidaria.entities.News;
 import br.unb.unbsolidaria.entities.Voluntary;
-import br.unb.unbsolidaria.views.voluntary.OpportunityAcitivity;
-import br.unb.unbsolidaria.views.voluntary.ViewOpportunities;
+import br.unb.unbsolidaria.views.NewsActivity;
+import br.unb.unbsolidaria.views.ViewNews;
+
 
 /**
  * Created by eduar on 05/01/2017.
@@ -49,33 +50,23 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = mLayoutInflater.inflate(R.layout.card_opportunity, parent, false);
+        View v = mLayoutInflater.inflate(R.layout.card_new, parent, false);
         NewsAdapter.MyViewHolder mvh = new NewsAdapter.MyViewHolder(v);
         return mvh;
     }
 
     @Override
-    public void onBindViewHolder(NewsAdapter.MyViewHolder holder, final int position) {
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
         holder.tvTitulo.setText(mList.get(position).getTitulo());
-        holder.tvdescription.setText(mList.get(position).getDescricao());
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            holder.ivOrg.setImageResource(mList.get(position).getPhoto());
-        } else {
-            Bitmap bitmap = BitmapFactory.decodeResource(mContext.getResources(), mList.get(position).getPhoto());
-            bitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
-
-            bitmap = ImageHelper.getRoundedCornerBitmap(mContext, bitmap, 4, width, height, false, false, true, true);
-            holder.ivOrg.setImageBitmap(bitmap);
-        }
+        holder.tvdescription.setText(mList.get(position).getSubtitulo());
 
         holder.btnSeeMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(mContext, OpportunityAcitivity.class);
+                Intent intent=new Intent(mContext, NewsActivity.class);
                 intent.putExtra("id",position);
                 if (mLoggedUser != null){
-                    intent.putExtra(ViewOpportunities.VIEW_MESSAGE, mLoggedUser);
+                    intent.putExtra(ViewNews.VIEW_MESSAGE, mLoggedUser);
                 }
                 mContext.startActivity(intent);
             }
@@ -98,12 +89,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         public MyViewHolder(View itemView) {
             super(itemView);
 
-            ivOrg = (ImageView) itemView.findViewById(R.id.iv_org);
-            tvTitulo = (TextView) itemView.findViewById(R.id.tv_title);
-            tvLocal = (TextView) itemView.findViewById(R.id.tv_local);
-            tvVaga = (TextView) itemView.findViewById(R.id.tv_vaga);
-            tvdescription = (TextView) itemView.findViewById(R.id.tv_descricao);
-            btnSeeMore = (Button) itemView.findViewById(R.id.btn_seemore);
+            ivOrg = (ImageView) itemView.findViewById(R.id.iv_new_org);
+            tvTitulo = (TextView) itemView.findViewById(R.id.tv_new_title);
+            tvLocal = (TextView) itemView.findViewById(R.id.tv_new_local);
+            tvVaga = (TextView) itemView.findViewById(R.id.tv_new_vaga);
+            tvdescription = (TextView) itemView.findViewById(R.id.tv_new_descricao);
+            btnSeeMore = (Button) itemView.findViewById(R.id.btn_new_seemore);
 
             itemView.setOnClickListener(this);
         }

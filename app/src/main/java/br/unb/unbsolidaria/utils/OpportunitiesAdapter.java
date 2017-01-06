@@ -114,12 +114,12 @@ public class OpportunitiesAdapter extends RecyclerView.Adapter<OpportunitiesAdap
         public MyViewHolder(View itemView) {
             super(itemView);
 
-            ivOrg = (ImageView) itemView.findViewById(R.id.iv_org);
-            tvTitulo = (TextView) itemView.findViewById(R.id.tv_title);
-            tvLocal = (TextView) itemView.findViewById(R.id.tv_local);
-            tvVaga = (TextView) itemView.findViewById(R.id.tv_vaga);
-            tvdescription = (TextView) itemView.findViewById(R.id.tv_descricao);
-            btnSeeMore = (Button) itemView.findViewById(R.id.btn_seemore);
+            ivOrg = (ImageView) itemView.findViewById(R.id.iv_op_org);
+            tvTitulo = (TextView) itemView.findViewById(R.id.tv_op_title);
+            tvLocal = (TextView) itemView.findViewById(R.id.tv_op_local);
+            tvVaga = (TextView) itemView.findViewById(R.id.tv_op_vaga);
+            tvdescription = (TextView) itemView.findViewById(R.id.tv_op_descricao);
+            btnSeeMore = (Button) itemView.findViewById(R.id.btn_op_seemore);
 
             itemView.setOnClickListener(this);
         }

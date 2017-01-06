@@ -38,23 +38,23 @@ public class OpportunityAcitivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_opportunity);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.oportunidateToolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.oportunidateToolbar_op);
         setSupportActionBar(toolbar);
 
         loggedVoluntary = (Voluntary)getIntent().getSerializableExtra(ViewOpportunities.VIEW_MESSAGE);
         int id = getIntent().getIntExtra("id", 0);
-        List<Opportunity> mList = singleton.getmList();
+        List<Opportunity> mList = singleton.getOpportunityList();
 
         DBHandler bd = DBHandler.getInstance();
         //Opportunity opportunity = bd.getOpportunity(id);
 
-        ImageView logo = (ImageView) findViewById(R.id.iv_logo);
-        TextView description = (TextView) findViewById(R.id.tv_description);
-        TextView org = (TextView) findViewById(R.id.tv_org);
-        TextView local = (TextView) findViewById(R.id.tv_local);
-        TextView vagas = (TextView) findViewById(R.id.tv_vaga);
-        TextView start = (TextView) findViewById(R.id.tv_start);
-        TextView end = (TextView) findViewById(R.id.tv_end);
+        ImageView logo = (ImageView) findViewById(R.id.iv_op_logo);
+        TextView description = (TextView) findViewById(R.id.tv_op_description);
+        TextView org = (TextView) findViewById(R.id.tv_op_org);
+        TextView local = (TextView) findViewById(R.id.tv_op_local);
+        TextView vagas = (TextView) findViewById(R.id.tv_op_vaga);
+        TextView start = (TextView) findViewById(R.id.tv_op_start);
+        TextView end = (TextView) findViewById(R.id.tv_op_end);
 
 
         description.setText( getString(R.string.ov_description, mList.get(id).getDescription()) );

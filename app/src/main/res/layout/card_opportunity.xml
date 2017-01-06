@@ -19,19 +19,19 @@
         android:layout_height="match_parent">
 
         <FrameLayout
-            android:id="@+id/top"
+            android:id="@+id/top_op"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <ImageView
                 android:layout_alignParentTop="true"
-                android:id="@+id/iv_org"
+                android:id="@+id/iv_op_org"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@null"
                 app:srcCompat="@drawable/launcher_logo" />
 
             <TextView
-                android:id="@+id/tv_title"
+                android:id="@+id/tv_op_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"
@@ -45,8 +45,8 @@
 
 
         <TextView
-            android:id="@+id/local"
-            android:layout_below="@id/top"
+            android:id="@+id/local_op"
+            android:layout_below="@id/top_op"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
@@ -55,8 +55,8 @@
             android:text="Local:"/>
 
         <TextView
-            android:id="@+id/vaga"
-            android:layout_below="@+id/tv_local"
+            android:id="@+id/vaga_op"
+            android:layout_below="@+id/tv_op_local"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="2dp"
@@ -66,8 +66,8 @@
             android:text="Vagas:"/>
 
         <TextView
-            android:id="@+id/descricao"
-            android:layout_below="@id/vaga"
+            android:id="@+id/descricao_op"
+            android:layout_below="@id/vaga_op"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="2dp"
@@ -77,8 +77,8 @@
             android:text="Descrição:"/>
 
         <TextView
-            android:id="@+id/tv_vaga"
-            android:layout_below="@+id/tv_local"
+            android:id="@+id/tv_op_vaga"
+            android:layout_below="@+id/tv_op_local"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="2dp"
@@ -86,12 +86,12 @@
 
             android:textSize="14sp"
             android:text="35"
-            android:layout_toEndOf="@id/vaga"
-            android:layout_alignLeft="@+id/tv_descricao"/>
+            android:layout_toEndOf="@id/vaga_op"
+            android:layout_alignLeft="@+id/tv_new_descricao"/>
 
 
         <TextView
-            android:id="@+id/tv_descricao"
+            android:id="@+id/tv_op_descricao"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="2dp"
@@ -99,23 +99,23 @@
             android:textSize="14sp"
             android:text="descrição"
             android:paddingBottom="2dp"
-            android:layout_below="@id/vaga"
-            android:layout_toEndOf="@+id/descricao" />
+            android:layout_below="@id/vaga_op"
+            android:layout_toEndOf="@+id/descricao_op" />
 
         <TextView
-            android:id="@+id/tv_local"
+            android:id="@+id/tv_op_local"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
             android:paddingLeft="16dp"
             android:textSize="14sp"
             android:text="Asa Norte"
-            android:layout_below="@+id/top"
-            android:layout_alignLeft="@id/tv_descricao" />
+            android:layout_below="@+id/top_op"
+            android:layout_alignLeft="@id/tv_op_descricao" />
 
         <Button
-            android:id="@+id/btn_seemore"
-            android:layout_below="@id/descricao"
+            android:id="@+id/btn_op_seemore"
+            android:layout_below="@id/descricao_op"
             android:layout_marginTop="6dp"
             android:layout_marginLeft="16dp"
             android:layout_width="wrap_content"

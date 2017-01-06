@@ -11,6 +11,6 @@ import retrofit2.http.GET;
  */
 
 public interface NewsService {
-    @GET("noticias/")
+    @GET("news/")
     Call<List<News>> getNews();
 }

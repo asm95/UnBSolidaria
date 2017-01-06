@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/oportunidade_share"
+        android:id="@+id/noticia_share"
         android:icon="@drawable/ic_menu_share"
         android:title="@string/action_compartilhar"
         app:showAsAction="always" />
     <item
-        android:id="@+id/action_oportunidade_settings"
+        android:id="@+id/action_noticia_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" />

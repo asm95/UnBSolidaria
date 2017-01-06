@@ -8,8 +8,10 @@ public class News {
 
     private int id;
     private String titulo;
-    private String descricao;
-    private int photo;
+    private String subtitulo;
+    private String texto;
+    private String dataCadastro;
+    private String dataNoticia;
 
     public News(){}
 
@@ -21,12 +23,20 @@ public class News {
         return titulo;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getSubtitulo() {
+        return subtitulo;
     }
 
-    public int getPhoto() {
-        return photo;
+    public String getTexto() {
+        return texto;
+    }
+
+    public String getDataCadastro() {
+        return dataCadastro;
+    }
+
+    public String getDataNoticia() {
+        return dataNoticia;
     }
 
     public void setId(int id) {
@@ -37,11 +47,19 @@ public class News {
         this.titulo = titulo;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setSubtitulo(String subtitulo) {
+        this.subtitulo = subtitulo;
     }
 
-    public void setPhoto(int photo) {
-        this.photo = photo;
+    public void setTexto(String texto) {
+        this.texto = texto;
+    }
+
+    public void setDataCadastro(String dataCadastro) {
+        this.dataCadastro = dataCadastro;
+    }
+
+    public void setDataNoticia(String dataNoticia) {
+        this.dataNoticia = dataNoticia;
     }
 }

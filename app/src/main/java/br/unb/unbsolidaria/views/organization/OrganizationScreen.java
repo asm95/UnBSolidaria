@@ -22,6 +22,9 @@ import br.unb.unbsolidaria.R;
 import br.unb.unbsolidaria.entities.Organization;
 import br.unb.unbsolidaria.entities.User;
 import br.unb.unbsolidaria.persistence.DBHandler;
+import br.unb.unbsolidaria.views.ViewNews;
+
+import static br.unb.unbsolidaria.views.voluntary.VoluntaryScreen.ENABLE_JOIN;
 
 public class OrganizationScreen extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, EditProfile.UserProfileListener {
@@ -57,7 +60,7 @@ public class OrganizationScreen extends AppCompatActivity
 
         loadUserProfile();
 
-        MenuItem newsItem = mNavigationView.getMenu().getItem(0);
+        MenuItem newsItem = mNavigationView.getMenu().getItem(1);
         newsItem.setChecked(true);
         onNavigationItemSelected(newsItem);
     }
@@ -154,8 +157,12 @@ public class OrganizationScreen extends AppCompatActivity
         lastSelectedItem = id;
 
         if (id == R.id.orgv_sbNewsItem) {
+            userFragment = new ViewNews();
+            ft.add(R.id.ch_frameLayout,userFragment).commit();
+            Bundle bundle = new Bundle();
+            userFragment.setArguments(bundle);
+            bundle.putSerializable(ENABLE_JOIN,mLoggedUser);
             mActivityToolbar.setTitle("Novidades");
-            ft.commit();
         } else if (id == R.id.orgv_sbCreateOpportunityItem) {
             userFragment = new CreateOpportunity();
             ft.add(R.id.ch_frameLayout, userFragment).commit();

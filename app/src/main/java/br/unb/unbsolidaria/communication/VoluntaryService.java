@@ -1,5 +1,7 @@
 package br.unb.unbsolidaria.communication;
 
+import org.json.JSONObject;
+
 import br.unb.unbsolidaria.entities.Voluntary;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -18,5 +20,5 @@ public interface VoluntaryService {
     Call<Voluntary> putVoluntary(@Body Voluntary voluntary);
 
     @POST("rest-auth/login/")
-    Call<Voluntary> login(@Body String email, @Body String password);
+    Call<Voluntary> login(@Body JSONObject json);
 }

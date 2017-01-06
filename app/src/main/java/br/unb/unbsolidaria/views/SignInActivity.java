@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,15 +14,23 @@ import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import br.unb.unbsolidaria.R;
 import br.unb.unbsolidaria.communication.RestCommunication;
+import br.unb.unbsolidaria.communication.UserService;
 import br.unb.unbsolidaria.communication.VoluntaryService;
 import br.unb.unbsolidaria.entities.FormValidation;
+import br.unb.unbsolidaria.entities.Login;
 import br.unb.unbsolidaria.entities.User;
 import br.unb.unbsolidaria.entities.Voluntary;
 import br.unb.unbsolidaria.views.organization.OrganizationScreen;
 import br.unb.unbsolidaria.persistence.DBHandler;
 import br.unb.unbsolidaria.views.voluntary.VoluntaryScreen;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class SignInActivity extends AppCompatActivity {
@@ -82,13 +91,69 @@ public class SignInActivity extends AppCompatActivity {
         final String email = _emailText.getText().toString();
         final String password = _passwordText.getText().toString();
 
-        Handler handler = new Handler();
+        final JSONObject json = new JSONObject();
+
+        try {
+            json.put("username",email);
+            json.put("password",password);
+            json.put("email","");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        UserService userService = RestCommunication.createService(UserService.class);
+        Call<User> call = userService.login(new Login(email,password,""));
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                Log.i("REST","Login response: "+response.body());
+                User user = response.body();
+                if(user == null || user.getKey() == null || user.getKey().isEmpty()){
+                    progressDialog.dismiss();
+                    onLoginFailed(getString(R.string.error_wrong_credentials));
+                }else{
+                    user.setUsername(email);
+                    UserService userService1 = RestCommunication.createService(UserService.class);
+                    Call<User> call1 = userService1.getUser(user);
+                    call1.enqueue(new Callback<User>() {
+                        @Override
+                        public void onResponse(Call<User> call, Response<User> response) {
+                            String string = response.toString();
+                            Log.i("REST","Login response: "+string);
+                            User user1 = response.body();
+                            if(user1 == null){
+                                progressDialog.dismiss();
+                            }else{
+                                progressDialog.dismiss();
+                                onLoginSuccess(user1);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<User> call, Throwable t) {
+                            Log.i("REST","User error response: "+t);
+                            onLoginFailed(getString(R.string.error_wrong_credentials));
+                            progressDialog.dismiss();
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                onLoginFailed(getString(R.string.error_wrong_credentials));
+                progressDialog.dismiss();
+            }
+        });
+
+        /*Handler handler = new Handler();
 
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 // TODO: Implement REST OATH here
                 // local user account DB (see .persistency.DBHandler)
+
                 DBHandler instance;
 
                 instance = DBHandler.getInstance();
@@ -107,7 +172,7 @@ public class SignInActivity extends AppCompatActivity {
 
                 progressDialog.dismiss();
             }
-        }, 1000);
+        }, 1000);*/
 
     }
 
@@ -120,11 +185,11 @@ public class SignInActivity extends AppCompatActivity {
     public void onLoginSuccess(User user) {
         Intent nextIntent;
 
-        switch (user.getType()){
-            case organization:
+        switch (user.getTipo()){
+            case 1:
                 nextIntent = new Intent(this, OrganizationScreen.class);
                 break;
-            case voluntary:
+            case 0:
                 nextIntent = new Intent(this, VoluntaryScreen.class);
                 break;
             default:
@@ -150,12 +215,12 @@ public class SignInActivity extends AppCompatActivity {
             _emailText.setError(getString(R.string.error_field_required));
             valid = false;
         }
-        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        /*if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             _emailText.setError(getString(R.string.error_invalid_email));
             valid = false;
         } else {
             _emailText.setError(null);
-        }
+        }*/
 
         if (password.isEmpty()) {
             _passwordText.setError(getString(R.string.error_field_required));

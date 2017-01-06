@@ -14,6 +14,17 @@ public class User implements Serializable {
     private String      login;
     private String      password;
     private UserType    type;
+    private String key;
+    private String username;
+    private String first_name;
+    private String last_name;
+    private String email;
+    private String telefone;
+    private String descricao;
+    private int tipo;
+    private String sexo;
+    private String cpf;
+    private String cnpj;
 
     public enum UserType{
         organization, voluntary
@@ -51,6 +62,14 @@ public class User implements Serializable {
 
     public UserType getType(){
         return this.type;
+    }
+
+    public String getKey(){ return this.key; }
+
+    public int getTipo(){return this.tipo;}
+
+    public void setUsername(String username){
+        this.username = username;
     }
 
     public int getTypeInt(){

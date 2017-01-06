@@ -38,7 +38,7 @@ public class ViewOpportunities extends Fragment {
                              Bundle savedInstanceState) {
         View parentView = inflater.inflate(R.layout.fragment_opportunities_list, container, false);
 
-        mRecyclerView = (RecyclerView) parentView.findViewById(R.id.my_recycler_view);
+        mRecyclerView = (RecyclerView) parentView.findViewById(R.id.my_recycler_oportunity_view);
         mRecyclerView.setHasFixedSize(true);
 
         mLayoutManager = new LinearLayoutManager(getActivity());

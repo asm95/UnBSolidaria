@@ -25,7 +25,7 @@
         android:layout_alignParentStart="true">
 
         <TextView
-            android:id="@+id/tv_title"
+            android:id="@+id/tv_op_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -34,7 +34,7 @@
             style="@style/Base.TextAppearance.AppCompat.Large" />
 
         <ImageView
-            android:id="@+id/iv_logo"
+            android:id="@+id/iv_op_logo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
@@ -45,7 +45,7 @@
             android:layout_height="20dp" />
 
         <TextView
-            android:id="@+id/tv_description"
+            android:id="@+id/tv_op_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -57,35 +57,35 @@
             android:layout_gravity="center_horizontal" />
 
         <TextView
-            android:id="@+id/tv_org"
+            android:id="@+id/tv_op_org"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Organização: " />
 
         <TextView
-            android:id="@+id/tv_local"
+            android:id="@+id/tv_op_local"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Local: " />
 
         <TextView
-            android:id="@+id/tv_vaga"
+            android:id="@+id/tv_op_vaga"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Vagas: " />
 
         <TextView
-            android:id="@+id/tv_start"
+            android:id="@+id/tv_op_start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Inicio: " />
 
         <TextView
-            android:id="@+id/tv_end"
+            android:id="@+id/tv_op_end"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"

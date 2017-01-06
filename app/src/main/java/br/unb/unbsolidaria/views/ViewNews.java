@@ -1,9 +1,8 @@
 package br.unb.unbsolidaria.views;
 
-import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,12 +17,9 @@ import br.unb.unbsolidaria.Singleton;
 import br.unb.unbsolidaria.communication.NewsService;
 import br.unb.unbsolidaria.communication.RestCommunication;
 import br.unb.unbsolidaria.entities.News;
-import br.unb.unbsolidaria.entities.Opportunity;
 import br.unb.unbsolidaria.entities.User;
 import br.unb.unbsolidaria.persistence.DBHandler;
 import br.unb.unbsolidaria.utils.NewsAdapter;
-import br.unb.unbsolidaria.utils.OpportunitiesAdapter;
-import br.unb.unbsolidaria.views.voluntary.ViewOpportunities;
 import br.unb.unbsolidaria.views.voluntary.VoluntaryScreen;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,7 +29,7 @@ import retrofit2.Response;
  * Created by eduar on 05/01/2017.
  */
 
-public class ViewNews extends Fragment{
+public class ViewNews extends Fragment {
     private View parentView;
 
     private RecyclerView mRecyclerView;
@@ -50,10 +46,9 @@ public class ViewNews extends Fragment{
     User mUserProfile;
     DBHandler db_interface;
 
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        parentView = inflater.inflate(R.layout.fragment_opportunities_list, container, false);
+        parentView = inflater.inflate(R.layout.fragment_news_list, container, false);
         progressDialog = new ProgressDialog(getContext(),R.style.ProgessDialogTheme);
         db_interface = DBHandler.getInstance();
 
@@ -72,7 +67,7 @@ public class ViewNews extends Fragment{
             public void onResponse(Call<List<News>> call, Response<List<News>> response) {
                 Log.i("RESTAPI","Trabalhos response: "+response.body());
                 progressDialog.dismiss();
-                mRecyclerView = (RecyclerView) parentView.findViewById(R.id.my_recycler_view);
+                mRecyclerView = (RecyclerView) parentView.findViewById(R.id.my_recycler_noticia_view);
                 mRecyclerView.setHasFixedSize(true);
 
                 mLayoutManager = new LinearLayoutManager(getActivity());
@@ -91,7 +86,7 @@ public class ViewNews extends Fragment{
 
             @Override
             public void onFailure(Call<List<News>> call, Throwable t) {
-
+                progressDialog.dismiss();
             }
         });
         progressDialog.setCancelable(false);

@@ -21,6 +21,7 @@ import br.unb.unbsolidaria.views.SignInActivity;
 import br.unb.unbsolidaria.R;
 import br.unb.unbsolidaria.entities.User;
 import br.unb.unbsolidaria.entities.Voluntary;
+import br.unb.unbsolidaria.views.ViewNews;
 import br.unb.unbsolidaria.views.organization.EditProfile;
 import br.unb.unbsolidaria.persistence.DBHandler;
 
@@ -156,7 +157,11 @@ public class VoluntaryScreen extends AppCompatActivity
 
         if (id == R.id.volv_sbNewsItem) {
             mActivityToolbar.setTitle("Novidades");
-            ft.commit();
+            userFragment = new ViewNews();
+            ft.add(R.id.ch_frameLayout,userFragment).commit();
+            Bundle bundle = new Bundle();
+            userFragment.setArguments(bundle);
+            bundle.putSerializable(ENABLE_JOIN,mLoggedUser);
         } else if (id == R.id.volv_sbViewOpportunityItem) {
             userFragment = new ViewOpportunities();
             ft.add(R.id.ch_frameLayout, userFragment).commit();

@@ -2,6 +2,7 @@ package br.unb.unbsolidaria.persistence;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -74,8 +75,8 @@ public class DBHandler {
         if (deploy == null || deploy.getId() < 0)
             return false;
 
-        organizations.add(deploy);
         sql_interface.addOrganization(deploy);
+        organizations.add(deploy);
 
         return true;
     }
@@ -84,8 +85,8 @@ public class DBHandler {
         if (deploy == null || deploy.getId() < 0)
             return false;
 
-        voluntaries.add(deploy);
         sql_interface.addVoluntary(deploy);
+        voluntaries.add(deploy);
 
         return true;
     }
@@ -94,8 +95,8 @@ public class DBHandler {
         if (deploy == null || deploy.getId() < 0)
             return false;
 
-        users.add(deploy);
         sql_interface.addUser(deploy);
+        users.add(deploy);
 
         return true;
     }
@@ -124,17 +125,35 @@ public class DBHandler {
 
 
     public Opportunity getOpportunity (int id){
-        return opportunities.get(id);
+        return opportunities.get(id-1);
     }
 
     public List<Opportunity> getOpportunities() { return opportunities; }
 
     public Organization getOrganization (int id){
-        return organizations.get(id);
+        return organizations.get(id-1);
+    }
+
+    public boolean updateOrganization (Organization deploy){
+        int numRowsUpdated = sql_interface.updateOrganization(deploy);
+
+        if (numRowsUpdated > 1)
+            Log.w("DBHandler", "updateOrganization: " + numRowsUpdated + " entities have the same ID in the database");
+
+        return (numRowsUpdated>=1);
+    }
+
+    public boolean updateVoluntary (Voluntary deploy){
+        int numRowsUpdated = sql_interface.updateVoluntary(deploy);
+
+        if (numRowsUpdated > 1)
+            Log.w("DBHandler", "updateVoluntary: " + numRowsUpdated + " entities have the same ID in the database");
+
+        return (numRowsUpdated>=1);
     }
 
     public Voluntary getVoluntary (int id){
-        return voluntaries.get(id);
+        return voluntaries.get(id-1);
     }
 
     public User getUserByCredentials(String email, String password){

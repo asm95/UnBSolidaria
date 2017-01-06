@@ -2,6 +2,7 @@ package br.unb.unbsolidaria.views.organization;
 
 import android.app.ProgressDialog;
 import android.content.res.Resources;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import br.unb.unbsolidaria.R;
@@ -93,6 +95,11 @@ public class ViewOpportunities extends Fragment {
 
                 mList = response.body();
                 singleton.setOpportunityList(mList);
+
+                if (mList == null){
+                    Snackbar.make(getActivity().findViewById(android.R.id.content), getString(R.string.rest_server_connection_error), Snackbar.LENGTH_LONG).show();
+                    mList = new LinkedList<>();
+                }
 
                 //TODO: discuss user model implementation
                 //Box is used only in Voluntary application side because the join button in

@@ -233,6 +233,19 @@ public class DBSQL extends SQLiteOpenHelper {
         return item;
     }
 
+    //TODO: not all attributes of an voluntary are updated
+    public int updateVoluntary(Voluntary item) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues post = new ContentValues();
+
+        post.put(KEY_NAME, item.getName());
+        post.put(KEY_EMAIL, item.getEmail());
+        post.put(KEY_UNBNNUMBER, item.getUnbRegistrationNumber());
+        post.put(KEY_ADRESS, item.getAddress());
+
+        return db.update(TABLE_VOLUNTARY, post, KEY_ID+"="+item.getId(), null);
+    }
+
     public void delVoluntary(Voluntary item){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_VOLUNTARY, KEY_ID + " = ?",
@@ -305,6 +318,19 @@ public class DBSQL extends SQLiteOpenHelper {
                 cursor.getString(7), cursor.getString(8), cursor.getString(9));
 
         return item;
+    }
+
+    //TODO: not all attributes of an organization are updated
+    public int updateOrganization (Organization item){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues post = new ContentValues();
+
+        post.put(KEY_COMMERCIALNAME, item.getCommercialName());
+        post.put(KEY_EMAIL, item.getEmail());
+        post.put(KEY_WEBSITE, item.getWebsite());
+        post.put(KEY_CEP, item.getCep());
+
+        return db.update(TABLE_ORGANIZATION, post, KEY_ID+"="+item.getId(), null);
     }
 
     public void delOrganization(Organization item){

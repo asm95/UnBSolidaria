@@ -80,7 +80,7 @@ public class ViewNews extends Fragment {
                 singleton.setNewsList(mList);
 
                 if (mList == null){
-                    Snackbar.make(getActivity().findViewById(android.R.id.content), "Não foi possível se comunicar com o servidor", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(getActivity().findViewById(android.R.id.content), getString(R.string.rest_server_connection_error), Snackbar.LENGTH_LONG).show();
                     mList = new LinkedList<>();
                 }
 

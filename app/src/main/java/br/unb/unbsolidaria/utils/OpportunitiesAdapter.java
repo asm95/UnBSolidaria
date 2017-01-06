@@ -76,7 +76,7 @@ public class OpportunitiesAdapter extends RecyclerView.Adapter<OpportunitiesAdap
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(mContext, OpportunityAcitivity.class);
-                intent.putExtra("id",position);
+                intent.putExtra("id",position+1);
                 if (mLoggedUser != null){
                     intent.putExtra(ViewOpportunities.VIEW_MESSAGE, mLoggedUser);
                 }

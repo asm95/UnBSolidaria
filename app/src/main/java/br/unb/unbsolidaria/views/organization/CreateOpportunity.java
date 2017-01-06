@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import java.util.Calendar;
 import java.util.regex.Pattern;
@@ -23,7 +24,7 @@ import br.unb.unbsolidaria.R;
 import br.unb.unbsolidaria.entities.Opportunity;
 import br.unb.unbsolidaria.persistence.DBHandler;
 
-public class CreateOpportunity extends Fragment implements View.OnClickListener {
+public class CreateOpportunity extends Fragment implements View.OnClickListener, View.OnFocusChangeListener {
 
     private Calendar referenceCalendar;
     // each text field has its own date picker
@@ -42,6 +43,8 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener 
     private int maxDescLength;
 
     private Button btSend;
+
+    private LinearLayout llForm;
 
     // form checking related
     Pattern isTitleMinWords = Pattern.compile("^\\s*\\S+(?:\\s+\\S+){1,}\\s*$");
@@ -67,14 +70,18 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener 
         startDatePicker = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                etStartDate.setText(getString(R.string.co_tDateFormat, dayOfMonth, month, year));
+                etStartDate.setText(getString(R.string.co_tDateFormat, dayOfMonth, month+1, year));
             }
         }, currentYear, currentMonth, currentDay);
 
         endDatePicker = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                etEndDate.setText(getString(R.string.co_tDateFormat, dayOfMonth, month, year));
+                etEndDate.setText(getString(R.string.co_tDateFormat, dayOfMonth, month+1, year));
+                if (etDescription.getText().toString().equals(""))
+                    etDescription.requestFocus();
+                else
+                    llForm.requestFocus();
             }
         }, currentYear, currentMonth, currentDay);
 
@@ -93,8 +100,10 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener 
 
         etStartDate = (EditText)parentView.findViewById(R.id.co_etDateStart);
         etStartDate.setOnClickListener(this);
+        etStartDate.setOnFocusChangeListener(this);
         etEndDate = (EditText)parentView.findViewById(R.id.co_etDateEnd);
         etEndDate.setOnClickListener(this);
+        etEndDate.setOnFocusChangeListener(this);
         etTitle = (EditText)parentView.findViewById(R.id.co_etTitle);
         etLocal = (EditText)parentView.findViewById(R.id.co_etLocal);
         etSpots = (EditText)parentView.findViewById(R.id.co_etSpots);
@@ -102,6 +111,8 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener 
 
         btSend = (Button)parentView.findViewById(R.id.co_btSend);
         btSend.setOnClickListener(this);
+
+        llForm = (LinearLayout)parentView.findViewById(R.id.co_formPane);
 
         dbInterface = DBHandler.getInstance();
         if(dbInterface == null) {
@@ -118,10 +129,10 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.co_etDateStart:
-                startDatePicker.show();
+                //startDatePicker.show();
                 break;
             case R.id.co_etDateEnd:
-                endDatePicker.show();
+                //endDatePicker.show();
                 break;
             case R.id.co_btSend:
                 onSendClickHandler();
@@ -197,5 +208,20 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener 
                     }
                 });
         builder.show();
+    }
+
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        if (!hasFocus)
+            return;
+
+        switch (v.getId()) {
+            case R.id.co_etDateStart:
+                startDatePicker.show();
+                break;
+            case R.id.co_etDateEnd:
+                endDatePicker.show();
+                break;
+        }
     }
 }

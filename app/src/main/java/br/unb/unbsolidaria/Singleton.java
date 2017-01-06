@@ -2,6 +2,7 @@ package br.unb.unbsolidaria;
 
 import java.util.List;
 
+import br.unb.unbsolidaria.entities.News;
 import br.unb.unbsolidaria.entities.Opportunity;
 
 /**
@@ -10,21 +11,29 @@ import br.unb.unbsolidaria.entities.Opportunity;
 public class Singleton {
     private static Singleton ourInstance = new Singleton();
 
-    private List<Opportunity> mList;
-
-    public void setmList(List<Opportunity> mList) {
-        this.mList = mList;
-    }
-
-    public List<Opportunity> getmList() {
-
-        return mList;
-    }
+    private List<Opportunity> opportunityList;
+    private List<News> newsList;
 
     public static Singleton getInstance() {
         return ourInstance;
     }
 
     private Singleton() {
+    }
+
+    public List<Opportunity> getOpportunityList() {
+        return opportunityList;
+    }
+
+    public List<News> getNewsList() {
+        return newsList;
+    }
+
+    public void setOpportunityList(List<Opportunity> opportunityList) {
+        this.opportunityList = opportunityList;
+    }
+
+    public void setNewsList(List<News> newsList) {
+        this.newsList = newsList;
     }
 }

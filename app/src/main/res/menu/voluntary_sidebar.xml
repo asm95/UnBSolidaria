@@ -8,15 +8,15 @@
             android:title="Novidades" />
         <item
             android:id="@+id/volv_sbViewOpportunityItem"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_opportunity"
             android:title="Visualizar Oportunidades" />
         <item
             android:id="@+id/volv_sbEditProfileItem"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_edit_profile"
             android:title="Editar Perfil" />
         <item
             android:id="@+id/volv_sbExitItem"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_logout"
             android:title="Sair" />
     </group>
 

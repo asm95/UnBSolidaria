@@ -38,6 +38,9 @@ public class Opportunity {
     private Calendar startDate;
     private Calendar endDate;
 
+    private String data_inicio;
+    private String data_fim;
+
     private String organizacao;
 
     private Organization organization;
@@ -171,5 +174,21 @@ public class Opportunity {
 
     public void setOrganizacao(String organizacao) {
         this.organizacao = organizacao;
+    }
+
+    public void setData_inicio(String data_inicio) {
+        this.data_inicio = data_inicio;
+    }
+
+    public void setData_fim(String data_fim) {
+        this.data_fim = data_fim;
+    }
+
+    public String getData_inicio() {
+        return data_inicio;
+    }
+
+    public String getData_fim() {
+        return data_fim;
     }
 }

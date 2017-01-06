@@ -62,8 +62,8 @@ public class OpportunityAcitivity extends AppCompatActivity {
         local.setText( getString(R.string.ov_local, mList.get(id).getLocal()) );
         vagas.setText( getString(R.string.ov_vagas, String.valueOf(mList.get(id).getVagas())) );
 
-        start.setText( getString(R.string.ov_dateStart, mList.get(id).getStartDate()) );
-        end.setText( getString(R.string.ov_dateEnd, mList.get(id).getEndDate()) );
+        start.setText( getString(R.string.ov_dateStart, mList.get(id).getData_inicio()) );
+        end.setText( getString(R.string.ov_dateEnd, mList.get(id).getData_fim()) );
 
         scale = this.getResources().getDisplayMetrics().density;
         width = this.getResources().getDisplayMetrics().widthPixels - (int) (14 * scale + 0.5f);

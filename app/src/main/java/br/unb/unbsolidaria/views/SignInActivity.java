@@ -14,8 +14,11 @@ import android.widget.Toast;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import br.unb.unbsolidaria.R;
+import br.unb.unbsolidaria.communication.RestCommunication;
+import br.unb.unbsolidaria.communication.VoluntaryService;
 import br.unb.unbsolidaria.entities.FormValidation;
 import br.unb.unbsolidaria.entities.User;
+import br.unb.unbsolidaria.entities.Voluntary;
 import br.unb.unbsolidaria.views.organization.OrganizationScreen;
 import br.unb.unbsolidaria.persistence.DBHandler;
 import br.unb.unbsolidaria.views.voluntary.VoluntaryScreen;
@@ -39,8 +42,6 @@ public class SignInActivity extends AppCompatActivity {
             onLoginSuccess((User)getIntent().getSerializableExtra(LOGIN_MESSAGE));
             return;
         }
-
-
 
         setContentView(R.layout.activity_login);
 

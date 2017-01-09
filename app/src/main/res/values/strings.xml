@@ -4,7 +4,7 @@
     <!-- Login -->
     <string name="logo">Logo</string>
     <string name="user">Voluntário</string>
-    <string name="ass">Associação</string>
+    <string name="ass">Organização</string>
     <string name="name_ass">Razão Social</string>
     <string name="name_usr">Nome Completo</string>
     <string name="CPF">CPF</string>
@@ -39,7 +39,7 @@
     <!-- Signup -->
     <string-array name="su_AcountTypeOptions">
         <item>Voluntário</item>
-        <item>Associação</item>
+        <item>Organização</item>
     </string-array>
     <string name="su_request_progress">Requisição em andamento...</string>
     <string name="su_org_success">Conta criada com Sucesso!</string>

@@ -4,9 +4,10 @@
     <!-- Login -->
     <string name="logo">Logo</string>
     <string name="user">Voluntário</string>
-    <string name="ass">Associação</string>
+    <string name="ass">Organização</string>
     <string name="name_ass">Razão Social</string>
-    <string name="name_usr">Nome Completo</string>
+    <string name="name_usr_fisrt_name">Primeiro Nome</string>
+    <string name="name_usr_last_name">Último Nome</string>
     <string name="CPF">CPF</string>
     <string name="CNPJ">CNPJ</string>
     <string name="CPF_CNPJ">CPF/CNPJ</string>
@@ -18,6 +19,8 @@
     <string name="cep">CEP</string>
     <string name="new_account">Criar conta</string>
     <string name="prompt_email">Email</string>
+    <string name="description">Descrição</string>
+    <string name="phonenumber">Telefone</string>
     <string name="prompt_password">Senha</string>
     <string name="prompt_retype_password">Reescreva a Senha</string>
     <string name="action_sign_in">Entrar</string>
@@ -34,12 +37,16 @@
     <string name="error_db_connection">Não foi possível se conectar ao banco de dados.</string>
     <string name="error_wrong_credentials">Verifique se as credenciais estão corretas.</string>
     <string name="permission_rationale">Permissão de acesso aos contatos necessária para auto-completar email.</string>
-    <string name="process_autentication">Autenticando...</string>
+    <string name="process_autentication">Autenticando…</string>
 
     <!-- Signup -->
     <string-array name="su_AcountTypeOptions">
         <item>Voluntário</item>
-        <item>Associação</item>
+        <item>Organização</item>
+    </string-array>
+    <string-array name="su_GenderOptions">
+        <item>Masculino</item>
+        <item>Feminino</item>
     </string-array>
     <string name="su_request_progress">Requisição em andamento...</string>
     <string name="su_org_success">Conta criada com Sucesso!</string>

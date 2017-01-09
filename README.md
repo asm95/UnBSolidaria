@@ -2,43 +2,14 @@
 Aplicativo Android - Projeto UnB Solidária - Linguagens de Programação - 2/2016 - Universidade de Brasília
 
 
-##To-Do
+##Tarefas (TODO)
 
-Ver [issues](https://github.com/asm95/UnBSolidaria/issues)
+Tarefas a serem cumpridas no ciclo de desenvolvimento estão localizadas na área de _issues_ (problemas). Nesta, se encontram bugs encontrados, sugestão de funcionalidades ou mudança de estrutura (a fim de deixar o código mais limpo, rápido, legível, etc). É possível marcar contribuidores específicos e desenvolver um tópico de discursão reclacionado ao assunto. Não se esqueça de [visitá-lo](https://github.com/asm95/UnBSolidaria/issues). Contribuições também são bastante bem-vindas.
 
-##Code Style a ser seguido:
+##Estilo de Código (Code-Style)
 
-[Code Style for Contributors](https://source.android.com/source/code-style.html)
+Adotamos o [Code Style for Contributors](https://source.android.com/source/code-style.html) elaborado pela equipe do Android com finalidade facilitar a leitura do código fonte por outros desenvolvedores de Android. Assim como os _Design Patterns_ de Java, esta padronização também acelera na compreensão por outros desenvolvedores android porque a lógica por trás da sintaxe é a mesma.
 
-## Guia Básico Git
+##Wiki
 
-###Configuração prévia:
-* Instale o Git no seu computador
-* Clone o repositório para o seu computador:
-```
-git clone https://github.com/asm95/UnBSolidaria.git
-```
-
-Trabalhando com Branches:
-
-###_Branches_ (Ramos):
-* _Branches_ são caminhos que você pode criar no código
-* Git permite mesclar ramos
-* Basicamente: se você quer criar uma nova funcionalidade, crie em um novo ramo - pois esta nova funcionalidade ainda não foi aprovada pelo resto da equipe. Assim você pode trabalhar na nova ideia de forma que as funcionalidades antigas permançam intactas em um _branch_ separado. Se sua implementação for aprovada, será feito um _merge_ do seu ramo com o original (_master_) para que ele receba a nova funcionalidade.
-
-Para verificar a lista de ramos e o ramo atual que você está trabalhando, execute:
-```
-git branch
-```
-Para criar um Branch e já começar a usá-lo:
-```
-git checkout -b [name_do_branch]
-```
-
-###_Merge_
-Um dos membros da equipe ficará responsável pelo _merge_
-* Funcionalidade são separadas em Branches de cada um e serão _merged_ com o _master branch_
- 
-
-###Créditos
-* [getting-started-git-team-environment](https://www.sitepoint.com/getting-started-git-team-environment/)
+Vemos o Wiki como uma peça fundamental em qualquer projeto de médio-porte e andiante. Isto porque, nela se pode elaborar artigos com intuito de facilitar a adaptação de novos desenvolvedores ao ambiente de trabalho construido ao longo do tempo. Não seriam necessários retrabalhos complexos de pesquisa para compreender como o projeto foi desenvolvido, pois toda a filosofia estaria documentada e pesquisável por meio dessas páginas. Um bom exemplo disso são as diveras frameworks que adotam este modelo para acelerar a adaptação de novos usuários. Não esqueça de visitar a [nossa página](https://github.com/asm95/UnBSolidaria/wiki).

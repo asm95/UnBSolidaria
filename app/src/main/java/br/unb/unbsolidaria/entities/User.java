@@ -25,6 +25,21 @@ public class User implements Serializable {
     private String sexo;
     private String cpf;
     private String cnpj;
+    private String endereco;
+
+    public User(String username, String first_name, String last_name, String email,
+                String telefone, String descricao, int tipo, String sexo, String cpf, String cnpj){
+        this.username = username;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.email = email;
+        this.telefone = telefone;
+        this.descricao = descricao;
+        this.tipo = tipo;
+        this.sexo = sexo;
+        this.cpf = cpf;
+        this.cnpj = cnpj;
+    }
 
     public enum UserType{
         organization, voluntary
@@ -67,6 +82,48 @@ public class User implements Serializable {
     public String getKey(){ return this.key; }
 
     public int getTipo(){return this.tipo;}
+
+    public String getEndereco(){return this.endereco;}
+
+    public void setEndereco(String endereco){
+        this.endereco = endereco;
+    }
+
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
+    }
+
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
+    }
 
     public void setUsername(String username){
         this.username = username;

@@ -91,16 +91,6 @@ public class SignInActivity extends AppCompatActivity {
         final String email = _emailText.getText().toString();
         final String password = _passwordText.getText().toString();
 
-        final JSONObject json = new JSONObject();
-
-        try {
-            json.put("username",email);
-            json.put("password",password);
-            json.put("email","");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
         UserService userService = RestCommunication.createService(UserService.class);
         Call<User> call = userService.login(new Login(email,password,""));
         call.enqueue(new Callback<User>() {
@@ -211,11 +201,11 @@ public class SignInActivity extends AppCompatActivity {
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
 
-        if (email.isEmpty()) {
+        /*if (email.isEmpty()) {
             _emailText.setError(getString(R.string.error_field_required));
             valid = false;
         }
-        /*if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             _emailText.setError(getString(R.string.error_invalid_email));
             valid = false;
         } else {

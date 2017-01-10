@@ -13,14 +13,14 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface OpportunityService {
-  /*  //Post de uma organizacao
-    @POST("organizations/")
+    //Post de uma organizacao
+    @POST("trabalhos/")
     Call<Organization> postOrganization(@Body Organization organization);
 
-    //Put de uma organizacao
-    @PUT("/organizations/{id}")
-    Call<Organization> putOrganization(@Body Organization organization, @Path("id") String id);
-*/
+  /*    //Put de uma organizacao
+      @PUT("/organizations/{id}")
+      Call<Organization> putOrganization(@Body Organization organization, @Path("id") String id);
+  */
     //Get lista de organizacoes
     @GET("trabalhos/")
     Call<List<Opportunity>> getOpportunities();

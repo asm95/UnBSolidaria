@@ -25,6 +25,7 @@ public class User implements Serializable {
     private String sexo;
     private String cpf;
     private String cnpj;
+    private String endereco;
 
     public User(String username, String first_name, String last_name, String email,
                 String telefone, String descricao, int tipo, String sexo, String cpf, String cnpj){
@@ -81,6 +82,12 @@ public class User implements Serializable {
     public String getKey(){ return this.key; }
 
     public int getTipo(){return this.tipo;}
+
+    public String getEndereco(){return this.endereco;}
+
+    public void setEndereco(String endereco){
+        this.endereco = endereco;
+    }
 
     public void setFirst_name(String first_name) {
         this.first_name = first_name;

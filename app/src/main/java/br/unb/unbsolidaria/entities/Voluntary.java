@@ -81,6 +81,10 @@ public class Voluntary implements Serializable {
         this.name = name;
     }
 
+    public void setId(int id){
+        this.id = id;
+    }
+
     public String getSurname() {
         return surname;
     }

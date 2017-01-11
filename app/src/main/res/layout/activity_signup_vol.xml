@@ -105,7 +105,7 @@
             android:maxLength="9"/>
     </android.support.design.widget.TextInputLayout>
 
-    <!-- Gender Label -->
+    <!-- Gender Spinner Label -->
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

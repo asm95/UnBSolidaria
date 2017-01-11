@@ -42,6 +42,8 @@ public class Opportunity {
     private String data_fim;
 
     private String organizacao;
+    private String autor;
+    private String email;
 
     private Organization organization;
     private LinkedList<Voluntary> approvedVoluntaries = null;
@@ -57,6 +59,19 @@ public class Opportunity {
 
     public Opportunity() {
     }
+
+    public Opportunity(String titulo, String descricao, String autor, String email, int vagas,
+                       String data_inicio, String data_fim, String organizacao){
+        this.titulo = titulo;
+        this.descricao = descricao;
+        this.autor = autor;
+        this.email = email;
+        this.vagas = vagas;
+        this.data_inicio = data_inicio;
+        this.data_fim = data_fim;
+        this.organizacao = organizacao;
+    }
+
     public Opportunity(int id, String address, int nPositions, String title,
                        String description, Calendar startDate, Calendar endDate,
                        Organization organization, int photo) {

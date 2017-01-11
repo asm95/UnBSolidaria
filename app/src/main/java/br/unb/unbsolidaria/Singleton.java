@@ -4,12 +4,19 @@ import java.util.List;
 
 import br.unb.unbsolidaria.entities.News;
 import br.unb.unbsolidaria.entities.Opportunity;
+import br.unb.unbsolidaria.entities.Organization;
+import br.unb.unbsolidaria.entities.Voluntary;
 
 /**
  * Created by eduar on 04/01/2017.
  */
 public class Singleton {
     private static Singleton ourInstance = new Singleton();
+
+    private Voluntary voluntary;
+    private Organization organization;
+
+    public static final String url = "http://164.41.209.169/users/";
 
     private List<Opportunity> opportunityList;
     private List<News> newsList;
@@ -27,6 +34,22 @@ public class Singleton {
 
     public List<News> getNewsList() {
         return newsList;
+    }
+
+    public Voluntary getVoluntary(){
+        return this.voluntary;
+    }
+
+    public Organization getOrganization(){
+        return this.organization;
+    }
+
+    public void setOrganization(Organization organization){
+        this.organization = organization;
+    }
+
+    public void setVoluntary(Voluntary voluntary){
+        this.voluntary = voluntary;
     }
 
     public void setOpportunityList(List<Opportunity> opportunityList) {

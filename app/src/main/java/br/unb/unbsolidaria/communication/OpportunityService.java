@@ -15,7 +15,7 @@ import retrofit2.http.Query;
 public interface OpportunityService {
     //Post de uma organizacao
     @POST("trabalhos/")
-    Call<Organization> postOrganization(@Body Organization organization);
+    Call<Opportunity> postOpportunities(@Body Opportunity opportunity);
 
   /*    //Put de uma organizacao
       @PUT("/organizations/{id}")

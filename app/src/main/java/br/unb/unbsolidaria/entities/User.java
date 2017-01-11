@@ -26,9 +26,10 @@ public class User implements Serializable {
     private String cpf;
     private String cnpj;
     private String endereco;
+    private String cep;
 
     public User(String username, String first_name, String last_name, String email,
-                String telefone, String descricao, int tipo, String sexo, String cpf, String cnpj){
+                String telefone, String descricao, int tipo, String sexo, String cpf, String cnpj, String cep){
         this.username = username;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -39,6 +40,7 @@ public class User implements Serializable {
         this.sexo = sexo;
         this.cpf = cpf;
         this.cnpj = cnpj;
+        this.cep = cep;
     }
 
     public enum UserType{
@@ -84,6 +86,16 @@ public class User implements Serializable {
     public int getTipo(){return this.tipo;}
 
     public String getEndereco(){return this.endereco;}
+
+    public String getCep(){return this.cep;}
+
+    public void setKey(String key){
+        this.key = key;
+    }
+
+    public void setCep(String cep){
+        this.cep = cep;
+    }
 
     public void setEndereco(String endereco){
         this.endereco = endereco;

@@ -18,11 +18,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import br.unb.unbsolidaria.R;
+import br.unb.unbsolidaria.Singleton;
 import br.unb.unbsolidaria.communication.RestCommunication;
 import br.unb.unbsolidaria.communication.UserService;
 import br.unb.unbsolidaria.communication.VoluntaryService;
 import br.unb.unbsolidaria.entities.FormValidation;
 import br.unb.unbsolidaria.entities.Login;
+import br.unb.unbsolidaria.entities.Organization;
 import br.unb.unbsolidaria.entities.User;
 import br.unb.unbsolidaria.entities.Voluntary;
 import br.unb.unbsolidaria.views.organization.OrganizationScreen;
@@ -35,6 +37,7 @@ import retrofit2.Response;
 
 public class SignInActivity extends AppCompatActivity {
     private FirebaseAnalytics mFirebaseAnalytics;
+    private Singleton singleton = Singleton.getInstance();
     private EditText _emailText;
     private EditText _passwordText;
     private Button _loginButton;
@@ -177,9 +180,15 @@ public class SignInActivity extends AppCompatActivity {
 
         switch (user.getTipo()){
             case 1:
+                Organization organization = new Organization();
+                organization.setId(user.getId());
+                singleton.setOrganization(organization);
                 nextIntent = new Intent(this, OrganizationScreen.class);
                 break;
             case 0:
+                Voluntary voluntary = new Voluntary();
+                voluntary.setId(user.getId());
+                singleton.setVoluntary(voluntary);
                 nextIntent = new Intent(this, VoluntaryScreen.class);
                 break;
             default:

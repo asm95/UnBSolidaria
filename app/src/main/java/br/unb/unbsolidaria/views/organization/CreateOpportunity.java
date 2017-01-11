@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +21,18 @@ import java.util.Calendar;
 import java.util.regex.Pattern;
 
 import br.unb.unbsolidaria.R;
+import br.unb.unbsolidaria.Singleton;
+import br.unb.unbsolidaria.communication.OpportunityService;
+import br.unb.unbsolidaria.communication.RestCommunication;
 import br.unb.unbsolidaria.entities.Opportunity;
 import br.unb.unbsolidaria.persistence.DBHandler;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CreateOpportunity extends Fragment implements View.OnClickListener {
+
+    private Singleton singleton = Singleton.getInstance();
 
     private Calendar referenceCalendar;
     // each text field has its own date picker
@@ -36,6 +45,8 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener 
     private EditText etSpots;
     private EditText etStartDate;
     private EditText etEndDate;
+    private EditText etEmail;
+    private EditText etAutor;
 
     private EditText etDescription;
     private int minDescLength;
@@ -67,14 +78,14 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener 
         startDatePicker = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                etStartDate.setText(getString(R.string.co_tDateFormat, dayOfMonth, month, year));
+                etStartDate.setText(getString(R.string.co_tDateFormat, year, month+1, dayOfMonth));
             }
         }, currentYear, currentMonth, currentDay);
 
         endDatePicker = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                etEndDate.setText(getString(R.string.co_tDateFormat, dayOfMonth, month, year));
+                etEndDate.setText(getString(R.string.co_tDateFormat, year, month+1, dayOfMonth));
             }
         }, currentYear, currentMonth, currentDay);
 
@@ -96,9 +107,10 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener 
         etEndDate = (EditText)parentView.findViewById(R.id.co_etDateEnd);
         etEndDate.setOnClickListener(this);
         etTitle = (EditText)parentView.findViewById(R.id.co_etTitle);
-        etLocal = (EditText)parentView.findViewById(R.id.co_etLocal);
         etSpots = (EditText)parentView.findViewById(R.id.co_etSpots);
         etDescription = (EditText) parentView.findViewById(R.id.co_etDescription);
+        etEmail = (EditText) parentView.findViewById(R.id.co_etEmail);
+        etAutor = (EditText) parentView.findViewById(R.id.co_etAutor);
 
         btSend = (Button)parentView.findViewById(R.id.co_btSend);
         btSend.setOnClickListener(this);
@@ -158,11 +170,13 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener 
         }
 
         //proceed with opportunity creation with Database
-        String local = etLocal.getText().toString();
+        //String local = etLocal.getText().toString();
         String startDate = etStartDate.getText().toString();
         String endDate = etEndDate.getText().toString();
+        String email = etEmail.getText().toString();
+        String autor = etAutor.getText().toString();
 
-        Opportunity deploy = new Opportunity(dbInterface.getOpportunityCount()+1, local, spots,
+        /*Opportunity deploy = new Opportunity(dbInterface.getOpportunityCount()+1, local, spots,
                 title, description, DBHandler.getCalendar(startDate), DBHandler.getCalendar(endDate),
                 parentInterface.getUserProfile());
 
@@ -170,7 +184,34 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener 
         if (!db_sucess){
             setUpFormDialog("Ocorreu um erro na comunicação com o Banco de Dados. Tente novamente mais tarde.");
             parentInterface.restart();
-        }
+        }*/
+
+        String organizacaoID = Singleton.url + singleton.getOrganization().getId()+"/";
+        OpportunityService opportunityService = RestCommunication.createService(OpportunityService.class);
+        Call<Opportunity> call = opportunityService.postOpportunities(
+                new Opportunity(title,description,autor,email,spots,startDate,endDate,organizacaoID));
+        Log.i("Opportunity","titulo: "+title+" Descricao: "+description);
+        Log.i("Opportunity","autor: "+autor+" email: "+email+" vagas: "+spots);
+        Log.i("Opportunity","Data inicio: "+startDate+" Data fim: "+endDate);
+        Log.i("Opportunity","organizatioID: "+organizacaoID);
+        call.enqueue(new Callback<Opportunity>() {
+            @Override
+            public void onResponse(Call<Opportunity> call, Response<Opportunity> response) {
+                Log.i("REST","Opportunity code: "+response.code()+" response: "+response.message());
+                Opportunity opportunity = response.body();
+                if(opportunity == null){
+                    Log.i("REST","Opportunity response body: "+response.body());
+                    Log.i("REST","Opportnity response: "+response);
+                }else{
+                    Log.i("REST","Opportunity deu bom");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Opportunity> call, Throwable t) {
+
+            }
+        });
 
         //handle sucess feedback to user
         setUpFormDialog("Oportunidade publicada com sucesso.");

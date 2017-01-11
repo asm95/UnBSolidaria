@@ -16,22 +16,24 @@
         tools:showIn="@layout/fragment_create_opportunity"
         android:paddingRight="24dp">
 
+        <!-- Local Label -->
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:id="@+id/co_etLocal"
+            android:id="@+id/co_etAutor"
             android:inputType="textPostalAddress"
-            android:layout_alignBaseline="@+id/co_tvLocal"
-            android:layout_alignBottom="@+id/co_tvLocal"
+            android:layout_alignBaseline="@+id/co_tvAutor"
+            android:layout_alignBottom="@+id/co_tvAutor"
             android:layout_alignParentEnd="true"
-            android:layout_toRightOf="@+id/co_tvLocal"
+            android:layout_toRightOf="@+id/co_tvAutor"
             android:layout_marginStart="4dp"
             android:cursorVisible="false"
             android:editable="false"
             android:hapticFeedbackEnabled="false"
             android:enabled="true" />
 
+        <!-- Vagas Label -->
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -48,6 +50,7 @@
             android:enabled="true"
             android:inputType="number" />
 
+        <!-- Title Titulo -->
         <TextView
             android:text="Título:"
             android:layout_width="wrap_content"
@@ -56,30 +59,13 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_marginLeft="0dp"
             android:layout_marginTop="15dp"
-            android:layout_alignStart="@+id/co_etDescription"
-            />
+            android:layout_alignStart="@+id/co_etDescription" />
 
-        <Button
-            android:text="Enviar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/co_btSend"
-            android:layout_marginLeft="153dp"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/co_etDescription"
-            android:layout_marginTop="20dp" />
+        <!-- Button -->
 
-        <TextView
-            android:text="Data de Término:"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/co_tvDateEnd"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            tools:layout_constraintTop_creator="1"
-            android:layout_marginTop="30dp"
-            android:layout_below="@+id/co_tvDateStart"
-            android:layout_alignStart="@+id/co_tvTitle" />
+        <!-- Title Data Termino -->
 
+        <!-- Title Data Inicio -->
         <TextView
             android:text="Data de Início:"
             android:layout_width="wrap_content"
@@ -91,35 +77,11 @@
             android:layout_alignEnd="@+id/co_tvDateEnd"
             android:layout_below="@+id/co_tvSpots" />
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:id="@+id/co_etDateStart"
-            android:inputType=""
-            android:layout_alignBaseline="@+id/co_tvDateStart"
-            android:layout_alignBottom="@+id/co_tvDateStart"
-            android:layout_alignParentEnd="true"
-            android:layout_toRightOf="@+id/co_tvDateStart"
-            android:layout_marginStart="4dp"
-            android:cursorVisible="false"
-            android:editable="false"
-            android:hapticFeedbackEnabled="false"
-            android:enabled="true" />
+        <!-- Data Inicio Label -->
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:id="@+id/co_etDateEnd"
-            android:inputType=""
-            android:layout_alignBaseline="@+id/co_tvDateEnd"
-            android:layout_alignBottom="@+id/co_tvDateEnd"
-            android:layout_alignParentEnd="true"
-            android:layout_toRightOf="@+id/co_tvDateEnd"
-            android:layout_marginLeft="4dp"
-            android:editable="false" />
+        <!-- Data Termino Label -->
 
+        <!-- Titulo Label -->
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -133,48 +95,122 @@
             android:layout_marginStart="4dp"
             android:capitalize="sentences" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            android:ems="10"
-            android:id="@+id/co_etDescription"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/co_tvDescription"
-            android:layout_marginTop="10dp" />
+        <!-- Email Label -->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/co_tvDescription"
-            android:text="Descrição"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/co_tvDateEnd"
-            android:layout_marginTop="35dp" />
+        <!-- Title Email -->
 
+        <!-- Descricao Label -->
+
+        <!-- Title Descricao -->
+
+        <!-- Title Local -->
         <TextView
-            android:text="Local:"
+            android:text="Autor:"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/co_etTitle"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_alignParentStart="true"
-            android:id="@+id/co_tvLocal"
+            android:id="@+id/co_tvAutor"
             android:layout_alignEnd="@+id/co_tvDateEnd"
             android:layout_alignStart="@+id/co_tvTitle"
             android:layout_marginTop="20dp" />
 
+        <!-- Title Vagas -->
         <TextView
             android:text="Vagas:"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/co_tvLocal"
+            android:layout_below="@+id/co_tvAutor"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_alignParentStart="true"
             android:id="@+id/co_tvSpots"
             android:layout_alignEnd="@+id/co_tvDateEnd"
             android:layout_alignStart="@+id/co_tvTitle"
             android:layout_marginTop="22dp" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:id="@+id/co_etDateStart"
+            android:inputType=""
+            android:cursorVisible="false"
+            android:hapticFeedbackEnabled="false"
+            android:enabled="true"
+            android:layout_alignBaseline="@+id/co_tvDateStart"
+            android:layout_alignBottom="@+id/co_tvDateStart"
+            android:layout_alignStart="@+id/co_etSpots" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:id="@+id/co_etDateEnd"
+            android:inputType=""
+            android:layout_marginLeft="4dp"
+            android:layout_below="@+id/co_etDateStart"
+            android:layout_alignParentEnd="true"
+            android:layout_alignStart="@+id/co_etDateStart" />
+
+        <TextView
+            android:text="Data de Término:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/co_tvDateEnd"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            tools:layout_constraintTop_creator="1"
+            android:layout_alignBaseline="@+id/co_etDateEnd"
+            android:layout_alignBottom="@+id/co_etDateEnd"
+            android:layout_alignParentStart="true" />
+
+        <Button
+            android:text="Enviar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/co_btSend"
+            android:layout_marginLeft="153dp"
+            android:layout_marginTop="42dp"
+            android:layout_below="@+id/co_etDescription"
+            android:layout_centerHorizontal="true" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:id="@+id/co_etDescription"
+            android:layout_marginTop="38dp"
+            android:layout_below="@+id/co_tvDescription"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/co_tvDescription"
+            android:text="Descrição"
+            android:layout_marginTop="22dp"
+            android:layout_below="@+id/co_tvEmail"
+            android:layout_toEndOf="@+id/co_tvDateEnd" />
+
+        <TextView
+            android:id="@+id/co_tvEmail"
+            android:text="Email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/co_etDateEnd"
+            android:layout_alignParentStart="true" />
+
+        <EditText
+            android:id="@+id/co_etEmail"
+            android:inputType="textEmailAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/co_tvEmail"
+            android:layout_alignBottom="@+id/co_tvEmail"
+            android:layout_alignParentEnd="true"
+            android:layout_alignStart="@+id/co_etDateStart" />
 
     </RelativeLayout>
 

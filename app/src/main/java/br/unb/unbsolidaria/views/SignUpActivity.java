@@ -124,6 +124,25 @@ public class SignUpActivity extends AppCompatActivity {
                         base_layout.addView(volForm, 1);
                         _signupButton = (Button)volForm.findViewById(R.id.btn_signup);
                         curView = volForm;
+                        _GenderChooser = (Spinner) curView.findViewById(R.id.su_GenderOptions);
+                        _GenderChooser.setSelection(0);
+                        _GenderChooser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                                switch (position){
+                                    case 0:
+                                        gender = "m";
+                                        break;
+                                    case 1:
+                                        gender = "f";
+                                }
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> adapterView) {
+
+                            }
+                        });
                         break;
                     case 1:
                         tipo = 1;
@@ -153,24 +172,6 @@ public class SignUpActivity extends AppCompatActivity {
 
             }
         });
-        _GenderChooser = (Spinner) findViewById(R.id.su_GenderOptions);
-        _GenderChooser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                switch (position){
-                    case 0:
-                        gender = "m";
-                        break;
-                    case 1:
-                        gender = "f";
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
 
 
         Button btn_signup_org;
@@ -191,7 +192,7 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
         _usernameText = (EditText) findViewById(R.id.user_name);
-        _firstnameText = (EditText) findViewById(R.id.input_name);
+        _firstnameText = (EditText) findViewById(R.id.input_first_name);
         _lastnameText = (EditText) findViewById(R.id.input_last_name);
         _emailText = (EditText) findViewById(R.id.input_email);
         _passwordText = (EditText) findViewById(R.id.input_password);
@@ -200,6 +201,8 @@ public class SignUpActivity extends AppCompatActivity {
         _cepText = (EditText) findViewById(R.id.input_cep);
         _descriptionText = (EditText) findViewById(R.id.input_description);
         _telefoneText = (EditText) findViewById(R.id.input_phonenumber);
+        //_GenderChooser = (Spinner) findViewById(R.id.su_GenderOptions);
+        //_GenderChooser.setSelection(0);
 
         _cepText.addTextChangedListener(new LoginTextWatcher(_cepText));
 
@@ -235,11 +238,12 @@ public class SignUpActivity extends AppCompatActivity {
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
+                Log.i("Signup","username: "+username+" email: "+email+" password1: "+password+"password2:"+rPassword);
                 Log.i("REST","Signup response: "+response.toString());
                 final User user = response.body();
                 if(user == null || user.getKey() == null || user.getKey().isEmpty()){
                     progressDialog.dismiss();
-                    Log.i("REST","Signup deu ruim");
+                    Log.i("REST","Signup deu ruim user: "+user+" response: "+response.message()+" code: "+response.code());
                     onSignupFailed();
                 }else{
                     user.setUsername(username);
@@ -253,6 +257,9 @@ public class SignUpActivity extends AppCompatActivity {
                     user.setTelefone(telefone);
                     user.setEndereco(address);
                     user.setSexo(gender);
+                    user.setCep(cep);
+
+                    Log.i("SIgnup","sexo: "+gender);
 
                     UserService userService1 = RestCommunication.createService(UserService.class);
                     Call<RetrofitResponse> call1 = userService1.setUser(user);
@@ -267,7 +274,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 onSignupSuccess(user);
                                 Log.i("REST","Signup deu bom");
                             }else{
-                                Log.i("REST","Signup deu ruim");
+                                Log.i("REST","Signup deu ruim RetrofitResponse: "+retrofitResponse+"response: "+response.message());
                                 onSignupFailed();
                             }
                         }
@@ -397,10 +404,10 @@ public class SignUpActivity extends AppCompatActivity {
         boolean valid = true;
 
         _cpfcnpjText = (EditText) orgForm.findViewById(R.id.input_cpf_cnpj);
-        _websiteText = (EditText) orgForm.findViewById(R.id.input_site);
+        //_websiteText = (EditText) orgForm.findViewById(R.id.input_site);
 
         cnpj = _cpfcnpjText.getText().toString();
-        site = _websiteText.getText().toString();
+        //site = _websiteText.getText().toString();
         address = (findViewById(R.id.input_address)).toString();
 
         if (!FormValidation.isValidCNPJ(cnpj)) {
@@ -410,12 +417,12 @@ public class SignUpActivity extends AppCompatActivity {
             _cpfcnpjText.setError(null);
         }
 
-        if (!android.util.Patterns.WEB_URL.matcher(site).matches() || site.isEmpty()) {
+        /*if (!android.util.Patterns.WEB_URL.matcher(site).matches() || site.isEmpty()) {
             _websiteText.setError(null);
         } else {
             _websiteText.setError("insira um website válido");
             valid = false;
-        }
+        }*/
 
         return valid;
     }

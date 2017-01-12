@@ -6,6 +6,7 @@
     <string name="user">Voluntário</string>
     <string name="ass">Organização</string>
     <string name="name_ass">Razão Social</string>
+    <string name="name_usr">Nome Completo</string>
     <string name="name_usr_fisrt_name">Primeiro Nome</string>
     <string name="name_usr_last_name">Último Nome</string>
     <string name="CPF">CPF</string>
@@ -63,12 +64,17 @@
     <string name="ov_vagas">"Vagas: %1$s"</string>
     <string name="ov_dateStart">"Data de Início: %1$s"</string>
     <string name="ov_dateEnd">"Data de Término: %1$s"</string>
+    <!-- Edit Profile (ep) -->
+    <string name="ep_submit_sucess">Perfil atualizado com sucesso!</string>
+    <string name="ep_submit_fail">Não foi possível atualizar informações de perfil.</string>
     
 
     <string name="title_activity_main">MainActivity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="rest_server_connection_error">Não foi possível se comunicar com o servidor</string>
 
     <string name="action_settings">Settings</string>
 

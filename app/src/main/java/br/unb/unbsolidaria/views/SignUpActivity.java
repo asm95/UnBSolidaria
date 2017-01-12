@@ -154,6 +154,7 @@ public class SignUpActivity extends AppCompatActivity {
                         curView = volForm;
                 }
 
+                _usernameText = (EditText) curView.findViewById(R.id.user_name);
                 _firstnameText = (EditText) curView.findViewById(R.id.input_first_name);
                 _lastnameText = (EditText) curView.findViewById(R.id.input_last_name);
                 _emailText = (EditText) curView.findViewById(R.id.input_email);

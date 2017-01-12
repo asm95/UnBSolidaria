@@ -89,6 +89,24 @@ public class User implements Serializable {
 
     public String getCep(){return this.cep;}
 
+    public String getFirst_name(){return this.first_name;}
+
+    public String getLast_name(){return this.last_name;}
+
+    public String getUsername(){return this.username;}
+
+    public String getCpf(){return this.cpf;}
+
+    public String getEmail(){return this.email;}
+
+    public String getTelefone(){return this.telefone;}
+
+    public String getDescricao(){return this.descricao;}
+
+    public String getCnpj(){return this.cnpj;}
+
+    public String getSexo(){return this.sexo;}
+
     public void setKey(String key){
         this.key = key;
     }

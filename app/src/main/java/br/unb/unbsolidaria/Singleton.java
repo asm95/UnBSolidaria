@@ -5,6 +5,7 @@ import java.util.List;
 import br.unb.unbsolidaria.entities.News;
 import br.unb.unbsolidaria.entities.Opportunity;
 import br.unb.unbsolidaria.entities.Organization;
+import br.unb.unbsolidaria.entities.User;
 import br.unb.unbsolidaria.entities.Voluntary;
 
 /**
@@ -13,8 +14,7 @@ import br.unb.unbsolidaria.entities.Voluntary;
 public class Singleton {
     private static Singleton ourInstance = new Singleton();
 
-    private Voluntary voluntary;
-    private Organization organization;
+    private User user;
 
     public static final String url = "http://164.41.209.169/users/";
 
@@ -36,20 +36,10 @@ public class Singleton {
         return newsList;
     }
 
-    public Voluntary getVoluntary(){
-        return this.voluntary;
-    }
+    public User getUser(){return this.user;}
 
-    public Organization getOrganization(){
-        return this.organization;
-    }
-
-    public void setOrganization(Organization organization){
-        this.organization = organization;
-    }
-
-    public void setVoluntary(Voluntary voluntary){
-        this.voluntary = voluntary;
+    public void setUser(User user){
+        this.user = user;
     }
 
     public void setOpportunityList(List<Opportunity> opportunityList) {

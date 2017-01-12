@@ -186,7 +186,7 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener 
             parentInterface.restart();
         }*/
 
-        String organizacaoID = Singleton.url + singleton.getOrganization().getId()+"/";
+        String organizacaoID = Singleton.url + singleton.getUser().getId()+"/";
         OpportunityService opportunityService = RestCommunication.createService(OpportunityService.class);
         Call<Opportunity> call = opportunityService.postOpportunities(
                 new Opportunity(title,description,autor,email,spots,startDate,endDate,organizacaoID));

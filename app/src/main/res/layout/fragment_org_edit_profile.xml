@@ -17,17 +17,60 @@
         android:paddingLeft="24dp"
         android:paddingRight="24dp">
 
-        <!--  Name Label -->
+        <!--  UserName Label -->
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
-            <EditText android:id="@+id/input_name_ass"
+            <EditText android:id="@+id/edit_org_user_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textCapWords"
-                android:hint="@string/name_ass" />
+                android:hint="Username"
+                android:maxLength="50"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <!--  First Name Label -->
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+            <EditText android:id="@+id/edit_org_input_first_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords"
+                android:hint="@string/name_usr_fisrt_name"
+                android:maxLength="50"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <!--  Last Name Label -->
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+            <EditText android:id="@+id/edit_org_input_last_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords"
+                android:hint="@string/name_usr_last_name"
+                android:maxLength="50"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <!--  Telefone Label -->
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+            <EditText android:id="@+id/edit_org_input_phonenumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:hint="@string/phonenumber"
+                android:maxLength="50"/>
         </android.support.design.widget.TextInputLayout>
 
         <!-- CNPJ Label -->
@@ -36,24 +79,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
-            <EditText android:id="@+id/input_cnpj_ass"
+            <EditText android:id="@+id/edit_org_input_cpf_cnpj"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:editable="false"
-                android:hint="CNPJ"/>
-        </android.support.design.widget.TextInputLayout>
-
-        <!--Website Label -->
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
-            <EditText android:id="@+id/input_site_ass"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textNoSuggestions|textUri"
-                android:hint="@string/website"/>
+                android:inputType="number"
+                android:hint="@string/CPF_CNPJ"
+                android:maxLength="14"/>
         </android.support.design.widget.TextInputLayout>
 
         <!-- Address Label -->
@@ -62,7 +93,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
-            <EditText android:id="@+id/input_address_ass"
+            <EditText android:id="@+id/edit_org_input_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textCapWords"
@@ -75,12 +106,26 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
-            <EditText android:id="@+id/input_cep_ass"
+            <EditText android:id="@+id/edit_org_input_cep"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:hint="@string/cep"
                 android:maxLength="8"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <!--  Description Label -->
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+            <EditText android:id="@+id/edit_org_input_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapSentences|textAutoCorrect"
+                android:hint="@string/description"
+                android:maxLength="50"/>
         </android.support.design.widget.TextInputLayout>
 
         <!-- Email Label -->
@@ -89,7 +134,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
-            <EditText android:id="@+id/input_email_ass"
+            <EditText android:id="@+id/edit_org_input_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"

@@ -25,4 +25,7 @@ public interface UserService {
 
     @PUT("set_user/")
     Call<RetrofitResponse> setUser(@Body User user);
+
+    @PUT("set_user/")
+    Call<RetrofitResponse> updateUser(@Body User user);
 }

@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.method.SingleLineTransformationMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +15,17 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 
 import br.unb.unbsolidaria.R;
+import br.unb.unbsolidaria.Singleton;
+import br.unb.unbsolidaria.communication.RestCommunication;
+import br.unb.unbsolidaria.communication.UserService;
 import br.unb.unbsolidaria.entities.FormValidation;
 import br.unb.unbsolidaria.entities.Organization;
+import br.unb.unbsolidaria.entities.RetrofitResponse;
 import br.unb.unbsolidaria.entities.User;
 import br.unb.unbsolidaria.persistence.DBHandler;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Edit Profile Alpha 0.1
@@ -31,22 +40,22 @@ import br.unb.unbsolidaria.persistence.DBHandler;
 
 public class EditProfile extends Fragment {
 
-    private EditText et_name;
+    private Singleton singleton = Singleton.getInstance();
+
+    private EditText et_username;
+    private EditText et_first_name;
+    private EditText et_last_name;
+    private EditText et_phonenumber;
     private EditText et_cnpj;
-    private EditText et_site;
     private EditText et_address;
     private EditText et_cep;
+    private EditText et_description;
     private EditText et_email;
 
     private Button btn_send;
     private ScrollView sv_mainPane;
 
-    private User mLoggedUser;
-    private Organization mUserProfile;
-
-    private DBHandler db_interface;
-
-    private UserProfileListener onUpdateCallback;
+    private User user;
 
     public EditProfile() {
     }
@@ -61,12 +70,15 @@ public class EditProfile extends Fragment {
                              Bundle savedInstanceState) {
         View parentView = inflater.inflate(R.layout.fragment_org_edit_profile, container, false);
 
-        et_name = (EditText) parentView.findViewById(R.id.input_name_ass);
-        et_cnpj = (EditText) parentView.findViewById(R.id.input_cnpj_ass);
-        et_site = (EditText) parentView.findViewById(R.id.input_site_ass);
-        et_address = (EditText) parentView.findViewById(R.id.input_address_ass);
-        et_cep = (EditText) parentView.findViewById(R.id.input_cep_ass);
-        et_email = (EditText) parentView.findViewById(R.id.input_email_ass);
+        et_username = (EditText) parentView.findViewById(R.id.edit_org_user_name);
+        et_first_name = (EditText) parentView.findViewById(R.id.edit_org_input_first_name);
+        et_last_name = (EditText) parentView.findViewById(R.id.edit_org_input_last_name);
+        et_phonenumber = (EditText) parentView.findViewById(R.id.edit_org_input_phonenumber);
+        et_cnpj = (EditText) parentView.findViewById(R.id.edit_org_input_cpf_cnpj);
+        et_address = (EditText) parentView.findViewById(R.id.edit_org_input_address);
+        et_cep = (EditText) parentView.findViewById(R.id.edit_org_input_cep);
+        et_description = (EditText) parentView.findViewById(R.id.edit_org_input_description);
+        et_email = (EditText) parentView.findViewById(R.id.edit_org_input_email);
         sv_mainPane = (ScrollView) parentView.findViewById(R.id.ep_org_scrollview);
 
         btn_send = (Button) parentView.findViewById(R.id.ep_btn_send);
@@ -80,28 +92,33 @@ public class EditProfile extends Fragment {
             }
         });
 
-        // Estabilish DB connection
-        db_interface = DBHandler.getInstance();
 
         // SetUp user fields
         Bundle bundle = this.getArguments();
         if (bundle == null)
             return parentView;
 
-        mLoggedUser = (User) bundle.getSerializable("br.unb.unbsolidaria.LOGGEDUSER");
+        user = singleton.getUser();
 
-        try{
-            mUserProfile = db_interface.getOrganization(mLoggedUser.getId());
-        } catch (IndexOutOfBoundsException e){
-            return parentView;
-        }
+        et_username.setText(user.getUsername());
+        et_first_name.setText(user.getFirst_name());
+        et_last_name.setText(user.getLast_name());
+        et_phonenumber.setText(user.getTelefone());
+        et_cnpj.setText(user.getCnpj());
+        et_address.setText(user.getEndereco()); //TODO: SQLite has no entry for address
+        et_cep.setText(user.getCep());
+        et_description.setText(user.getDescricao());
+        et_email.setText(user.getEmail());
 
-        et_name.setText(mUserProfile.getCommercialName());
-        et_cnpj.setText(mUserProfile.getCnpj());
-        et_site.setText(mUserProfile.getWebsite());
-        et_address.setText(mUserProfile.getAddress()); //TODO: SQLite has no entry for address
-        et_cep.setText(mUserProfile.getCep());
-        et_email.setText(mUserProfile.getEmail());
+        et_username.setEnabled(true);
+        et_first_name.setEnabled(true);
+        et_last_name.setEnabled(true);
+        et_phonenumber.setEnabled(true);
+        et_cnpj.setEnabled(false);
+        et_address.setEnabled(true);
+        et_cep.setEnabled(true);
+        et_description.setEnabled(true);
+        et_email.setEnabled(true);
 
         return parentView;
     }
@@ -121,16 +138,20 @@ public class EditProfile extends Fragment {
 
     private void onRequestSubmit(){
         boolean valid = true;
-        String nameText = et_name.getText().toString();
-        String websiteText = et_site.getText().toString();
+        String usernameText = et_username.getText().toString();
+        String first_nameText = et_first_name.getText().toString();
+        String last_nameText = et_last_name.getText().toString();
+        String phonenumberText = et_phonenumber.getText().toString();
+        String adressText = et_address.getText().toString();
         String cepText = et_cep.getText().toString();
+        String descriptionText = et_description.getText().toString();
         String emailText = et_email.getText().toString();
 
         btn_send.setEnabled(false);
         final ProgressDialog progressDialog = ProgressDialog.show(getContext(), null, getString(R.string.su_request_progress), true, false);
 
         // Input Validation
-        if (!FormValidation.isValidName(nameText, true)){
+        if (!FormValidation.isValidName(usernameText, true)){
             valid = false;
         }
 
@@ -140,26 +161,36 @@ public class EditProfile extends Fragment {
             return;
         }
 
-        //TODO: Implement REST POST
-        //TODO: Handle failed update attempt
-        // Update Handler
-        mUserProfile.setCommercialName(nameText);
-        mUserProfile.setWebsite(websiteText);
-        mUserProfile.setCep(cepText);
-        mUserProfile.setEmail(emailText);
+        User updateUser = new User(usernameText,first_nameText,last_nameText,emailText,phonenumberText,descriptionText,
+                user.getTipo(),user.getSexo(),user.getCpf(),user.getCnpj(),cepText);
 
-        String responseMessage;
-        boolean requestSucess = db_interface.updateOrganization(mUserProfile);
-        if (requestSucess)
-            responseMessage = getString(R.string.ep_submit_sucess);
-        else
-            responseMessage = getString(R.string.ep_submit_fail);
+        UserService userService = RestCommunication.createService(UserService.class);
+        Call<RetrofitResponse> call = userService.updateUser(updateUser);
+        call.enqueue(new Callback<RetrofitResponse>() {
+            @Override
+            public void onResponse(Call<RetrofitResponse> call, Response<RetrofitResponse> response) {
+                RetrofitResponse retrofitResponse = response.body();
+                if(retrofitResponse.getResponse().equalsIgnoreCase("edited")){
+                    Log.i("REST","EditOrgProfile deu bom");
+                    btn_send.setEnabled(true);
+                    progressDialog.dismiss();
+                    sv_mainPane.requestFocus();
+                }else {
+                    Log.i("REST","EditOrgProfile deu ruim");
+                    btn_send.setEnabled(true);
+                    progressDialog.dismiss();
+                    sv_mainPane.requestFocus();
+                }
+            }
 
-        Toast.makeText(getContext(), responseMessage, Toast.LENGTH_LONG).show();
-        btn_send.setEnabled(true);
-        progressDialog.dismiss();
-        onUpdateCallback.onOrganizationUpdate();
-        sv_mainPane.requestFocus();
+            @Override
+            public void onFailure(Call<RetrofitResponse> call, Throwable t) {
+                btn_send.setEnabled(true);
+                progressDialog.dismiss();
+                sv_mainPane.requestFocus();
+            }
+        });
+
     }
 
     public interface UserProfileListener {

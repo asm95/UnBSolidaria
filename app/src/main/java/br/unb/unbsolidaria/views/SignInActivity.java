@@ -178,17 +178,17 @@ public class SignInActivity extends AppCompatActivity {
     public void onLoginSuccess(User user) {
         Intent nextIntent;
 
+        singleton.setUser(user);
+
         switch (user.getTipo()){
             case 1:
                 Organization organization = new Organization();
                 organization.setId(user.getId());
-                singleton.setOrganization(organization);
                 nextIntent = new Intent(this, OrganizationScreen.class);
                 break;
             case 0:
                 Voluntary voluntary = new Voluntary();
                 voluntary.setId(user.getId());
-                singleton.setVoluntary(voluntary);
                 nextIntent = new Intent(this, VoluntaryScreen.class);
                 break;
             default:

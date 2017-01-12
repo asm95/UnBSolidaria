@@ -22,9 +22,12 @@ import br.unb.unbsolidaria.R;
 import br.unb.unbsolidaria.entities.Organization;
 import br.unb.unbsolidaria.entities.User;
 import br.unb.unbsolidaria.persistence.DBHandler;
+import br.unb.unbsolidaria.views.ViewNews;
+
+import static br.unb.unbsolidaria.views.voluntary.VoluntaryScreen.ENABLE_JOIN;
 
 public class OrganizationScreen extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, EditProfile.UserProfileListener {
 
     private FragmentManager fragmentManager;
     private int lastSelectedItem;
@@ -55,16 +58,15 @@ public class OrganizationScreen extends AppCompatActivity
 
         lastSelectedItem = -1;
 
-        setUpUserProfile();
+        loadUserProfile();
 
-        MenuItem newsItem = mNavigationView.getMenu().getItem(0);
+        MenuItem newsItem = mNavigationView.getMenu().getItem(1);
         newsItem.setChecked(true);
         onNavigationItemSelected(newsItem);
     }
 
-    private void setUpUserProfile() {
+    private void loadUserProfile() {
         Intent thisIntent = getIntent();
-        TextView nav_UserName;
 
         mLoggedUser = (User)thisIntent.getSerializableExtra(SignInActivity.LOGIN_MESSAGE);
         if (mLoggedUser == null)
@@ -76,6 +78,12 @@ public class OrganizationScreen extends AppCompatActivity
             setUpUserProfileDialogError();
             return;
         }
+
+        refreshUI();
+    }
+
+    private void refreshUI (){
+        TextView nav_UserName;
 
         nav_UserName = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.ov_navTitle);
         nav_UserName.setText(mUserProfile.getCommercialName());
@@ -149,8 +157,12 @@ public class OrganizationScreen extends AppCompatActivity
         lastSelectedItem = id;
 
         if (id == R.id.orgv_sbNewsItem) {
+            userFragment = new ViewNews();
+            ft.add(R.id.ch_frameLayout,userFragment).commit();
+            Bundle bundle = new Bundle();
+            userFragment.setArguments(bundle);
+            bundle.putSerializable(ENABLE_JOIN,mLoggedUser);
             mActivityToolbar.setTitle("Novidades");
-            ft.commit();
         } else if (id == R.id.orgv_sbCreateOpportunityItem) {
             userFragment = new CreateOpportunity();
             ft.add(R.id.ch_frameLayout, userFragment).commit();
@@ -162,7 +174,10 @@ public class OrganizationScreen extends AppCompatActivity
             mActivityToolbar.setTitle("Ver Oportunidades");
 
         } else if (id == R.id.orgv_sbEditProfileItem) {
+            Bundle box = new Bundle();
             userFragment = new EditProfile();
+            box.putSerializable("br.unb.unbsolidaria.LOGGEDUSER", mLoggedUser);
+            userFragment.setArguments(box);
             ft.add(R.id.ch_frameLayout, userFragment).commit();
             mActivityToolbar.setTitle("Editar Perfil");
         } else if (id == R.id.orgv_sbExitItem) {
@@ -193,4 +208,8 @@ public class OrganizationScreen extends AppCompatActivity
         onNavigationItemSelected(newsItem);
     }
 
+    @Override
+    public void onOrganizationUpdate() {
+        refreshUI();
+    }
 }

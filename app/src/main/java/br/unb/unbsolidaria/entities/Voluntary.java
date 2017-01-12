@@ -117,15 +117,19 @@ public class Voluntary implements Serializable {
         return description;
     }
 
-    //setters
+    public String getUnbRegistrationNumber() {
+        return unbRegistrationNumber;
+    }
 
+    //setters
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public String getUnbRegistrationNumber() {
-        return unbRegistrationNumber;
+    public void setUnbRegistrationNumber (String number){
+        this.unbRegistrationNumber = number;
     }
+
 
     public String getAddress() {
         return address;

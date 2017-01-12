@@ -2,8 +2,8 @@
 <resources>
     <!-- Manual da Marca por @imafra-->
     <!-- Ver paleta de cores do Material Design: https://material.io/guidelines/style/color.html#color-color-palette -->
-    <color name="colorPrimary">#8bc34a</color>
-    <color name="colorPrimaryDark">#558b2f</color>
+    <color name="colorPrimary">#023b71</color>
+    <color name="colorPrimaryDark">#02294e</color>
     <color name="textColorPrimary">#558b2f</color>
     <color name="windowBackground">#cad2c5</color>
     <color name="navigationBarColor">#020202</color>

@@ -68,12 +68,12 @@
     <string name="ep_submit_sucess">Perfil atualizado com sucesso!</string>
     <string name="ep_submit_fail">Não foi possível atualizar informações de perfil.</string>
 
-    
-
     <string name="title_activity_main">MainActivity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="rest_server_connection_error">Não foi possível se comunicar com o servidor</string>
 
     <string name="action_settings">Settings</string>
 

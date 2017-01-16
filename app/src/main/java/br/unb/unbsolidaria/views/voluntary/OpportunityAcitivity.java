@@ -42,7 +42,7 @@ public class OpportunityAcitivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         loggedVoluntary = (Voluntary)getIntent().getSerializableExtra(ViewOpportunities.VIEW_MESSAGE);
-        int id = getIntent().getIntExtra("id", 0);
+        int id = getIntent().getIntExtra("id", 0) - 1;
         List<Opportunity> mList = singleton.getOpportunityList();
 
         DBHandler bd = DBHandler.getInstance();
@@ -59,7 +59,11 @@ public class OpportunityAcitivity extends AppCompatActivity {
 
         description.setText( getString(R.string.ov_description, mList.get(id).getDescription()) );
         org.setText( getString(R.string.ov_org, mList.get(id).getOrganizacao()) );
+
         local.setText( getString(R.string.ov_local, mList.get(id).getLocal()) );
+        if (mList.get(id).getLocal() == null){
+            local.setText("Não especificado");
+        }
         vagas.setText( getString(R.string.ov_vagas, String.valueOf(mList.get(id).getVagas())) );
 
         start.setText( getString(R.string.ov_dateStart, mList.get(id).getData_inicio()) );

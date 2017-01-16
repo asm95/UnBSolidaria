@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -83,6 +84,8 @@ public class ViewNews extends Fragment {
                     Snackbar.make(getActivity().findViewById(android.R.id.content), "Não foi possível se comunicar com o servidor", Snackbar.LENGTH_LONG).show();
                     mList = new LinkedList<>();
                 }
+
+                Collections.reverse(mList);
 
                 Bundle box = ViewNews.this.getArguments();
 

@@ -3,7 +3,6 @@ package br.unb.unbsolidaria.views;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -14,21 +13,16 @@ import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import br.unb.unbsolidaria.R;
 import br.unb.unbsolidaria.Singleton;
 import br.unb.unbsolidaria.communication.RestCommunication;
 import br.unb.unbsolidaria.communication.UserService;
-import br.unb.unbsolidaria.communication.VoluntaryService;
 import br.unb.unbsolidaria.entities.FormValidation;
 import br.unb.unbsolidaria.entities.Login;
 import br.unb.unbsolidaria.entities.Organization;
 import br.unb.unbsolidaria.entities.User;
 import br.unb.unbsolidaria.entities.Voluntary;
 import br.unb.unbsolidaria.views.organization.OrganizationScreen;
-import br.unb.unbsolidaria.persistence.DBHandler;
 import br.unb.unbsolidaria.views.voluntary.VoluntaryScreen;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -116,6 +110,8 @@ public class SignInActivity extends AppCompatActivity {
                             User user1 = response.body();
                             if(user1 == null){
                                 progressDialog.dismiss();
+                                Log.i("REST", "No user object returned from server");
+                                onLoginFailed("Não foi possível obter dados do servidor.");
                             }else{
                                 progressDialog.dismiss();
                                 onLoginSuccess(user1);

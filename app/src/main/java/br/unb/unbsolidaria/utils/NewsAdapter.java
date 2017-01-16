@@ -2,15 +2,11 @@ package br.unb.unbsolidaria.utils;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -50,15 +46,15 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = mLayoutInflater.inflate(R.layout.card_new, parent, false);
+        View v = mLayoutInflater.inflate(R.layout.card_news, parent, false);
         NewsAdapter.MyViewHolder mvh = new NewsAdapter.MyViewHolder(v);
         return mvh;
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        holder.tvTitulo.setText(mList.get(position).getTitulo());
-        holder.tvdescription.setText(mList.get(position).getSubtitulo());
+        holder.tvTitle.setText(mList.get(position).getTitulo());
+        holder.tvDescription.setText(mList.get(position).getSubtitulo());
 
         holder.btnSeeMore.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,22 +75,20 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public ImageView ivOrg;
-        public TextView tvTitulo;
-        public TextView tvLocal;
-        public TextView tvVaga;
-        public TextView tvdescription;
+        public TextView tvdatePosted;
+        public TextView tvdateUpdated;
+        public TextView tvTitle;
+        public TextView tvDescription;
         public Button btnSeeMore;
 
         public MyViewHolder(View itemView) {
             super(itemView);
 
-            ivOrg = (ImageView) itemView.findViewById(R.id.iv_new_org);
-            tvTitulo = (TextView) itemView.findViewById(R.id.tv_new_title);
-            tvLocal = (TextView) itemView.findViewById(R.id.tv_new_local);
-            tvVaga = (TextView) itemView.findViewById(R.id.tv_new_vaga);
-            tvdescription = (TextView) itemView.findViewById(R.id.tv_new_descricao);
-            btnSeeMore = (Button) itemView.findViewById(R.id.btn_new_seemore);
+            tvdatePosted = (TextView) itemView.findViewById(R.id.cn_datePosted);
+            tvdateUpdated = (TextView) itemView.findViewById(R.id.cn_dateUpdated);
+            tvTitle = (TextView) itemView.findViewById(R.id.cn_titleText);
+            tvDescription = (TextView) itemView.findViewById(R.id.cn_descriptionText);
+            btnSeeMore = (Button) itemView.findViewById(R.id.cn_readMore);
 
             itemView.setOnClickListener(this);
         }

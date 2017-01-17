@@ -64,6 +64,8 @@
     <string name="ov_vagas">"Vagas: %1$s"</string>
     <string name="ov_dateStart">"Data de Início: %1$s"</string>
     <string name="ov_dateEnd">"Data de Término: %1$s"</string>
+    <string name="ov_undefinedField">Não especificado</string>
+
     <!-- Edit Profile (ep) -->
     <string name="ep_submit_sucess">Perfil atualizado com sucesso!</string>
     <string name="ep_submit_fail">Não foi possível atualizar informações de perfil.</string>

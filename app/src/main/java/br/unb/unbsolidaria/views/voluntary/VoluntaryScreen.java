@@ -2,6 +2,7 @@ package br.unb.unbsolidaria.views.voluntary;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -57,12 +58,17 @@ public class VoluntaryScreen extends AppCompatActivity
 
         fragmentManager = getSupportFragmentManager();
 
+        loadUserProfile();
+    }
+
+    @Override
+    protected void onStart (){
+        super.onStart();
+
         lastSelectedItem = -1;
-        MenuItem newsItem = mNavigationView.getMenu().getItem(1);
+        MenuItem newsItem = mNavigationView.getMenu().getItem(0);
         newsItem.setChecked(true);
         onNavigationItemSelected(newsItem);
-
-        loadUserProfile();
     }
 
     private void loadUserProfile() {
@@ -186,7 +192,11 @@ public class VoluntaryScreen extends AppCompatActivity
     }
 
     private void exitHandler() {
-        //DBHandler.getInstance().saveLocalState(getApplicationContext());
+        /*autoLogin*/
+        SharedPreferences.Editor sp_commiter = getSharedPreferences(SignInActivity.AUTOLOGIN_SP_NAME, MODE_PRIVATE).edit();
+        sp_commiter.putBoolean("autoLoginEnabled", false);
+        sp_commiter.commit();
+
         finish();
     }
 

@@ -2,6 +2,7 @@ package br.unb.unbsolidaria.views;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -39,6 +40,8 @@ public class SignInActivity extends AppCompatActivity {
 
     public static final String LOGIN_MESSAGE = "br.unb.unbsolidaria.LOADUSER";
 
+    public static final String AUTOLOGIN_SP_NAME = "UNSOL.AUTOLOGIN";
+    SharedPreferences autologin_sp;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,7 +63,7 @@ public class SignInActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                login();
+                onLoginButtonClicked();
             }
         });
 
@@ -72,17 +75,38 @@ public class SignInActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        /* Autologin */
+        //TODO: improve autologin security by storing the key-token returned in userService.login REST
+        //Info @asm95: there are many better ways to implement autologin, but at this development stage
+        //things are still very confusing to adopt a specific architecture
+        autologin_sp = getSharedPreferences(AUTOLOGIN_SP_NAME, MODE_PRIVATE);
+        if (autologin_sp.getBoolean("autoLoginEnabled", false)){
+            _emailText.setText(autologin_sp.getString("email", ""));
+            _passwordText.setText(autologin_sp.getString("password", ""));
+        }
     }
 
-    public void login() {
+    @Override
+    protected void onStart(){
+        super.onStart();
+        if (autologin_sp.getBoolean("autoLoginEnabled", false)){
+            peformLogin();
+        }
+    }
 
-        if (!validate()) {
+    public void onLoginButtonClicked(){
+        _loginButton.setEnabled(false);
+
+        if (!validate()){
             onLoginFailed(getString(R.string.error_wrong_fields));
             return;
         }
 
-        _loginButton.setEnabled(false);
+        peformLogin();
+    }
 
+    public void peformLogin() {
         final ProgressDialog progressDialog = ProgressDialog.show(this, null, getString(R.string.process_autentication), true, false);
 
         final String email = _emailText.getText().toString();
@@ -116,6 +140,7 @@ public class SignInActivity extends AppCompatActivity {
                                 progressDialog.dismiss();
                                 onLoginSuccess(user1);
                             }
+                            _loginButton.setEnabled(true);
                         }
 
                         @Override
@@ -123,6 +148,7 @@ public class SignInActivity extends AppCompatActivity {
                             Log.i("REST","User error response: "+t);
                             onLoginFailed(getString(R.string.error_wrong_credentials));
                             progressDialog.dismiss();
+                            _loginButton.setEnabled(true);
                         }
                     });
                 }
@@ -134,34 +160,6 @@ public class SignInActivity extends AppCompatActivity {
                 progressDialog.dismiss();
             }
         });
-
-        /*Handler handler = new Handler();
-
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // TODO: Implement REST OATH here
-                // local user account DB (see .persistency.DBHandler)
-
-                DBHandler instance;
-
-                instance = DBHandler.getInstance();
-                if (instance == null) {
-                    onLoginFailed(getString(R.string.error_db_connection));
-                    progressDialog.dismiss();
-                    return;
-                }
-
-                User user = instance.getUserByCredentials(email, password);
-                if (user == null){
-                    onLoginFailed(getString(R.string.error_wrong_credentials));
-                } else {
-                    onLoginSuccess(user);
-                }
-
-                progressDialog.dismiss();
-            }
-        }, 1000);*/
 
     }
 
@@ -175,6 +173,14 @@ public class SignInActivity extends AppCompatActivity {
         Intent nextIntent;
 
         singleton.setUser(user);
+
+        /*autoLogin*/
+        //TODO: decide whether the login screen will have a checkbox to enable autologin
+        SharedPreferences.Editor sp_commtier = autologin_sp.edit();
+        sp_commtier.putBoolean("autoLoginEnabled", true);
+        sp_commtier.putString("email", _emailText.getText().toString());
+        sp_commtier.putString("password", _passwordText.getText().toString());
+        sp_commtier.commit();
 
         switch (user.getTipo()){
             case 1:
@@ -197,6 +203,10 @@ public class SignInActivity extends AppCompatActivity {
 
     public void onLoginFailed(String Message) {
         Toast.makeText(getApplicationContext(), getString(R.string.error_login_auth) + " " + Message, Toast.LENGTH_LONG).show();
+        /*disable autologin*/
+        SharedPreferences.Editor sp_commiter = autologin_sp.edit();
+        sp_commiter.putBoolean("autoLoginEnabled", false);
+        sp_commiter.commit();
         _loginButton.setEnabled(true);
     }
 

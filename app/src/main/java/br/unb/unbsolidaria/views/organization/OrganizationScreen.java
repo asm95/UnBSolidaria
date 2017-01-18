@@ -2,6 +2,7 @@ package br.unb.unbsolidaria.views.organization;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -56,11 +57,15 @@ public class OrganizationScreen extends AppCompatActivity
 
         fragmentManager = getSupportFragmentManager();
 
-        lastSelectedItem = -1;
-
         loadUserProfile();
+    }
 
-        MenuItem newsItem = mNavigationView.getMenu().getItem(1);
+    @Override
+    protected void onStart (){
+        super.onStart();
+
+        lastSelectedItem = -1;
+        MenuItem newsItem = mNavigationView.getMenu().getItem(0);
         newsItem.setChecked(true);
         onNavigationItemSelected(newsItem);
     }
@@ -189,7 +194,11 @@ public class OrganizationScreen extends AppCompatActivity
     }
 
     private void exitHandler() {
-        DBHandler.getInstance();
+        /*autoLogin*/
+        SharedPreferences.Editor sp_commiter = getSharedPreferences(SignInActivity.AUTOLOGIN_SP_NAME, MODE_PRIVATE).edit();
+        sp_commiter.putBoolean("autoLoginEnabled", false);
+        sp_commiter.commit();
+
         finish();
     }
 

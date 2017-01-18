@@ -34,6 +34,8 @@ public class OpportunitiesAdapter extends RecyclerView.Adapter<OpportunitiesAdap
     private int width;
     private int height;
 
+    private int position;
+
     private Voluntary mLoggedUser;
 
     public OpportunitiesAdapter(Context c, List<Opportunity> l, Voluntary loggedUser) {
@@ -57,6 +59,8 @@ public class OpportunitiesAdapter extends RecyclerView.Adapter<OpportunitiesAdap
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
 
+        this.position = position;
+
         holder.tvTitulo.setText(mList.get(position).getTitle());
         holder.tvLocal.setText(mList.get(position).getLocal());
         holder.tvVaga.setText(String.valueOf(mList.get(position).getVagas()));
@@ -71,18 +75,6 @@ public class OpportunitiesAdapter extends RecyclerView.Adapter<OpportunitiesAdap
             bitmap = ImageHelper.getRoundedCornerBitmap(mContext, bitmap, 4, width, height, false, false, true, true);
             holder.ivOrg.setImageBitmap(bitmap);
         }
-
-        holder.btnSeeMore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(mContext, OpportunityAcitivity.class);
-                intent.putExtra("id",position+1);
-                if (mLoggedUser != null){
-                    intent.putExtra(ViewOpportunities.VIEW_MESSAGE, mLoggedUser);
-                }
-                mContext.startActivity(intent);
-            }
-        });
 
     }
 
@@ -109,7 +101,6 @@ public class OpportunitiesAdapter extends RecyclerView.Adapter<OpportunitiesAdap
         public TextView tvLocal;
         public TextView tvVaga;
         public TextView tvdescription;
-        public Button btnSeeMore;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -119,13 +110,18 @@ public class OpportunitiesAdapter extends RecyclerView.Adapter<OpportunitiesAdap
             tvLocal = (TextView) itemView.findViewById(R.id.tv_op_local);
             tvVaga = (TextView) itemView.findViewById(R.id.tv_op_vaga);
             tvdescription = (TextView) itemView.findViewById(R.id.tv_op_descricao);
-            btnSeeMore = (Button) itemView.findViewById(R.id.btn_op_seemore);
 
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
+            Intent intent=new Intent(mContext, OpportunityAcitivity.class);
+            intent.putExtra("id",position);
+            if (mLoggedUser != null){
+                intent.putExtra(ViewOpportunities.VIEW_MESSAGE, mLoggedUser);
+            }
+            mContext.startActivity(intent);
         }
     }
 }

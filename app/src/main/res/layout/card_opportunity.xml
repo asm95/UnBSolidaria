@@ -113,14 +113,6 @@
             android:layout_below="@+id/top_op"
             android:layout_alignLeft="@id/tv_op_descricao" />
 
-        <Button
-            android:id="@+id/btn_op_seemore"
-            android:layout_below="@id/descricao_op"
-            android:layout_marginTop="6dp"
-            android:layout_marginLeft="16dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ver Mais"/>
     </RelativeLayout>
 
 

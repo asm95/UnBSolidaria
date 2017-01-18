@@ -9,7 +9,7 @@
         <!--tools:context="br.unb.unbsolidaria.views.organization.CreateOpportunity" -->
 
         <RelativeLayout
-            android:id="@+id/content_create_opportunity"
+            android:id="@+id/content_edit_opportunity"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingTop="24dp"
@@ -24,12 +24,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:id="@+id/co_etAutor"
+                android:id="@+id/co_edit_etAutor"
                 android:inputType="textPostalAddress"
-                android:layout_alignBaseline="@+id/co_tvAutor"
-                android:layout_alignBottom="@+id/co_tvAutor"
+                android:layout_alignBaseline="@+id/co_edit_tvAutor"
+                android:layout_alignBottom="@+id/co_edit_tvAutor"
                 android:layout_alignParentEnd="true"
-                android:layout_toRightOf="@+id/co_tvAutor"
+                android:layout_toRightOf="@+id/co_edit_tvAutor"
                 android:layout_marginStart="4dp"
                 android:cursorVisible="false"
                 android:editable="false"
@@ -41,11 +41,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:id="@+id/co_etSpots"
-                android:layout_alignBaseline="@+id/co_tvSpots"
-                android:layout_alignBottom="@+id/co_tvSpots"
+                android:id="@+id/co_edit_etSpots"
+                android:layout_alignBaseline="@+id/co_edit_tvSpots"
+                android:layout_alignBottom="@+id/co_edit_tvSpots"
                 android:layout_alignParentEnd="true"
-                android:layout_toRightOf="@+id/co_tvSpots"
+                android:layout_toRightOf="@+id/co_edit_tvSpots"
                 android:layout_marginStart="4dp"
                 android:cursorVisible="false"
                 android:editable="false"
@@ -58,11 +58,11 @@
                 android:text="Título:"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/co_tvTitle"
+                android:id="@+id/co_edit_tvTitle"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:layout_marginLeft="0dp"
                 android:layout_marginTop="15dp"
-                android:layout_alignStart="@+id/co_etDescription" />
+                android:layout_alignStart="@+id/co_edit_etDescription" />
 
             <!-- Button -->
 
@@ -73,12 +73,12 @@
                 android:text="Data de Início:"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/co_tvDateStart"
+                android:id="@+id/co_edit_tvDateStart"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:layout_marginTop="23dp"
-                android:layout_alignStart="@+id/co_tvTitle"
-                android:layout_alignEnd="@+id/co_tvDateEnd"
-                android:layout_below="@+id/co_tvSpots" />
+                android:layout_alignStart="@+id/co_edit_tvTitle"
+                android:layout_alignEnd="@+id/co_edit_tvDateEnd"
+                android:layout_below="@+id/co_edit_tvSpots" />
 
             <!-- Data Inicio Label -->
 
@@ -89,12 +89,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:id="@+id/co_etTitle"
+                android:id="@+id/co_edit_etTitle"
                 android:inputType="textEmailSubject"
-                android:layout_alignBaseline="@+id/co_tvTitle"
-                android:layout_alignBottom="@+id/co_tvTitle"
+                android:layout_alignBaseline="@+id/co_edit_tvTitle"
+                android:layout_alignBottom="@+id/co_edit_tvTitle"
                 android:layout_alignParentEnd="true"
-                android:layout_toRightOf="@+id/co_tvTitle"
+                android:layout_toRightOf="@+id/co_edit_tvTitle"
                 android:layout_marginStart="4dp"
                 android:capitalize="sentences" />
 
@@ -111,12 +111,12 @@
                 android:text="Autor:"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/co_etTitle"
+                android:layout_below="@+id/co_edit_etTitle"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:layout_alignParentStart="true"
-                android:id="@+id/co_tvAutor"
-                android:layout_alignEnd="@+id/co_tvDateEnd"
-                android:layout_alignStart="@+id/co_tvTitle"
+                android:id="@+id/co_edit_tvAutor"
+                android:layout_alignEnd="@+id/co_edit_tvDateEnd"
+                android:layout_alignStart="@+id/co_edit_tvTitle"
                 android:layout_marginTop="20dp" />
 
             <!-- Title Vagas -->
@@ -124,57 +124,57 @@
                 android:text="Vagas:"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/co_tvAutor"
+                android:layout_below="@+id/co_edit_tvAutor"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:layout_alignParentStart="true"
-                android:id="@+id/co_tvSpots"
-                android:layout_alignEnd="@+id/co_tvDateEnd"
-                android:layout_alignStart="@+id/co_tvTitle"
+                android:id="@+id/co_edit_tvSpots"
+                android:layout_alignEnd="@+id/co_edit_tvDateEnd"
+                android:layout_alignStart="@+id/co_edit_tvTitle"
                 android:layout_marginTop="22dp" />
 
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:id="@+id/co_etDateStart"
+                android:id="@+id/co_edit_etDateStart"
                 android:inputType=""
                 android:cursorVisible="false"
                 android:hapticFeedbackEnabled="false"
                 android:enabled="true"
-                android:layout_alignBaseline="@+id/co_tvDateStart"
-                android:layout_alignBottom="@+id/co_tvDateStart"
-                android:layout_alignStart="@+id/co_etSpots" />
+                android:layout_alignBaseline="@+id/co_edit_tvDateStart"
+                android:layout_alignBottom="@+id/co_edit_tvDateStart"
+                android:layout_alignStart="@+id/co_edit_etSpots" />
 
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:id="@+id/co_etDateEnd"
+                android:id="@+id/co_edit_etDateEnd"
                 android:inputType=""
                 android:layout_marginLeft="4dp"
-                android:layout_below="@+id/co_etDateStart"
+                android:layout_below="@+id/co_edit_etDateStart"
                 android:layout_alignParentEnd="true"
-                android:layout_alignStart="@+id/co_etDateStart" />
+                android:layout_alignStart="@+id/co_edit_etDateStart" />
 
             <TextView
                 android:text="Data de Término:"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/co_tvDateEnd"
+                android:id="@+id/co_edit_tvDateEnd"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 tools:layout_constraintTop_creator="1"
-                android:layout_alignBaseline="@+id/co_etDateEnd"
-                android:layout_alignBottom="@+id/co_etDateEnd"
+                android:layout_alignBaseline="@+id/co_edit_etDateEnd"
+                android:layout_alignBottom="@+id/co_edit_etDateEnd"
                 android:layout_alignParentStart="true" />
 
             <Button
                 android:text="Enviar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/co_btSend"
+                android:id="@+id/co_edit_btSend"
                 android:layout_marginLeft="153dp"
                 android:layout_marginTop="42dp"
-                android:layout_below="@+id/co_etDescription"
+                android:layout_below="@+id/co_edit_etDescription"
                 android:layout_centerHorizontal="true" />
 
             <EditText
@@ -182,38 +182,38 @@
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
                 android:ems="10"
-                android:id="@+id/co_etDescription"
+                android:id="@+id/co_edit_etDescription"
                 android:layout_marginTop="38dp"
-                android:layout_below="@+id/co_tvDescription"
+                android:layout_below="@+id/co_edit_tvDescription"
                 android:layout_alignParentStart="true" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/co_tvDescription"
+                android:id="@+id/co_edit_tvDescription"
                 android:text="Descrição"
                 android:layout_marginTop="22dp"
-                android:layout_below="@+id/co_tvEmail"
-                android:layout_toEndOf="@+id/co_tvDateEnd" />
+                android:layout_below="@+id/co_edit_tvEmail"
+                android:layout_toEndOf="@+id/co_edit_tvDateEnd" />
 
             <TextView
-                android:id="@+id/co_tvEmail"
+                android:id="@+id/co_edit_tvEmail"
                 android:text="Email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:layout_below="@+id/co_etDateEnd"
+                android:layout_below="@+id/co_edit_etDateEnd"
                 android:layout_alignParentStart="true" />
 
             <EditText
-                android:id="@+id/co_etEmail"
+                android:id="@+id/co_edit_etEmail"
                 android:inputType="textEmailAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/co_tvEmail"
-                android:layout_alignBottom="@+id/co_tvEmail"
+                android:layout_alignBaseline="@+id/co_edit_tvEmail"
+                android:layout_alignBottom="@+id/co_edit_tvEmail"
                 android:layout_alignParentEnd="true"
-                android:layout_alignStart="@+id/co_etDateStart" />
+                android:layout_alignStart="@+id/co_edit_etDateStart" />
 
         </RelativeLayout>
 

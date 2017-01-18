@@ -2,6 +2,7 @@ package br.unb.unbsolidaria.entities;
 
 import java.util.Calendar;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * A opportunity is an event that can be created only by organizations. It invites volunteers to
@@ -44,6 +45,7 @@ public class Opportunity {
     private String organizacao;
     private String autor;
     private String email;
+    private List<String> voluntarios;
 
     private Organization organization;
     private LinkedList<Voluntary> approvedVoluntaries = null;
@@ -115,6 +117,14 @@ public class Opportunity {
 
     public void setID(int id) {
         this.id = id;
+    }
+
+    public List<String> getVoluntarios(){
+        return this.voluntarios;
+    }
+
+    public void setVoluntarios(List<String> voluntarios){
+        this.voluntarios = voluntarios;
     }
 
     public String getLocal() {

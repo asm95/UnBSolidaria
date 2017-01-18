@@ -42,7 +42,7 @@ public class ViewOpportunities extends Fragment {
     User mUserProfile;
 
     private Singleton singleton = Singleton.getInstance();
-    private DBHandler db_interface;
+    //private DBHandler db_interface;
 
 
     public ViewOpportunities() {
@@ -65,15 +65,9 @@ public class ViewOpportunities extends Fragment {
 
         Resources res_interface = getResources();
 
-        db_interface = DBHandler.getInstance();
-        if (res_interface.getBoolean(R.bool.enableLocalDB)){
-            mList = db_interface.getOpportunities();
+        //db_interface = DBHandler.getInstance();
+        updateListOpportunities();
 
-            mAdapter = new OpportunitiesAdapter(getActivity(), mList, null);
-            mRecyclerView.setAdapter(mAdapter);
-        } else {
-            updateListOpportunities();
-        }
 
         return parentView;
     }

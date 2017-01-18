@@ -4,6 +4,7 @@ import java.util.List;
 
 import br.unb.unbsolidaria.entities.Opportunity;
 import br.unb.unbsolidaria.entities.Organization;
+import br.unb.unbsolidaria.entities.RetrofitResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -17,10 +18,9 @@ public interface OpportunityService {
     @POST("trabalhos/")
     Call<Opportunity> postOpportunities(@Body Opportunity opportunity);
 
-  /*    //Put de uma organizacao
-      @PUT("/organizations/{id}")
-      Call<Organization> putOrganization(@Body Organization organization, @Path("id") String id);
-  */
+    @PUT("edit_trabalho/")
+    Call<RetrofitResponse> updateOpportunitie(@Body Opportunity opportunity);
+
     //Get lista de organizacoes
     @GET("trabalhos/")
     Call<List<Opportunity>> getOpportunities();

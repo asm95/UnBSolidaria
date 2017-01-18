@@ -13,7 +13,11 @@
         <item
             android:id="@+id/orgv_sbViewOpportunityItem"
             android:icon="@drawable/ic_opportunity"
-            android:title="Ver Oportunidades" />
+            android:title="Ver Todas Oportunidades" />
+        <item
+            android:id="@+id/orgv_sbViewOrgOpportunityItem"
+            android:icon="@drawable/ic_my_opportunity"
+            android:title="Ver Minhas Oportunidades" />
         <item
             android:id="@+id/orgv_sbEditProfileItem"
             android:icon="@drawable/ic_edit_profile"

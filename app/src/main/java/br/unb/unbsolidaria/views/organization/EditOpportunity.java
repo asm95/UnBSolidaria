@@ -1,11 +1,14 @@
 package br.unb.unbsolidaria.views.organization;
 
+
 import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
@@ -16,7 +19,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 
 import java.util.Calendar;
 import java.util.regex.Pattern;
@@ -26,12 +28,17 @@ import br.unb.unbsolidaria.Singleton;
 import br.unb.unbsolidaria.communication.OpportunityService;
 import br.unb.unbsolidaria.communication.RestCommunication;
 import br.unb.unbsolidaria.entities.Opportunity;
+import br.unb.unbsolidaria.entities.RetrofitResponse;
 import br.unb.unbsolidaria.persistence.DBHandler;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CreateOpportunity extends Fragment implements View.OnClickListener, View.OnFocusChangeListener {
+/**
+ * Created by eduar on 12/01/2017.
+ */
+
+public class EditOpportunity extends Fragment implements View.OnClickListener {
 
     private Singleton singleton = Singleton.getInstance();
 
@@ -55,8 +62,6 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener,
 
     private Button btSend;
 
-    private RelativeLayout rlForm;
-
     // form checking related
     Pattern isTitleMinWords = Pattern.compile("^\\s*\\S+(?:\\s+\\S+){1,}\\s*$");
 
@@ -64,7 +69,7 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener,
     private OrganizationScreen parentInterface;
     private int mFormDialogAction = -1;
 
-    public CreateOpportunity() {
+    public EditOpportunity() {
     }
 
     @TargetApi(Build.VERSION_CODES.N)
@@ -81,18 +86,14 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener,
         startDatePicker = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                etStartDate.setText(getString(R.string.co_tDateFormat, dayOfMonth, month+1, year));
+                etStartDate.setText(getString(R.string.co_tDateFormat, year, month+1, dayOfMonth));
             }
         }, currentYear, currentMonth, currentDay);
 
         endDatePicker = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                etEndDate.setText(getString(R.string.co_tDateFormat, dayOfMonth, month+1, year));
-                if (etDescription.getText().toString().equals(""))
-                    etDescription.requestFocus();
-                else
-                    rlForm.requestFocus();
+                etEndDate.setText(getString(R.string.co_tDateFormat, year, month+1, dayOfMonth));
             }
         }, currentYear, currentMonth, currentDay);
 
@@ -107,24 +108,20 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener,
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View parentView = inflater.inflate(R.layout.fragment_create_opportunity, container, false);
+        View parentView = inflater.inflate(R.layout.fragmente_org_edit_opportunity, container, false);
 
-        etStartDate = (EditText)parentView.findViewById(R.id.co_etDateStart);
+        etStartDate = (EditText)parentView.findViewById(R.id.co_edit_etDateStart);
         etStartDate.setOnClickListener(this);
-        etStartDate.setOnFocusChangeListener(this);
-        etEndDate = (EditText)parentView.findViewById(R.id.co_etDateEnd);
+        etEndDate = (EditText)parentView.findViewById(R.id.co_edit_etDateEnd);
         etEndDate.setOnClickListener(this);
-        etEndDate.setOnFocusChangeListener(this);
-        etTitle = (EditText)parentView.findViewById(R.id.co_etTitle);
-        etSpots = (EditText)parentView.findViewById(R.id.co_etSpots);
-        etDescription = (EditText) parentView.findViewById(R.id.co_etDescription);
-        etEmail = (EditText) parentView.findViewById(R.id.co_etEmail);
-        etAutor = (EditText) parentView.findViewById(R.id.co_etAutor);
+        etTitle = (EditText)parentView.findViewById(R.id.co_edit_etTitle);
+        etSpots = (EditText)parentView.findViewById(R.id.co_edit_etSpots);
+        etDescription = (EditText) parentView.findViewById(R.id.co_edit_etDescription);
+        etEmail = (EditText) parentView.findViewById(R.id.co_edit_etEmail);
+        etAutor = (EditText) parentView.findViewById(R.id.co_edit_etAutor);
 
-        btSend = (Button)parentView.findViewById(R.id.co_btSend);
+        btSend = (Button)parentView.findViewById(R.id.co_edit_btSend);
         btSend.setOnClickListener(this);
-
-        rlForm = (RelativeLayout) parentView.findViewById(R.id.content_create_opportunity);
 
         dbInterface = DBHandler.getInstance();
         if(dbInterface == null) {
@@ -140,13 +137,13 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener,
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.co_etDateStart:
-                //startDatePicker.show();
+            case R.id.co_edit_etDateStart:
+                startDatePicker.show();
                 break;
-            case R.id.co_etDateEnd:
-                //endDatePicker.show();
+            case R.id.co_edit_etDateEnd:
+                endDatePicker.show();
                 break;
-            case R.id.co_btSend:
+            case R.id.co_edit_btSend:
                 onSendClickHandler();
                 break;
         }
@@ -199,18 +196,18 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener,
 
         String organizacaoID = Singleton.usersUrl + singleton.getUser().getId()+"/";
         OpportunityService opportunityService = RestCommunication.createService(OpportunityService.class);
-        Call<Opportunity> call = opportunityService.postOpportunities(
+        Call<RetrofitResponse> call = opportunityService.updateOpportunitie(
                 new Opportunity(title,description,autor,email,spots,startDate,endDate,organizacaoID));
         Log.i("Opportunity","titulo: "+title+" Descricao: "+description);
         Log.i("Opportunity","autor: "+autor+" email: "+email+" vagas: "+spots);
         Log.i("Opportunity","Data inicio: "+startDate+" Data fim: "+endDate);
         Log.i("Opportunity","organizatioID: "+organizacaoID);
-        call.enqueue(new Callback<Opportunity>() {
+        call.enqueue(new Callback<RetrofitResponse>() {
             @Override
-            public void onResponse(Call<Opportunity> call, Response<Opportunity> response) {
+            public void onResponse(Call<RetrofitResponse> call, Response<RetrofitResponse> response) {
                 Log.i("REST","Opportunity code: "+response.code()+" response: "+response.message());
-                Opportunity opportunity = response.body();
-                if(opportunity == null){
+                RetrofitResponse retrofitResponse = response.body();
+                if(retrofitResponse.getResponse().equalsIgnoreCase("edited")){
                     Log.i("REST","Opportunity response body: "+response.body());
                     Log.i("REST","Opportnity response: "+response);
                 }else{
@@ -219,7 +216,7 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener,
             }
 
             @Override
-            public void onFailure(Call<Opportunity> call, Throwable t) {
+            public void onFailure(Call<RetrofitResponse> call, Throwable t) {
 
             }
         });
@@ -249,20 +246,5 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener,
                     }
                 });
         builder.show();
-    }
-
-    @Override
-    public void onFocusChange(View v, boolean hasFocus) {
-        if (!hasFocus)
-            return;
-
-        switch (v.getId()) {
-            case R.id.co_etDateStart:
-                startDatePicker.show();
-                break;
-            case R.id.co_etDateEnd:
-                endDatePicker.show();
-                break;
-        }
     }
 }

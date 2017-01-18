@@ -16,7 +16,8 @@ public class Singleton {
 
     private User user;
 
-    public static final String url = "http://164.41.209.169/users/";
+    public static final String usersUrl = "http://164.41.209.169/users/";
+    public static final String trabsUrl = "http://164.41.209.169/trabalhos/";
 
     private List<Opportunity> opportunityList;
     private List<News> newsList;

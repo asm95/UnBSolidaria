@@ -27,6 +27,8 @@ public class User implements Serializable {
     private String cnpj;
     private String endereco;
     private String cep;
+    private String organizacao;
+    private String voluntario;
 
     public User(String username, String first_name, String last_name, String email,
                 String telefone, String descricao, int tipo, String sexo, String cpf, String cnpj, String cep){
@@ -106,6 +108,12 @@ public class User implements Serializable {
     public String getCnpj(){return this.cnpj;}
 
     public String getSexo(){return this.sexo;}
+
+    public String getOrganizacao(){return this.organizacao;}
+
+    public void setOrganizacao(String organizacao){
+        this.organizacao = organizacao;
+    }
 
     public void setKey(String key){
         this.key = key;

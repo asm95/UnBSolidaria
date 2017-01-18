@@ -173,6 +173,11 @@ public class OrganizationScreen extends AppCompatActivity
             ft.add(R.id.ch_frameLayout, userFragment).commit();
             mActivityToolbar.setTitle("Ver Oportunidades");
 
+        } else if (id == R.id.orgv_sbViewOrgOpportunityItem) {
+            userFragment = new ViewMyOpprtunities();
+            ft.add(R.id.ch_frameLayout,userFragment).commit();
+            mActivityToolbar.setTitle("Minhas Oportunidades");
+
         } else if (id == R.id.orgv_sbEditProfileItem) {
             Bundle box = new Bundle();
             userFragment = new EditProfile();

@@ -110,7 +110,7 @@ public class EditProfile extends Fragment {
         et_description.setText(user.getDescricao());
         et_email.setText(user.getEmail());
 
-        et_username.setEnabled(true);
+        et_username.setEnabled(false);
         et_first_name.setEnabled(true);
         et_last_name.setEnabled(true);
         et_phonenumber.setEnabled(true);
@@ -118,7 +118,7 @@ public class EditProfile extends Fragment {
         et_address.setEnabled(true);
         et_cep.setEnabled(true);
         et_description.setEnabled(true);
-        et_email.setEnabled(true);
+        et_email.setEnabled(false);
 
         return parentView;
     }
@@ -151,15 +151,16 @@ public class EditProfile extends Fragment {
         final ProgressDialog progressDialog = ProgressDialog.show(getContext(), null, getString(R.string.su_request_progress), true, false);
 
         // Input Validation
-        if (!FormValidation.isValidName(usernameText, true)){
+        /*if (!FormValidation.isValidName(usernameText, true)){
             valid = false;
         }
 
         if (!valid) {
+            progressDialog.dismiss();
             Toast error_popup = Toast.makeText(getContext(), "Campos Inválidos", Toast.LENGTH_SHORT);
             error_popup.show();
             return;
-        }
+        }*/
 
         User updateUser = new User(usernameText,first_nameText,last_nameText,emailText,phonenumberText,descriptionText,
                 user.getTipo(),user.getSexo(),user.getCpf(),user.getCnpj(),cepText);

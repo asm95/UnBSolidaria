@@ -2,6 +2,7 @@ package br.unb.unbsolidaria.communication;
 
 import java.util.List;
 
+import br.unb.unbsolidaria.entities.InscreverUsuario;
 import br.unb.unbsolidaria.entities.Opportunity;
 import br.unb.unbsolidaria.entities.Organization;
 import br.unb.unbsolidaria.entities.RetrofitResponse;
@@ -24,6 +25,9 @@ public interface OpportunityService {
     //Get lista de organizacoes
     @GET("trabalhos/")
     Call<List<Opportunity>> getOpportunities();
+
+    @POST("user-trab/")
+    Call<RetrofitResponse> postInscreverUsuario(@Body InscreverUsuario inscreverUsuario);
 
     /*//Get lista de organizacoes por nome
     @GET("/organizations")

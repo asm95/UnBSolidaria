@@ -2,7 +2,9 @@ package br.unb.unbsolidaria.communication;
 
 import java.util.List;
 
+import br.unb.unbsolidaria.entities.Opportunity;
 import br.unb.unbsolidaria.entities.Organization;
+import br.unb.unbsolidaria.entities.User;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -32,4 +34,7 @@ public interface OrganizationService {
     //Get lista de organizacoes por nome
     @GET("/organizations")
     Call<List<Organization>> getOrganizationByName(@Query("name") String name);
+
+    @POST("/show__trabs")
+    Call<List<Opportunity>> getOrganizationOpportunities(@Body User org);
 }

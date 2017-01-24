@@ -2,6 +2,7 @@ package br.unb.unbsolidaria.views.voluntary;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import br.unb.unbsolidaria.R;
@@ -41,23 +43,24 @@ public class ViewOpportunities extends Fragment {
     List<Opportunity> mList;
 
     User mUserProfile;
-    DBHandler db_interface;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         parentView = inflater.inflate(R.layout.fragment_opportunities_list, container, false);
-        progressDialog = new ProgressDialog(getContext(),R.style.ProgessDialogTheme);
-        db_interface = DBHandler.getInstance();
+        progressDialog = new ProgressDialog(getContext());
 
-        //DBHandler bd = DBHandler.getInstance();
         updateListOpportunities();
-        //mList = bd.getOpportunities();
 
         return parentView;
     }
 
     void updateListOpportunities(){
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setTitle("Carregando...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
         OpportunityService opportunityService = RestCommunication.createService(OpportunityService.class);
         Call<List<Opportunity>> call = opportunityService.getOpportunities();
         call.enqueue(new Callback<List<Opportunity>>() {
@@ -75,9 +78,14 @@ public class ViewOpportunities extends Fragment {
 
                 Bundle box = ViewOpportunities.this.getArguments();
 
+                if (mList == null){
+                    Snackbar.make(mRecyclerView, getString(R.string.rest_server_connection_error), Snackbar.LENGTH_LONG).show();
+                    mList = new LinkedList<>();
+                }
+
                 if (box != null){
                     mUserProfile = (User)box.getSerializable(VoluntaryScreen.ENABLE_JOIN);
-                    mAdapter = new OpportunitiesAdapter(getActivity(), mList, db_interface.getVoluntary(mUserProfile.getId()));
+                    mAdapter = new OpportunitiesAdapter(getActivity(), mList);
                     mRecyclerView.setAdapter(mAdapter);
                 }
             }
@@ -87,9 +95,6 @@ public class ViewOpportunities extends Fragment {
                 progressDialog.dismiss();
             }
         });
-        progressDialog.setCancelable(false);
-        progressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
-        progressDialog.show();
     }
 
 }

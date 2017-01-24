@@ -65,6 +65,16 @@
     <string name="ov_dateStart">"Data de Início: %1$s"</string>
     <string name="ov_dateEnd">"Data de Término: %1$s"</string>
     <string name="ov_undefinedField">Não especificado</string>
+    <!-- Create Opportunity (co) -->
+    <string name="co_publicationSucess">Oportunidade publicada com sucesso.</string>
+    <string name="co_publicationSendError">Erro ao enviar proposta</string>
+    <string name="co_generalSendError">Não foi possível se conectar com o servidor.</string>
+
+    <string name="co_minTitleError">Título muito curto (Mínimo %1$02d caracteres)</string>
+    <string name="co_formatTitleError">Título não atende aos padrões</string>
+    <string name="co_spotsNumberError">Número de participantes permitidos inválido.</string>
+    <string name="co_minDescError">Tamanho da Descrição fora do intervalo permitido: %1$02d - %2$02d caracters</string>
+    <string name="co_eventPeriodError">Período do Evento inválido</string>
 
     <!-- Edit Profile (ep) -->
     <string name="ep_submit_sucess">Perfil atualizado com sucesso!</string>
@@ -75,7 +85,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="rest_server_connection_error">Não foi possível se comunicar com o servidor</string>
+    <string name="rest_server_connection_error">Não foi possível se conectar ao servidor</string>
 
     <string name="action_settings">Settings</string>
 

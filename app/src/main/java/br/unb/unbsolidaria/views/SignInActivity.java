@@ -146,7 +146,7 @@ public class SignInActivity extends AppCompatActivity {
                         @Override
                         public void onFailure(Call<User> call, Throwable t) {
                             Log.i("REST","User error response: "+t);
-                            onLoginFailed(getString(R.string.error_wrong_credentials));
+                            onLoginFailed(getString(R.string.rest_server_connection_error));
                             progressDialog.dismiss();
                             _loginButton.setEnabled(true);
                         }
@@ -156,7 +156,7 @@ public class SignInActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                onLoginFailed(getString(R.string.error_wrong_credentials));
+                onLoginFailed(getString(R.string.rest_server_connection_error));
                 progressDialog.dismiss();
             }
         });

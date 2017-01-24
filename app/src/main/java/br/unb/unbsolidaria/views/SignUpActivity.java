@@ -90,8 +90,6 @@ public class SignUpActivity extends AppCompatActivity {
 
     private int lastSelectedItem = -1;
 
-    private DBHandler db_interface;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -207,7 +205,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         _cepText.addTextChangedListener(new LoginTextWatcher(_cepText));
 
-        db_interface = DBHandler.getInstance();
+        //db_interface = DBHandler.getInstance();
     }
 
     public void signUp() {

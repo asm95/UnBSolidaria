@@ -1,5 +1,6 @@
 package br.unb.unbsolidaria.views.voluntary;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,6 +17,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import br.unb.unbsolidaria.views.SignInActivity;
@@ -92,7 +95,7 @@ public class VoluntaryScreen extends AppCompatActivity
         TextView nav_UserName;
 
         nav_UserName = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.vo_navTitle);
-        nav_UserName.setText(mUserProfile.getName());
+        nav_UserName.setText(mLoggedUser.getFirst_name() + " " + mLoggedUser.getLast_name());
         //TODO: set-up also picture (maybe it is in User class)
     }
 
@@ -185,6 +188,13 @@ public class VoluntaryScreen extends AppCompatActivity
             mActivityToolbar.setTitle("Editar Perfil");
         } else if (id == R.id.volv_sbExitItem) {
             exitHandler();
+        }
+
+        //Hide keyboard if is being shown in the currentFragment
+        View focusedView = getCurrentFocus();
+        if (focusedView != null){
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(focusedView.getWindowToken(), 0);
         }
 
         drawer.closeDrawer(GravityCompat.START);

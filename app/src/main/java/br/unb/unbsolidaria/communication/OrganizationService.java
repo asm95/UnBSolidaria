@@ -4,7 +4,7 @@ import java.util.List;
 
 import br.unb.unbsolidaria.entities.Opportunity;
 import br.unb.unbsolidaria.entities.Organization;
-import br.unb.unbsolidaria.entities.User;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -35,6 +35,6 @@ public interface OrganizationService {
     @GET("/organizations")
     Call<List<Organization>> getOrganizationByName(@Query("name") String name);
 
-    @POST("/show__trabs")
-    Call<List<Opportunity>> getOrganizationOpportunities(@Body User org);
+    @POST("show_trabs/")
+    Call<List<Opportunity>> getOrganizationOpportunities(@Body RequestBody org);
 }

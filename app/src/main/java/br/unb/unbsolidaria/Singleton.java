@@ -2,11 +2,10 @@ package br.unb.unbsolidaria;
 
 import java.util.List;
 
+import br.unb.unbsolidaria.communication.RestCommunication;
 import br.unb.unbsolidaria.entities.News;
 import br.unb.unbsolidaria.entities.Opportunity;
-import br.unb.unbsolidaria.entities.Organization;
 import br.unb.unbsolidaria.entities.User;
-import br.unb.unbsolidaria.entities.Voluntary;
 
 /**
  * Created by eduar on 04/01/2017.
@@ -16,7 +15,7 @@ public class Singleton {
 
     private User user;
 
-    public static final String usersUrl = "http://164.41.209.169/users/";
+    public static final String USERS_URL = RestCommunication.API_BASE_URL + "/users/";
     public static final String trabsUrl = "http://164.41.209.169/trabalhos/";
 
     private List<Opportunity> opportunityList;

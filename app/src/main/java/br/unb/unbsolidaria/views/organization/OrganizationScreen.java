@@ -1,5 +1,6 @@
 package br.unb.unbsolidaria.views.organization;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,6 +17,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import br.unb.unbsolidaria.views.SignInActivity;
@@ -35,7 +38,6 @@ public class OrganizationScreen extends AppCompatActivity
     private Toolbar mActivityToolbar;
 
     private User mLoggedUser;
-    private Organization mUserProfile;
     private NavigationView mNavigationView;
 
     @Override
@@ -77,13 +79,6 @@ public class OrganizationScreen extends AppCompatActivity
         if (mLoggedUser == null)
             return;
 
-        try{
-            mUserProfile = DBHandler.getInstance().getOrganization(mLoggedUser.getId());
-        } catch (IndexOutOfBoundsException e){
-            setUpUserProfileDialogError();
-            return;
-        }
-
         refreshUI();
     }
 
@@ -91,7 +86,7 @@ public class OrganizationScreen extends AppCompatActivity
         TextView nav_UserName;
 
         nav_UserName = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.ov_navTitle);
-        nav_UserName.setText(mUserProfile.getCommercialName());
+        nav_UserName.setText(mLoggedUser.getFirst_name() + " " + mLoggedUser.getLast_name());
         //TODO: set-up also picture (maybe it is in User class)
     }
 
@@ -163,10 +158,10 @@ public class OrganizationScreen extends AppCompatActivity
 
         if (id == R.id.orgv_sbNewsItem) {
             userFragment = new ViewNews();
-            ft.add(R.id.ch_frameLayout,userFragment).commit();
             Bundle bundle = new Bundle();
             userFragment.setArguments(bundle);
             bundle.putSerializable(ENABLE_JOIN,mLoggedUser);
+            ft.add(R.id.ch_frameLayout,userFragment).commit();
             mActivityToolbar.setTitle("Novidades");
         } else if (id == R.id.orgv_sbCreateOpportunityItem) {
             userFragment = new CreateOpportunity();
@@ -174,12 +169,18 @@ public class OrganizationScreen extends AppCompatActivity
             mActivityToolbar.setTitle("Criar Oportunidade");
 
         } else if (id == R.id.orgv_sbViewOpportunityItem) {
+            Bundle box = new Bundle();
+            box.putSerializable("br.unb.unbsolidaria.ACTION", ViewOpportunities.requestType.AllOpportunities);
             userFragment = new ViewOpportunities();
+            userFragment.setArguments(box);
             ft.add(R.id.ch_frameLayout, userFragment).commit();
             mActivityToolbar.setTitle("Ver Oportunidades");
 
         } else if (id == R.id.orgv_sbViewOrgOpportunityItem) {
-            userFragment = new ViewMyOpprtunities();
+            Bundle box = new Bundle();
+            box.putSerializable("br.unb.unbsolidaria.ACTION", ViewOpportunities.requestType.OrganizationOpportunities);
+            userFragment = new ViewOpportunities();
+            userFragment.setArguments(box);
             ft.add(R.id.ch_frameLayout,userFragment).commit();
             mActivityToolbar.setTitle("Minhas Oportunidades");
 
@@ -194,6 +195,13 @@ public class OrganizationScreen extends AppCompatActivity
             exitHandler();
         }
 
+        //Hide keyboard if is being shown in the currentFragment
+        View focusedView = getCurrentFocus();
+        if (focusedView != null){
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(focusedView.getWindowToken(), 0);
+        }
+
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -205,10 +213,6 @@ public class OrganizationScreen extends AppCompatActivity
         sp_commiter.commit();
 
         finish();
-    }
-
-    public Organization getUserProfile(){
-        return mUserProfile;
     }
 
     public void restart() {

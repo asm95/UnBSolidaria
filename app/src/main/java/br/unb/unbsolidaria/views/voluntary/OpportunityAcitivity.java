@@ -124,7 +124,7 @@ public class OpportunityAcitivity extends AppCompatActivity {
         joinButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //TODO: Adicionar algum mecanismo para gerenciar eventos em que o usuário se candidatou (Activity, pop-up,...)
-                String userUrl = Singleton.usersUrl + singleton.getUser().getId() + "/";
+                String userUrl = Singleton.USERS_URL + singleton.getUser().getId() + "/";
                 Snackbar.make(findViewById(android.R.id.content), "Participação Confirmada!", Snackbar.LENGTH_SHORT).show();
                 return;
             }

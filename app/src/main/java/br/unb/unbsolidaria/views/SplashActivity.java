@@ -23,7 +23,10 @@ public class SplashActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SignInActivity.class);
         startActivity(intent);
 
-        //Load local database contents
-        DBHandler.setUp(getApplicationContext());
+        //DBHandler is extremely slow at creating the local BD
+        //Maybe it is because of DBMocker
+        //Anyway, this will be removed soon anyway
+        /*//Load local database contents
+        DBHandler.setUp(getApplicationContext());*/
     }
 }

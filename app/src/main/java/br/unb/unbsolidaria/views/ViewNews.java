@@ -49,22 +49,22 @@ public class ViewNews extends Fragment {
     List<News> mList;
 
     User mUserProfile;
-    DBHandler db_interface;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         parentView = inflater.inflate(R.layout.fragment_news_list, container, false);
-        progressDialog = new ProgressDialog(getContext(),R.style.ProgessDialogTheme);
-        db_interface = DBHandler.getInstance();
 
-        //DBHandler bd = DBHandler.getInstance();
         updateListNews();
-        //mList = bd.getOpportunities();
 
         return parentView;
     }
 
     void updateListNews(){
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setTitle("Carregando...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
         NewsService newsService = RestCommunication.createService(NewsService.class);
         Call<List<News>> call = newsService.getNews();
         call.enqueue(new Callback<List<News>>() {
@@ -91,7 +91,7 @@ public class ViewNews extends Fragment {
 
                 if (box != null){
                     mUserProfile = (User)box.getSerializable(VoluntaryScreen.ENABLE_JOIN);
-                    mAdapter = new NewsAdapter(getActivity(), mList, db_interface.getVoluntary(mUserProfile.getId()));
+                    mAdapter = new NewsAdapter(getActivity(), mList);
                     mRecyclerView.setAdapter(mAdapter);
                 }
             }
@@ -101,8 +101,5 @@ public class ViewNews extends Fragment {
                 progressDialog.dismiss();
             }
         });
-        progressDialog.setCancelable(false);
-        progressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
-        progressDialog.show();
     }
 }

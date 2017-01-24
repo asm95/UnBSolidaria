@@ -38,10 +38,9 @@ public class OpportunitiesAdapter extends RecyclerView.Adapter<OpportunitiesAdap
 
     private Voluntary mLoggedUser;
 
-    public OpportunitiesAdapter(Context c, List<Opportunity> l, Voluntary loggedUser) {
+    public OpportunitiesAdapter(Context c, List<Opportunity> l) {
         mContext = c;
         mList = l;
-        mLoggedUser = loggedUser;
         mLayoutInflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         scale = mContext.getResources().getDisplayMetrics().density;

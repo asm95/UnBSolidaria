@@ -184,17 +184,7 @@ public class EditOpportunity extends Fragment implements View.OnClickListener {
         String email = etEmail.getText().toString();
         String autor = etAutor.getText().toString();
 
-        /*Opportunity deploy = new Opportunity(dbInterface.getOpportunityCount()+1, local, spots,
-                title, description, DBHandler.getCalendar(startDate), DBHandler.getCalendar(endDate),
-                parentInterface.getUserProfile());
-
-        boolean db_sucess = dbInterface.addOpportunity(deploy);
-        if (!db_sucess){
-            setUpFormDialog("Ocorreu um erro na comunicação com o Banco de Dados. Tente novamente mais tarde.");
-            parentInterface.restart();
-        }*/
-
-        String organizacaoID = Singleton.usersUrl + singleton.getUser().getId()+"/";
+        String organizacaoID = Singleton.USERS_URL + singleton.getUser().getId()+"/";
         OpportunityService opportunityService = RestCommunication.createService(OpportunityService.class);
         Call<RetrofitResponse> call = opportunityService.updateOpportunitie(
                 new Opportunity(title,description,autor,email,spots,startDate,endDate,organizacaoID));

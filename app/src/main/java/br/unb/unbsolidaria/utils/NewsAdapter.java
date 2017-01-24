@@ -33,10 +33,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
 
     private Voluntary mLoggedUser;
 
-    public NewsAdapter(Context c, List<News> l, Voluntary loggedUser){
+    public NewsAdapter(Context c, List<News> l){
         mContext = c;
         mList = l;
-        mLoggedUser = loggedUser;
         mLayoutInflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         scale = mContext.getResources().getDisplayMetrics().density;

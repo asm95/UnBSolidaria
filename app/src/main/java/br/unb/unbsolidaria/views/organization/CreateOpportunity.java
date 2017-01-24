@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 
 import java.util.Calendar;
 import java.util.regex.Pattern;
@@ -26,6 +26,7 @@ import br.unb.unbsolidaria.Singleton;
 import br.unb.unbsolidaria.communication.OpportunityService;
 import br.unb.unbsolidaria.communication.RestCommunication;
 import br.unb.unbsolidaria.entities.Opportunity;
+import br.unb.unbsolidaria.entities.User;
 import br.unb.unbsolidaria.persistence.DBHandler;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -54,8 +55,7 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener,
     private int maxDescLength;
 
     private Button btSend;
-
-    private RelativeLayout rlForm;
+    private LinearLayout llForm;
 
     // form checking related
     Pattern isTitleMinWords = Pattern.compile("^\\s*\\S+(?:\\s+\\S+){1,}\\s*$");
@@ -64,8 +64,7 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener,
     private OrganizationScreen parentInterface;
     private int mFormDialogAction = -1;
 
-    public CreateOpportunity() {
-    }
+    private long lminDate, lmaxDate;
 
     @TargetApi(Build.VERSION_CODES.N)
     @Override
@@ -77,28 +76,37 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener,
         int currentMonth = referenceCalendar.get(Calendar.MONTH);
         int currentDay = referenceCalendar.get(Calendar.DAY_OF_MONTH);
 
-        // All of this just because setOnDateSetListener is only supported on API 24
         startDatePicker = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                etStartDate.setText(getString(R.string.co_tDateFormat, dayOfMonth, month+1, year));
+                etStartDate.setText(getString(R.string.co_tDateFormat, year, month+1, dayOfMonth));
+                Calendar minDate = Calendar.getInstance();
+                minDate.set(year, month, dayOfMonth);
+                lminDate = minDate.getTimeInMillis();
+                //endDatePicker.getDatePicker().setMinDate(lminDate);
             }
         }, currentYear, currentMonth, currentDay);
 
         endDatePicker = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                etEndDate.setText(getString(R.string.co_tDateFormat, dayOfMonth, month+1, year));
-                if (etDescription.getText().toString().equals(""))
-                    etDescription.requestFocus();
+                etEndDate.setText(getString(R.string.co_tDateFormat, year, month+1, dayOfMonth));
+                Calendar maxDate = Calendar.getInstance();
+                maxDate.set(year, month, dayOfMonth);
+                lmaxDate = maxDate.getTimeInMillis();
+                //startDatePicker.getDatePicker().setMaxDate(lmaxDate);
+                if (etEmail.getText().toString().equals(""))
+                    etEmail.requestFocus();
                 else
-                    rlForm.requestFocus();
+                    llForm.requestFocus();
             }
         }, currentYear, currentMonth, currentDay);
 
+        startDatePicker.getDatePicker().setMinDate(referenceCalendar.getTimeInMillis());
+        endDatePicker.getDatePicker().setMinDate(referenceCalendar.getTimeInMillis());
+
         //load appConfiguration
         Resources res_interface = getResources();
-
         minDescLength = res_interface.getInteger(R.integer.co_minDescriptionLength);
         maxDescLength = res_interface.getInteger(R.integer.co_maxDescriptionLength);
         minTitleLength = res_interface.getInteger(R.integer.co_minTitleLength);
@@ -121,16 +129,14 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener,
         etEmail = (EditText) parentView.findViewById(R.id.co_etEmail);
         etAutor = (EditText) parentView.findViewById(R.id.co_etAutor);
 
+        User loggedUser = singleton.getUser();
+        etAutor.setText(loggedUser.getFirst_name() + " " + loggedUser.getLast_name());
+        etEmail.setText(loggedUser.getEmail());
+
         btSend = (Button)parentView.findViewById(R.id.co_btSend);
         btSend.setOnClickListener(this);
 
-        rlForm = (RelativeLayout) parentView.findViewById(R.id.content_create_opportunity);
-
-        dbInterface = DBHandler.getInstance();
-        if(dbInterface == null) {
-            setUpFormDialog("Banco de dados se encontra offline. Tente novamente mais tarde.");
-            parentInterface.restart();
-        }
+        llForm = (LinearLayout) parentView.findViewById(R.id.content_create_opportunity);
 
         parentInterface = (OrganizationScreen)getActivity();
 
@@ -141,10 +147,10 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener,
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.co_etDateStart:
-                //startDatePicker.show();
+                startDatePicker.show();
                 break;
             case R.id.co_etDateEnd:
-                //endDatePicker.show();
+                endDatePicker.show();
                 break;
             case R.id.co_btSend:
                 onSendClickHandler();
@@ -157,22 +163,29 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener,
         btSend.setEnabled(false);
 
         String title = etTitle.getText().toString();
-        int spots = Integer.parseInt(etSpots.getText().toString());
+        String SpotsText = etSpots.getText().toString();
         String description = etDescription.getText().toString();
+
+        int availableSpots;
+        if (SpotsText != "")
+            availableSpots = Integer.parseInt(SpotsText);
+        else
+            availableSpots = -1;
 
         // handle possible mistakes at input
         if (title.length() < minTitleLength)
-            error_msg = "Título muito curto (Mínimo "+minTitleLength+" caracteres)";
-        if ( !titleCheckFormat(etTitle.getText()) )
-            error_msg = "Título não atende aos padrões";
+            error_msg = getString(R.string.co_minTitleError, minTitleLength);
+        /*if ( !titleCheckFormat(etTitle.getText()) )
+            error_msg = getString(R.string.co_formatTitleError);*/
 
-        if (spots <= 0)
-            error_msg = "Número de participantes permitidos inválido.";
+        if (availableSpots <= 0)
+            error_msg = getString(R.string.co_spotsNumberError);
 
         if (description.length() < minDescLength || description.length() > maxDescLength)
-            error_msg = "Tamanho da Descrição fora do intervalo permitido: " + minDescLength + " - " + maxDescLength + " caracters";
+            error_msg = getString(R.string.co_minDescError, minDescLength, maxDescLength);
 
-        //TODO: verificar seleção de data
+        if (lminDate > lmaxDate)
+            error_msg = getString(R.string.co_eventPeriodError);
 
         if(error_msg != null){
             mFormDialogAction = 0;
@@ -180,41 +193,32 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener,
             return;
         }
 
-        //proceed with opportunity creation with Database
         //String local = etLocal.getText().toString();
         String startDate = etStartDate.getText().toString();
         String endDate = etEndDate.getText().toString();
         String email = etEmail.getText().toString();
         String autor = etAutor.getText().toString();
 
-        /*Opportunity deploy = new Opportunity(dbInterface.getOpportunityCount()+1, local, spots,
-                title, description, DBHandler.getCalendar(startDate), DBHandler.getCalendar(endDate),
-                parentInterface.getUserProfile());
-
-        boolean db_sucess = dbInterface.addOpportunity(deploy);
-        if (!db_sucess){
-            setUpFormDialog("Ocorreu um erro na comunicação com o Banco de Dados. Tente novamente mais tarde.");
-            parentInterface.restart();
-        }*/
-
-        String organizacaoID = Singleton.usersUrl + singleton.getUser().getId()+"/";
+        final String organizacaoID = Singleton.USERS_URL + singleton.getUser().getId()+"/";
         OpportunityService opportunityService = RestCommunication.createService(OpportunityService.class);
         Call<Opportunity> call = opportunityService.postOpportunities(
-                new Opportunity(title,description,autor,email,spots,startDate,endDate,organizacaoID));
+                new Opportunity(title,description,autor,email,availableSpots,startDate,endDate,organizacaoID));
+
         Log.i("Opportunity","titulo: "+title+" Descricao: "+description);
-        Log.i("Opportunity","autor: "+autor+" email: "+email+" vagas: "+spots);
+        Log.i("Opportunity","autor: "+autor+" email: "+email+" vagas: "+availableSpots);
         Log.i("Opportunity","Data inicio: "+startDate+" Data fim: "+endDate);
         Log.i("Opportunity","organizatioID: "+organizacaoID);
         call.enqueue(new Callback<Opportunity>() {
             @Override
             public void onResponse(Call<Opportunity> call, Response<Opportunity> response) {
-                Log.i("REST","Opportunity code: "+response.code()+" response: "+response.message());
+                Log.i("REST","Opportunity code: " + response.code() + " response: "+response.message());
                 Opportunity opportunity = response.body();
-                if(opportunity == null){
-                    Log.i("REST","Opportunity response body: "+response.body());
-                    Log.i("REST","Opportnity response: "+response);
-                }else{
-                    Log.i("REST","Opportunity deu bom");
+                if (opportunity != null){
+                    onCreationSucess();
+                    Log.i("REST","Opportunity " + opportunity.toString() + " Creation was approved by server.");
+                } else {
+                    Log.i("REST","Opportunity " + opportunity.toString() + " Creation has failed.");
+                    onCreationFailure();
                 }
             }
 
@@ -223,11 +227,17 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener,
 
             }
         });
+    }
 
-        //handle sucess feedback to user
-        setUpFormDialog("Oportunidade publicada com sucesso.");
+    private void onCreationSucess(){
+        setUpFormDialog(getString(R.string.co_publicationSucess));
         //TODO: show additional actions menu like sharing into the facebook
         parentInterface.restart();
+    }
+
+    private void onCreationFailure(){
+        mFormDialogAction = 0;
+        setUpFormDialog(getString(R.string.co_generalSendError));
     }
 
     private boolean titleCheckFormat(Editable text) {
@@ -237,6 +247,7 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener,
     private void setUpFormDialog(String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(message)
+                .setTitle(getString(R.string.co_publicationSendError))
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         if (mFormDialogAction != -1){

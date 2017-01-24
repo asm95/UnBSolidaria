@@ -105,7 +105,7 @@ public class EditProfile extends Fragment {
         et_last_name.setText(user.getLast_name());
         et_phonenumber.setText(user.getTelefone());
         et_cnpj.setText(user.getCnpj());
-        et_address.setText(user.getEndereco()); //TODO: SQLite has no entry for address
+        et_address.setText(user.getEndereco());
         et_cep.setText(user.getCep());
         et_description.setText(user.getDescricao());
         et_email.setText(user.getEmail());

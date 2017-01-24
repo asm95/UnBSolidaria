@@ -17,6 +17,7 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <!-- TODO: verificar se este tema ainda é necessário-->
     <style name="ProgessDialogTheme" parent="android:Theme.Holo.Dialog">
         <item name="android:alertDialogStyle">@style/CustomAlertDialogStyle</item>
         <item name="android:windowBackground">@color/transparent</item>

@@ -109,12 +109,25 @@
             android:layout_height="20dp"
             android:layout_gravity="center_horizontal" />
 
-        <Button
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Participar"
-            android:layout_gravity="center"
-            android:id="@+id/oportunidadeActivity_actionConfirm" />
+            android:layout_gravity="center">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Participar"
+                android:layout_gravity="center"
+                android:id="@+id/oportunidadeActivity_actionConfirm" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Editar"
+                android:layout_gravity="center"
+                android:id="@+id/oportunidadeActivity_actionEdit" />
+        </LinearLayout>
+
     </LinearLayout>
 </RelativeLayout>
 </ScrollView>

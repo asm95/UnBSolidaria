@@ -1,5 +1,6 @@
 package br.unb.unbsolidaria.views.voluntary;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -28,6 +29,8 @@ import br.unb.unbsolidaria.entities.Opportunity;
 import br.unb.unbsolidaria.entities.User;
 import br.unb.unbsolidaria.entities.Voluntary;
 import br.unb.unbsolidaria.utils.ImageHelper;
+import br.unb.unbsolidaria.views.organization.CreateOpportunity;
+import br.unb.unbsolidaria.views.organization.EditOpportunity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -45,62 +48,64 @@ public class OpportunityAcitivity extends AppCompatActivity {
 
     private Singleton singleton = Singleton.getInstance();
 
+    private int mOptID;
+    private int mOrgID;
+
+    ImageView logo;
+    TextView description;
+    TextView org;
+    TextView local;
+    TextView vagas;
+    TextView start;
+    TextView end;
+
+    Opportunity mOpportunityInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //loggedVoluntary = (Voluntary)getIntent().getSerializableExtra(ViewOpportunities.VIEW_MESSAGE);
+        setContentView(R.layout.activity_opportunity);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.oportunidateToolbar_op);
+        setSupportActionBar(toolbar);
 
-        int id = getIntent().getIntExtra("id", 0) - 1;
+        logo = (ImageView) findViewById(R.id.iv_op_logo);
+        description = (TextView) findViewById(R.id.tv_op_description);
+        org = (TextView) findViewById(R.id.tv_op_org);
+        local = (TextView) findViewById(R.id.tv_op_local);
+        vagas = (TextView) findViewById(R.id.tv_op_vaga);
+        start = (TextView) findViewById(R.id.tv_op_start);
+        end = (TextView) findViewById(R.id.tv_op_end);
+
         List<Opportunity> mList = singleton.getOpportunityList();
-        Opportunity mOpportunityInfo = mList.get(id);
+        int mOptID = getIntent().getIntExtra("id", 0); //- 1;
+
+        Opportunity mOpportunityInfo = mList.get(mOptID);
         if (mOpportunityInfo == null){
-            Log.e("ViewOpportunity", "Could not retrieve Opportunity ID (" + id + ") from Singleton");
+            Log.e("ViewOpportunity", "Could not retrieve Opportunity ID (" + mOptID + ") from Singleton");
             setContentView(R.layout.activity_fatal_error);
             TextView errText = (TextView) findViewById(R.id.errText);
             errText.setText("Não foi possível obter dados desta oportunidade.");
             return;
         }
 
-        setContentView(R.layout.activity_opportunity);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.oportunidateToolbar_op);
-        setSupportActionBar(toolbar);
-
-        ImageView logo = (ImageView) findViewById(R.id.iv_op_logo);
-        TextView description = (TextView) findViewById(R.id.tv_op_description);
-        TextView org = (TextView) findViewById(R.id.tv_op_org);
-        TextView local = (TextView) findViewById(R.id.tv_op_local);
-        TextView vagas = (TextView) findViewById(R.id.tv_op_vaga);
-        TextView start = (TextView) findViewById(R.id.tv_op_start);
-        TextView end = (TextView) findViewById(R.id.tv_op_end);
-
-
-        description.setText( getString(R.string.ov_description, mOpportunityInfo.getDescription()) );
-
+        mOrgID = -1;
         String orgText = mOpportunityInfo.getOrganizacao();
         if (orgText != null){
             Pattern pattern = Pattern.compile("(/users/)([0-9]*)");
             Matcher matcher = pattern.matcher(orgText);
             if (matcher.find()){
-                int orgID = Integer.parseInt(matcher.group(2));
-                setOrganizationName(org, orgID);
+                mOrgID = Integer.parseInt(matcher.group(2));
+                setOrganizationName(org, mOrgID);
+            } else {
+                org.setText( getString(R.string.ov_org, "") );
             }
         }
-        org.setText( getString(R.string.ov_org, "") );
-
-        local.setText( getString(R.string.ov_local, mOpportunityInfo.getLocal()) );
-        if (mList.get(id).getLocal() == null){
-            local.setText(getString(R.string.ov_local, getString(R.string.ov_undefinedField)));
-        }
-        vagas.setText( getString(R.string.ov_vagas, String.valueOf(mOpportunityInfo.getVagas())) );
-
-        start.setText( getString(R.string.ov_dateStart, mOpportunityInfo.getData_inicio()) );
-        end.setText( getString(R.string.ov_dateEnd, mOpportunityInfo.getData_fim()) );
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            logo.setImageResource(mList.get(id).getPhoto());
+            logo.setImageResource(mList.get(mOptID).getPhoto());
         } else {
-            Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), mList.get(id).getPhoto());
+            Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), mList.get(mOptID).getPhoto());
             bitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
 
             bitmap = ImageHelper.getRoundedCornerBitmap(this, bitmap, 4, width, height, false, false, true, true);
@@ -108,23 +113,39 @@ public class OpportunityAcitivity extends AppCompatActivity {
         }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(mList.get(id).getTitle());
+        getSupportActionBar().setTitle(mList.get(mOptID).getTitle());
 
 
         final Button joinButton = (Button) findViewById(R.id.oportunidadeActivity_actionConfirm);
-        if ( mList.get(id).getVagas() <= 0 )
+        if ( mList.get(mOptID).getVagas() <= 0 )
             joinButton.setEnabled(false);
+        final Button editButton = (Button) findViewById(R.id.oportunidadeActivity_actionEdit);
 
-        // no user is logged
-        if(loggedVoluntary == null){
-            joinButton.setEnabled(false);
-            joinButton.setVisibility(View.GONE);
+
+        updateOpportunityInfo(mOpportunityInfo);
+        final User loggedUser = singleton.getUser();
+        switch (loggedUser.getTipo()){
+            case 0: //voluntary
+                editButton.setVisibility(View.GONE); break;
+            case 1: //organization
+                joinButton.setVisibility(View.GONE);
+                if (mOrgID != loggedUser.getId()){
+                    editButton.setVisibility(View.GONE);
+                } else {
+                    editButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            onOrganizationEditOpportunity();
+                        }
+                    });
+                }
+                break;
         }
 
         joinButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //TODO: Adicionar algum mecanismo para gerenciar eventos em que o usuário se candidatou (Activity, pop-up,...)
-                String userUrl = Singleton.USERS_URL + singleton.getUser().getId() + "/";
+                String userUrl = Singleton.USERS_URL + loggedUser.getId() + "/";
                 Snackbar.make(findViewById(android.R.id.content), "Participação Confirmada!", Snackbar.LENGTH_SHORT).show();
                 return;
             }
@@ -181,6 +202,39 @@ public class OpportunityAcitivity extends AppCompatActivity {
                 output.setText(getString(R.string.ov_undefinedField));
             }
         });
+    }
+
+    void updateOpportunityInfo(Opportunity mOpportunityInfo){
+        description.setText( getString(R.string.ov_description, mOpportunityInfo.getDescription()) );
+
+        local.setText( getString(R.string.ov_local, mOpportunityInfo.getLocal()) );
+        if (mOpportunityInfo.getLocal() == null){
+            local.setText(getString(R.string.ov_local, getString(R.string.ov_undefinedField)));
+        }
+        vagas.setText( getString(R.string.ov_vagas, String.valueOf(mOpportunityInfo.getVagas())) );
+
+        start.setText( getString(R.string.ov_dateStart, mOpportunityInfo.getData_inicio()) );
+        end.setText( getString(R.string.ov_dateEnd, mOpportunityInfo.getData_fim()) );
+    }
+
+    void onOrganizationEditOpportunity (){
+        Bundle box = new Bundle();
+        box.putBoolean("isEditing", true);
+        box.putInt("mOptID", mOptID);
+
+        //TODO: add functions to auto-select an fragment on organizationScreen
+        Intent editOpportunity = new Intent (this, EditOpportunity.class);
+        editOpportunity.putExtras(box);
+        startActivityForResult(editOpportunity, 0, box);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if (resultCode == RESULT_OK){
+            //Refresh OpportunityInfo
+            mOpportunityInfo = singleton.getOpportunityList().get(mOptID);
+            updateOpportunityInfo(mOpportunityInfo);
+        }
     }
 }
 

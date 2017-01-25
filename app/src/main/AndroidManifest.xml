@@ -31,6 +31,11 @@
             android:name=".views.voluntary.OpportunityAcitivity"
             android:theme="@style/UnBSolidariaBase.NoActionBar" />
         <activity
+            android:name=".views.organization.EditOpportunity"
+            android:theme="@style/UnBSolidariaBase.NoActionBar"
+            android:exported="true">
+        </activity>
+        <activity
             android:name=".views.NewsActivity"
             android:theme="@style/UnBSolidariaBase.NoActionBar" />
         <activity

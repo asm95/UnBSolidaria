@@ -23,9 +23,7 @@ import android.widget.TextView;
 
 import br.unb.unbsolidaria.views.SignInActivity;
 import br.unb.unbsolidaria.R;
-import br.unb.unbsolidaria.entities.Organization;
 import br.unb.unbsolidaria.entities.User;
-import br.unb.unbsolidaria.persistence.DBHandler;
 import br.unb.unbsolidaria.views.ViewNews;
 
 import static br.unb.unbsolidaria.views.voluntary.VoluntaryScreen.ENABLE_JOIN;

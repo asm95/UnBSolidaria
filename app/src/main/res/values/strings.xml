@@ -68,6 +68,7 @@
     <!-- Create Opportunity (co) -->
     <string name="co_publicationSucess">Oportunidade publicada com sucesso.</string>
     <string name="co_publicationSendError">Erro ao enviar proposta</string>
+    <string name="co_editionSucess">Oportunidade alterada com sucesso.</string>
     <string name="co_generalSendError">Não foi possível se conectar com o servidor.</string>
 
     <string name="co_minTitleError">Título muito curto (Mínimo %1$02d caracteres)</string>

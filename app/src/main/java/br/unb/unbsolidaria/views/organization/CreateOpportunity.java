@@ -1,6 +1,7 @@
 package br.unb.unbsolidaria.views.organization;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.res.Resources;
@@ -26,6 +27,7 @@ import br.unb.unbsolidaria.Singleton;
 import br.unb.unbsolidaria.communication.OpportunityService;
 import br.unb.unbsolidaria.communication.RestCommunication;
 import br.unb.unbsolidaria.entities.Opportunity;
+import br.unb.unbsolidaria.entities.RetrofitResponse;
 import br.unb.unbsolidaria.entities.User;
 import br.unb.unbsolidaria.persistence.DBHandler;
 import retrofit2.Call;
@@ -61,10 +63,13 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener,
     Pattern isTitleMinWords = Pattern.compile("^\\s*\\S+(?:\\s+\\S+){1,}\\s*$");
 
     private DBHandler dbInterface;
-    private OrganizationScreen parentInterface;
+    private Activity parentInterface;
     private int mFormDialogAction = -1;
 
     private long lminDate, lmaxDate;
+
+    private boolean isEditing;
+    private int mOptID;
 
     @TargetApi(Build.VERSION_CODES.N)
     @Override
@@ -138,7 +143,23 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener,
 
         llForm = (LinearLayout) parentView.findViewById(R.id.content_create_opportunity);
 
-        parentInterface = (OrganizationScreen)getActivity();
+        Bundle box = getArguments();
+        if (box != null){
+            isEditing = box.getBoolean("isEditing");
+            if (isEditing){
+                mOptID = box.getInt("mOptID", -1);
+                peformAutoFillData();
+                /*The edit query is made by title so if you edit the title, the server will not find
+                it. So it returns 500 (Internal Server Error).
+
+                Another way to implement editing is by
+                Using /trabalhos/{mOptID} API route so that the title could be also updated.
+                However, it is absolutely not safe.*/
+                etTitle.setEnabled(false);
+            }
+        }
+
+        parentInterface = getActivity();
 
         return parentView;
     }
@@ -189,7 +210,7 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener,
 
         if(error_msg != null){
             mFormDialogAction = 0;
-            setUpFormDialog(error_msg);
+            setUpFormDialog(error_msg, true);
             return;
         }
 
@@ -200,54 +221,50 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener,
         String autor = etAutor.getText().toString();
 
         final String organizacaoID = Singleton.USERS_URL + singleton.getUser().getId()+"/";
-        OpportunityService opportunityService = RestCommunication.createService(OpportunityService.class);
-        Call<Opportunity> call = opportunityService.postOpportunities(
-                new Opportunity(title,description,autor,email,availableSpots,startDate,endDate,organizacaoID));
+
+        Opportunity newOpt = new Opportunity(title,description,autor,email,availableSpots,startDate,endDate,organizacaoID);
+
 
         Log.i("Opportunity","titulo: "+title+" Descricao: "+description);
         Log.i("Opportunity","autor: "+autor+" email: "+email+" vagas: "+availableSpots);
         Log.i("Opportunity","Data inicio: "+startDate+" Data fim: "+endDate);
         Log.i("Opportunity","organizatioID: "+organizacaoID);
-        call.enqueue(new Callback<Opportunity>() {
-            @Override
-            public void onResponse(Call<Opportunity> call, Response<Opportunity> response) {
-                Log.i("REST","Opportunity code: " + response.code() + " response: "+response.message());
-                Opportunity opportunity = response.body();
-                if (opportunity != null){
-                    onCreationSucess();
-                    Log.i("REST","Opportunity " + opportunity.toString() + " Creation was approved by server.");
-                } else {
-                    Log.i("REST","Opportunity " + opportunity.toString() + " Creation has failed.");
-                    onCreationFailure();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Opportunity> call, Throwable t) {
-
-            }
-        });
+        if (isEditing){
+            peformEditRequest(newOpt);
+        } else {
+            peformCreateRequest(newOpt);
+        }
     }
 
     private void onCreationSucess(){
-        setUpFormDialog(getString(R.string.co_publicationSucess));
+        setUpFormDialog(getString(R.string.co_publicationSucess), false);
         //TODO: show additional actions menu like sharing into the facebook
-        parentInterface.restart();
+        ((OrganizationScreen)parentInterface).restart();
     }
 
     private void onCreationFailure(){
         mFormDialogAction = 0;
-        setUpFormDialog(getString(R.string.co_generalSendError));
+        setUpFormDialog(getString(R.string.co_generalSendError), true);
+    }
+
+    public void onEditSuccess(Opportunity newOpt){
+        setUpFormDialog(getString(R.string.co_editionSucess), false);
+        singleton.getOpportunityList().set(mOptID, newOpt);
+        ((EditOpportunity)parentInterface).onEditSucess();
+    }
+
+    public void onEditFail(){
+        mFormDialogAction = 0;
+        setUpFormDialog(getString(R.string.co_publicationSendError), true);
     }
 
     private boolean titleCheckFormat(Editable text) {
         return isTitleMinWords.matcher(text).find();
     }
 
-    private void setUpFormDialog(String message) {
+    private void setUpFormDialog(String message, boolean error) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(message)
-                .setTitle(getString(R.string.co_publicationSendError))
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         if (mFormDialogAction != -1){
@@ -259,6 +276,9 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener,
                         }
                     }
                 });
+        if (error){
+            builder.setTitle(getString(R.string.co_publicationSendError));
+        }
         builder.show();
     }
 
@@ -275,5 +295,65 @@ public class CreateOpportunity extends Fragment implements View.OnClickListener,
                 endDatePicker.show();
                 break;
         }
+    }
+
+    public void peformAutoFillData(){
+        Opportunity opt = singleton.getOpportunityList().get(mOptID);
+
+        etTitle.setText(opt.getTitle());
+        etDescription.setText(opt.getDescription());
+        etSpots.setText(""+opt.getVagas());
+        etStartDate.setText(opt.getData_inicio());
+        etEndDate.setText(opt.getData_fim());
+    }
+
+    public void peformCreateRequest(final Opportunity newOpt){
+        OpportunityService opportunityService = RestCommunication.createService(OpportunityService.class);
+        Call<Opportunity> call = opportunityService.postOpportunities(newOpt);
+
+        call.enqueue(new Callback<Opportunity>() {
+            @Override
+            public void onResponse(Call<Opportunity> call, Response<Opportunity> response) {
+                Log.i("REST","Opportunity code: " + response.code() + " response: "+response.message());
+                Opportunity opportunity = response.body();
+                if (opportunity != null){
+                    onCreationSucess();
+                    Log.i("REST","Opportunity " + opportunity.toString() + " Creation was approved by server.");
+                } else {
+                    Log.i("REST","Opportunity " + " Creation has failed.");
+                    onCreationFailure();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Opportunity> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void peformEditRequest(final Opportunity newOpt){
+        OpportunityService opportunityService = RestCommunication.createService(OpportunityService.class);
+        Call<RetrofitResponse> call = opportunityService.updateOpportunitie(newOpt);
+        call.enqueue(new Callback<RetrofitResponse>() {
+            @Override
+            public void onResponse(Call<RetrofitResponse> call, Response<RetrofitResponse> response) {
+                Log.i("REST","Opportunity code: "+response.code()+" response: "+response.message());
+                RetrofitResponse retrofitResponse = response.body();
+                if(retrofitResponse.getResponse().equalsIgnoreCase("edited")){
+                    Log.i("REST","Opportunity response body: "+response.body());
+                    Log.i("REST","Opportnity response: "+response);
+                    onEditSuccess(newOpt);
+                }else{
+                    Log.i("REST","Opportunity deu ruim");
+                    onEditFail();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RetrofitResponse> call, Throwable t) {
+
+            }
+        });
     }
 }

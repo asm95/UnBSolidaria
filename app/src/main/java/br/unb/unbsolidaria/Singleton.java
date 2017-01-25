@@ -15,8 +15,8 @@ public class Singleton {
 
     private User user;
 
-    public static final String USERS_URL = RestCommunication.API_BASE_URL + "/users/";
-    public static final String trabsUrl = "http://164.41.209.169/trabalhos/";
+    public static final String USERS_URL = RestCommunication.API_BASE_URL + "users/";
+    public static final String trabsUrl = RestCommunication.API_BASE_URL + "trabalhos/";
 
     private List<Opportunity> opportunityList;
     private List<News> newsList;
